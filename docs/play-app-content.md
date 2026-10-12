@@ -34,12 +34,11 @@ Read at **versionCode _, versionName _** by `publish-play.yml`'s verify step on 
 
 | Permission | Whose | What it is for | Console consequence |
 | --- | --- | --- | --- |
-| `POST_NOTIFICATIONS` | ours | reminder notifications, asked from a screen that explains them | none |
-| `RECEIVE_BOOT_COMPLETED` | ours | `BootReceiver` re-arms the sweep after a restart | none: normal, install-time |
-| `SCHEDULE_EXACT_ALARM` | ours | a reminder that must land on its minute (ADR-0003) | **none today, but watch it**: Play restricts exact alarms, and `USE_EXACT_ALARM` is forbidden outright |
-| `WAKE_LOCK` | WorkManager | the worker's own wake lock | none |
-| `ACCESS_NETWORK_STATE` | WorkManager | reads connectivity for job constraints; opens nothing | none, but a reviewer may ask why an app with no network reads it — this row is the answer |
-| `FOREGROUND_SERVICE` | WorkManager | its `SystemForegroundService`, never started by this app | none while nothing declares a foreground service *type* |
+| `READ_PHONE_STATE` | ours | the ringing broadcast that tells the app a call has arrived | none: runtime, asked when the feature is switched on |
+| `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
+| `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
+| `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
+| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
 **Forbidden, and asserted absent**: `INTERNET`, `AD_ID`, `QUERY_ALL_PACKAGES`,
@@ -105,12 +104,13 @@ The answer rests on one fact per route data could take:
 
 1. **The app cannot transmit anything.** `INTERNET` is absent from the artifact, and
    `aab-permissions.py` fails the upload if it ever appears. This one fact is most of the answer.
-2. **Photos are processed only on the device.** Picked or taken, re-encoded by `media/MediaFiles.kt`
-   with their metadata — GPS included — stripped, and stored in the app's private storage.
+2. **The call log is read only on the device.** A few minutes of it, at the moment a call rings, to
+   compare one number. Nothing from it is stored or sent. Still disclose it if the form asks about
+   *access* rather than collection: the Permissions Declaration Form does.
 3. **Auto Backup is still "no data collected".** The platform moves the user's backup to the user's
    own Google Drive; the developer never sees it. That is Android transmitting the user's backup, not
    the app transmitting to the developer. ⚠ Every file the backup carries lands on the user's *next*
-   phone too — see ADR-0005 for what is included and why.
+   phone too — and it is only two settings and a theme here (ADR-0005's amendment).
 4. **A support mail is still "no data collected", and the reason is the definition rather than an
    exemption.** A `mailto:` hands a draft to **another app**; the user reads it, can edit every line,
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
@@ -121,7 +121,7 @@ Would change any of it:
 
 - **`INTERNET` on the artifact**, from our code or a dependency. Every answer here becomes a question.
 - **Anything the app sends by itself**, such as crash reporting or analytics. There is none today.
-- **Location of any kind**, including through a photo's metadata surviving into storage or a backup.
+- **Storing call-log rows or numbers** in the app's own storage, where a backup would carry them.
 
 ## Advertising ID
 

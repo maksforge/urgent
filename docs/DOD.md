@@ -4,35 +4,23 @@ The **live checklist**. Keep it short: when an item closes, tick it, write the *
 long-form record you keep, and delete the detail from here. A session should be able to pick up the
 work by reading this file alone.
 
-## The standing schema gate — never ticked, checked at every bump
+## The standing schema gate — parked
 
-**An update must migrate an existing install without losing anything** (ADR-0001). This item does not
-close. Whenever `APP_SCHEMA_VERSION` changes, all five hold before the release goes out:
+Urgent has no database (ADR-0001's amendment). The gate's five points come back verbatim from the
+template's `docs/DOD.md` the day a feature adds a table.
 
-1. `MIGRATION_x_y` written **and registered in** `APP_MIGRATIONS` for every step. A migration Room
-   never runs is not a migration, and nothing about the build complains.
-2. The exported `app/schemas/*/N.json` committed — every later migration is transcribed from it,
-   never from the entity classes.
-3. `SchemaGateTest` extended, so the **launch gate** is proven to let the upgrade through. Every
-   migration test opens the database directly and walks past that gate; this assertion is the only
-   thing standing in front of it.
-4. A migration test proving the **rows survive** — read values back, do not merely assert nothing
-   threw. `runMigrationsAndValidate` compares *shapes* and is blind to a table emptied by a cascading
-   `DROP`.
-5. **An actual upgrade watched on a phone**: install the previous build, put real data in it, install
-   the new one over the top, confirm the app opens and the data is there.
-   `./gradlew assembleDebug -PreleaseShapedDebug` is how to do this without touching a Play install —
-   it is minified *and* `BuildConfig.DEBUG == false`, so migrations are registered rather than the
-   destructive fallback. ⚠️ **Both halves are load-bearing**: a plain debug build takes the fallback
-   and proves the opposite of what you wanted.
+## Prove it on a real call
 
-`scripts/schema-gate.py` enforces 1–3 mechanically in CI. Items 4 and 5 are yours.
+- [ ] **Two calls from another phone, this one on silent.** The first stays silent, the second rings
+      at alarm volume and stops when it is answered or declined. Then again on vibrate, and once with
+      Do Not Disturb on. `PHONE_STATE` cannot be faked over adb, so this is the only end-to-end test.
+- [ ] **Decide whether Urgent can be on Google Play at all.** `READ_CALL_LOG` is restricted to default
+      dialers and a short list of exceptions; the Permissions Declaration Form is where that is
+      argued, and a refusal means distributing outside Play.
 
 ## Before the first upload
 
-- [ ] **Delete what the app does not need**, while deleting is free — [`optional-modules.md`](optional-modules.md)
-      lists each module's files and the five places around the code a strip reaches. Room, photos,
-      backup and reminders are each a data-loss or Data safety story you will otherwise defend forever.
+- [x] **Delete what the app does not need** — Room, photos, backup and reminders are gone.
 - [ ] **Decide `minSdk` deliberately, before launch.** The direction is asymmetric: raising it later
       strands existing installs on the last build that fitted them, lowering it later is free. If the
       only phone in the loop sits at the top of the range, every `SDK_INT` branch below it ships
@@ -41,10 +29,8 @@ close. Whenever `APP_SCHEMA_VERSION` changes, all five hold before the release g
       `make-feature-graphic.py`. Commit the concept image and record its provenance in
       `art/README.md` — where the art came from is the thing most likely to block a first upload, and
       it is discovered late.
-- [ ] **Replace the placeholder domain.** `data/ItemEntity.kt` and `ui/items/` — or delete them
-      (above).
-- [ ] **Rewrite `scripts/edge-to-edge.py`'s SCENES** against your screens. Until then the nightly
-      walks screens that do not exist, and `screenshots.py` cannot shoot a listing.
+- [x] **Replace the placeholder domain** with `call/` and `ui/home/`.
+- [x] **Rewrite `scripts/edge-to-edge.py`'s SCENES** against Home, Settings, Support and Licences.
 - [ ] **Make the artifact allowlists yours.** `aab-permissions.py`'s EXPECTED, FORBIDDEN and
       EXPECTED_ORIENTATION describe the template. Run all four `aab-*.py` scripts against a local
       `bundleRelease` **before the first tag** — the first app built from it found its stale table in the publish

@@ -80,21 +80,14 @@ PRIM_INT_HEX = 7
 # being true the day you remove the reminders or WorkManager, and that is the day
 # to edit it.
 EXPECTED = {
-    # Declared in AndroidManifest.xml. Runtime on API 33+, asked for from a screen
-    # that explains it first (work/NotificationPermission.kt, ADR-0003).
-    "android.permission.POST_NOTIFICATIONS": "ours — reminder notifications, ADR-0003",
-    # Declared. Install-time and invisible; BootReceiver re-arms the sweep after a restart.
-    "android.permission.RECEIVE_BOOT_COMPLETED": "ours — work/BootReceiver.kt, ADR-0003",
-    # Declared, and deliberately not USE_EXACT_ALARM (the manifest comment says why).
-    # Delete the manifest line and this row together if nothing needs a precise moment.
-    "android.permission.SCHEDULE_EXACT_ALARM": "ours — work/ExactAlarms.kt, ADR-0003",
-    # The three WorkManager merges, none of them in our source. They leave with
-    # WorkManager — and an artifact that carries one again without it has a new
-    # dependency that wants a wake lock or network state, which is a Data safety
-    # question before it is a build one.
-    "android.permission.WAKE_LOCK": "WorkManager",
-    "android.permission.ACCESS_NETWORK_STATE": "WorkManager — reads connectivity state, opens nothing",
-    "android.permission.FOREGROUND_SERVICE": "WorkManager — its SystemForegroundService, never started here",
+    # Declared, runtime, asked together when the feature is switched on (ui/home/).
+    "android.permission.READ_PHONE_STATE": "ours — the ringing broadcast, call/PhoneStateReceiver.kt",
+    "android.permission.READ_CALL_LOG": "ours — the caller's number and the earlier call, call/PhoneState.kt",
+    "android.permission.POST_NOTIFICATIONS": "ours — the ringing notification's Silence button",
+    # Declared, install-time.
+    "android.permission.VIBRATE": "ours — call/RingThroughService.kt",
+    "android.permission.FOREGROUND_SERVICE": "ours — call/RingThroughService.kt",
+    "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK": "ours — the ringing service's type on API 34+",
     # AndroidX defines and uses this itself, signature-level. The prefix is the
     # applicationId, which differs between the debug and release builds, so it is
     # matched by suffix rather than spelled out.

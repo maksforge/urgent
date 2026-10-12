@@ -61,3 +61,7 @@ the user's patience on nudges that do not need any of it. If everything is urgen
   user**. Creating a channel quiet is a decision with no second attempt.
 - Testing any of this on a vendor ROM requires reading the autostart state first. A run against an
   unknown one proves nothing either way — `scripts/device-gate.py` reads it.
+
+## Amendment — 2026-10-12
+
+Urgent schedules nothing. It reacts to the PHONE_STATE broadcast through a manifest receiver and rings from a foreground service; WorkManager, exact alarms and the boot receiver were removed before the first upload. The Xiaomi autostart and battery-exemption hand-offs stay, because the receiver and the service depend on them.

@@ -1,7 +1,9 @@
-# <app name>
+# Urgent
 
-<One paragraph: what this app does, for whom, and the one constraint that shapes everything —
-"free, ad-free, no server, all data on the device", or whatever replaces it.>
+Rings the phone for a **repeated call** — the same number calling again within a few minutes —
+while the phone is on silent, on vibrate or in Do Not Disturb. Android's own repeat-callers rule
+lives only inside Do Not Disturb; silent and vibrate mode mute the ringer outright, and this app is
+the way around that. Free, no ads, no server, no account; nothing leaves the phone.
 
 - **Vocabulary:** [`CONTEXT.md`](CONTEXT.md) — use these terms in code and UI.
 - **Decisions and why:** [`docs/adr/`](docs/adr/) — read before changing anything they cover.
@@ -21,17 +23,15 @@ Don't restate ADR reasoning here; link to it. This file is loaded every session 
 
 ## Working with the person who owns this repo
 
-<Their background, and what to explain rather than assume. For example: "Fluent in
-JavaScript/TypeScript, new to Kotlin. Comment code where a Kotlin/Compose idiom has no direct JS
-analogue — `Flow` vs promises/observables, `suspend` vs `async`, `remember`/`derivedStateOf` vs
-`useMemo`, data class `copy()` vs object spread, sealed classes vs discriminated unions. Explain the
-*why*, don't restate the line. Prefer explicit and readable over clever.
+Fluent in JavaScript/TypeScript, new to Kotlin. Comment code where a Kotlin/Compose idiom has no
+direct JS analogue — `Flow` vs promises/observables, `suspend` vs `async`, `remember` /
+`derivedStateOf` vs `useMemo`, data class `copy()` vs object spread, sealed classes vs discriminated
+unions. Explain the *why*, don't restate the line. Prefer explicit and readable over clever.
 
-The Android **platform** is the other half of the gap and has no JS analogue at all: the manifest as
-a declaration the OS reads before any code runs, permission models that differ per API level, process
-death, and vendor ROMs overriding documented behaviour. Say when a constraint comes from the platform
-rather than from this codebase — that is the difference between "we chose this" and "Android will not
-let us do otherwise".">
+The Android **platform** is the other half of the gap: the manifest as a declaration the OS reads
+before any code runs, permission models that differ per API level, process death, and vendor ROMs
+overriding documented behaviour. Say when a constraint comes from the platform rather than from this
+codebase.
 
 ## Stack
 
@@ -39,39 +39,30 @@ let us do otherwise".">
 | --- | --- |
 | Kotlin, Jetpack Compose, Material 3 | Android only, `minSdk` 26 |
 | **Navigation 3** (`androidx.navigation3`) | Replaces Navigation Compose 2.x — don't reintroduce the old one |
-| Room via KSP | DAOs return `Flow`; schema evolution per ADR-0001 |
+| **DataStore only — there is no database** | Two settings and a theme. The call log is the platform's, read on demand |
 | Manual DI via `AppContainer`, **not Hilt** | Constructor injection is clearer at this size and easy to migrate later |
-| WorkManager + exact alarms | Two mechanisms on purpose — ADR-0003 |
-| Photo Picker + `TakePicture` intent, **not CameraX** | Far less code; the system camera is fine here |
-| Coil 3 images | Compose-native, local files only |
-| On-device storage only | No backend. Backup per ADR-0005 |
+| A manifest `PHONE_STATE` receiver and one foreground service | `call/` — the app's whole mechanism |
+| On-device storage only | No backend. Platform Auto Backup, no custom agent |
 
 ## House rules
 
-- **An update never loses a user's data.** Any change to `APP_SCHEMA_VERSION` ships with its
-  `MIGRATION_x_y` *registered in* `APP_MIGRATIONS`, the exported `app/schemas/*/N.json` committed, a
-  `SchemaGateTest` assertion that the launch gate lets the upgrade through, and a migration test that
-  proves the rows survive. `scripts/schema-gate.py` enforces the mechanical half in CI.
-  **Every migration test opens the database directly and so walks past the launch gate** — that is
-  how an app ships a refusal screen to every existing install with a green test run behind it.
-  Verify an upgrade on the phone, not only in a test.
+- **Urgent never changes the user's phone settings.** It does not touch the ringer mode, the ring
+  volume or Do Not Disturb; it plays the ringtone on the **alarm** stream, which ringer mode does not
+  mute. A crash mid-ring therefore leaves the phone exactly as the user set it. Changing the ringer
+  mode instead would need Do Not Disturb access and a restore path that has to survive process death.
+- **It only rings when the phone would not.** `call/PhoneState.kt`'s `wouldStaySilent` is the gate;
+  ringing on top of the phone's own ringtone is two sounds at once and reads as a bug.
+- **The call log is the source of truth for "called before".** Android writes a call to the log
+  when it ends, so the ringing call is never in it, and nothing of ours needs storing.
+- **A new preference is a key, a `Flow` that reads it with its default, and a `suspend` setter.**
+  Keep the default in the read. Every key is backed up by Auto Backup, so ask what it means on the
+  user's next phone: a setting is welcome, live state is not.
 - **A branch merges with every shipped language complete.** Adding an English string does *not*
   redden your build — completeness is a merge gate (`scripts/translation-gate.py`), not a test, so
   copy is translated **once** rather than against draft wording and again after review. Everything
   else about a translation — format arguments, plural categories per CLDR, orphans,
   `translatable="false"` — is `TranslationTest` and holds continuously. Translate from **English
   only**, per [`docs/translator-brief.md`](docs/translator-brief.md).
-- **Media paths in the DB are relative** and split by kind — `thumbnails/<uuid>.jpg`,
-  `photos/<uuid>.jpg`, `documents/<uuid>.jpg` — resolved against `filesDir` at read time. Absolute
-  paths change across installs and break restored backups; the split makes the backup export scopes a
-  list of directories.
-- **All image writes go through `media/MediaFiles.kt`** — it downsamples and re-encodes per kind,
-  bakes in EXIF rotation, strips metadata (GPS included), and writes the file before the row.
-  Bypassing it puts full-resolution bitmaps in memory and blows up any image grid.
-- **Missing media renders as a placeholder, never a crash.** A restore may legitimately lack files.
-- **DAOs return `Flow`**, screens collect it. Don't hand-roll refresh calls.
-- **Enums with `TypeConverter`s, not loose strings**, for closed vocabularies. Store enums by
-  **name, never ordinal**, so adding a value can't rewrite history.
 - One `ViewModel` per screen, UI state as a single immutable data class.
 - **Developer-only surface lives in `app/src/debug/`, never in `main/` behind `BuildConfig.DEBUG`.**
   With `isMinifyEnabled = false` a statically-false branch is still compiled into the release AAB —
@@ -87,7 +78,7 @@ let us do otherwise".">
 ./gradlew assembleDebug          # build
 ./gradlew installDebug           # build + install on the connected phone
 ./gradlew test                   # JVM unit tests
-./gradlew connectedAndroidTest   # instrumented Room/DAO tests — needs a device
+./gradlew connectedAndroidTest   # instrumented — the manifest wiring the OS reads. Needs a device
 ./gradlew lint
 ./gradlew spotlessApply          # format (the CI gate is spotlessCheck)
 ./gradlew assembleDebug -PreleaseShapedDebug   # debug id, R8 on — find minification bugs early
@@ -95,7 +86,6 @@ let us do otherwise".">
 python3 scripts/project.py                      # what the toolchain thinks this app is called
 python3 scripts/translation-gate.py --report    # what translations does this branch still owe?
 python3 scripts/translation-gate.py origin/main # the gate itself — would this merge?
-python3 scripts/schema-gate.py origin/main
 python3 scripts/notes-gate.py
 adb devices                                     # confirm the phone is attached
 ```
@@ -105,18 +95,15 @@ adb devices                                     # confirm the phone is attached
 ```
 app/src/main/java/<namespace>/
   MainActivity.kt, MainApplication.kt, AppContainer.kt, Navigation.kt, NavigationKeys.kt
-               the app shell and Nav3 wiring stay at the package root, not under ui/ — they describe
-               how the app hangs together rather than any one screen
-  AppBackupAgent.kt   Android Auto Backup, taking control of its own file set (ADR-0005)
-  data/        Room entities, DAOs, database, converters, migrations, the schema gate, preferences
-  data/backup/ export, restore, the manifest, the WAL checkpoint
-  media/       MediaFiles.kt — the single path for persisting images, kind-aware
+               the app shell and Nav3 wiring stay at the package root, not under ui/
+  call/        PhoneStateReceiver (the way in), PhoneState (permissions, the call log, "would the
+               phone stay silent"), RepeatCall (the pure rule), RingThroughService (the ringing)
+  data/        AppPreferences.kt — the DataStore keys and their defaults. No database
   theme/       generated palette, type scale, spacing, the night-mode window half
-  ui/          Compose screens + ViewModels, one package per area
-  work/        WorkManager, receivers, notification channels, permission asks
+  ui/          Compose screens + ViewModels — home/ is the app; settings/, support/, common/
+  work/        Xiaomi autostart and battery-optimisation hand-offs
 
-app/src/debug/    the developer-only build: the sample-data seeder, Settings' debug section and its
-                  strings, and SeedReceiver for the capture driver
+app/src/debug/    Settings' debug section: ring now, stop ringing
 app/src/release/  only the no-op half of that seam, so main/ can call it unconditionally
 scripts/          the Python toolchain. project.py is the one place the app's identity lives
 art/             mark.py is the identity; both generators derive from it
@@ -132,30 +119,16 @@ with a build to prove it.
 
 ## Environment notes
 
-<Fill this in for the machine and phone you actually develop on — it is the section that saves the
-most time, and none of it is discoverable from the code. What belongs here:>
+**No Android Studio — everything is CLI**, `./gradlew` against a physical Xiaomi phone over USB.
+`adb devices` before assuming it is attached.
 
-- Whether there is an Android Studio, or everything is CLI against a physical phone over USB.
-- **Vendor ROM behaviour.** On Xiaomi/HyperOS: split-APK installs (`connectedAndroidTest`) prompt on
-  the phone and a missed prompt fails the run with `INSTALL_FAILED_USER_RESTRICTED`; the workaround
-  is to install both APKs plain and run the instrumentation directly:
-  ```bash
-  adb install -r -t app/build/outputs/apk/debug/app-debug.apk
-  adb install -r -t app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-  adb shell am instrument -w <applicationId>.debug.test/androidx.test.runner.AndroidJUnitRunner
-  ```
-  **A brand-new `applicationId` is a different failure with the same error string**: HyperOS refuses
-  the *first* install of a package outright, with no dialog to miss. Either enable USB installation
-  in developer options, or `adb push` the APK to `/sdcard/Download/` and tap it in the file manager.
-- **Xiaomi kills background work aggressively.** Scheduled notifications need battery-optimisation
-  exemption and **autostart**, and autostart is the load-bearing one: without it the ROM does not
-  start the process for a broadcast at all. It has no appop, it is a Settings toggle, and the grant
-  **lapses on its own** — re-read it before any run that depends on it. `scripts/device-gate.py`
+- **Testing the real path needs a second phone.** `PHONE_STATE` is a protected broadcast and cannot
+  be faked over adb; the debug section's *Ring as for a repeated call* exercises the service alone.
+  Call twice from another phone, with this one on silent.
+- **A brand-new `applicationId` is refused on HyperOS** with `INSTALL_FAILED_USER_RESTRICTED` and no
+  dialog. `adb push` the APK to `/sdcard/Download/` and tap it in the file manager; updates then
+  install over adb normally.
+- **Xiaomi kills background work aggressively.** Without **autostart** the ROM does not start the
+  process for the ringing broadcast at all, and without the battery exemption Android 12+ refuses
+  the foreground service. Autostart has no appop and lapses on its own — `scripts/device-gate.py`
   reads and sets it.
-- **Two device readings look identical to a pass when they are nothing at all.** A database pulled
-  without its `-wal` sidecar is **stale** — the app's most recent writes sit in the WAL, so a deleted
-  row still reads as present. Pull both and `PRAGMA wal_checkpoint(TRUNCATE)` on the host. And
-  `cmd jobscheduler run -f -n androidx.work.systemjobscheduler <pkg> <id>` answers *"Could not find
-  job N"* on stderr and **exits 0**: `am force-stop` cancels the app's jobs and WorkManager
-  re-enqueues under a new id at the next launch, so read the id from `dumpsys jobscheduler` and
-  confirm `WM-WorkerWrapper: Starting work for …` in logcat before believing any sweep result.

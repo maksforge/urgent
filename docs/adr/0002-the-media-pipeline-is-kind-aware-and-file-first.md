@@ -53,3 +53,7 @@ else — and "missing media renders as a placeholder" already covers the other d
 - The crop is blind: there is no crop-and-zoom UI, so re-picking is the user's only recourse. Keep
   the crop centred and predictable.
 - Nothing upscales. A 300 px source is stored at 300 px, not blown up with invented pixels.
+
+## Amendment — 2026-10-12
+
+Urgent stores no images. The media pipeline, the FileProvider and Coil were removed before the first upload.
