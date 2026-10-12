@@ -110,14 +110,14 @@ Pierwsze wydanie.
 
 ### 0.2.0 — ringing for repeated calls
 
-**English** — 329/500:
+**English** — 367/500:
 
 ```
-Urgent now rings for a repeated call: when the same number calls again within the minutes you choose, the second call rings at your alarm volume and vibrates, even on silent or vibrate. In Do Not Disturb it stays quiet when your phone's own repeat-callers rule already lets the call ring. Your phone's settings are never changed.
+Urgent now rings for a repeated call: when the same number calls again within the minutes you choose, the second call rings at your alarm volume and vibrates, even on silent or vibrate. In Do Not Disturb it rings only if alarms are allowed, and stays quiet when your phone's own repeat-callers rule already lets the call ring. Your phone's settings are never changed.
 ```
 
-**Polish** — 349/500:
+**Polish** — 451/500:
 
 ```
-Urgent dzwoni teraz przy powtórnym połączeniu: gdy ten sam numer zadzwoni ponownie w wybranym przez ciebie czasie, drugie połączenie dzwoni z głośnością alarmu i wibruje, nawet gdy telefon jest wyciszony albo na wibracjach. W trybie Nie przeszkadzać Urgent milczy, gdy telefon i tak wpuści powtórne połączenie. Ustawienia telefonu zostają bez zmian.
+Urgent dzwoni teraz przy powtórnym połączeniu: gdy ten sam numer zadzwoni ponownie w wybranym przez ciebie czasie, drugie połączenie dzwoni z głośnością alarmu i wibruje, nawet gdy telefon jest wyciszony albo na wibracjach. W trybie Nie przeszkadzać Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy własna reguła twojego telefonu dla powtarzających się połączeń już pozwala połączeniu zadzwonić. Ustawienia telefonu zostają bez zmian.
 ```
