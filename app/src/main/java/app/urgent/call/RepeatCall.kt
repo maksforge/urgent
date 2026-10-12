@@ -22,24 +22,25 @@ private val COUNTED_TYPES =
     )
 
 /**
- * Whether the call ringing now is the second one from [incoming] inside the window.
+ * How long ago [incoming] last called inside the window, or `null` when the call ringing now is not
+ * a repeat.
  *
  * The call that is ringing is not in [earlier] yet — Android writes a call to the log when it ends —
  * so any matching row is a genuinely earlier call. [sameNumber] is passed in because number matching
  * is the platform's job (`+48 600…` and `600…` are the same phone), and the platform's matcher is not
  * callable from a JVM test.
  */
-fun isRepeatCall(
+fun repeatCallAgeMillis(
     incoming: String,
     earlier: List<LoggedCall>,
     nowMillis: Long,
     windowMinutes: Int,
     sameNumber: (String, String) -> Boolean,
-): Boolean {
+): Long? {
     val windowMillis = windowMinutes * 60_000L
-    return earlier.any { call ->
-        call.type in COUNTED_TYPES &&
-            nowMillis - call.atMillis in 0..windowMillis &&
-            sameNumber(call.number, incoming)
-    }
+    return earlier
+        .filter { call -> call.type in COUNTED_TYPES && sameNumber(call.number, incoming) }
+        .map { call -> nowMillis - call.atMillis }
+        .filter { age -> age in 0..windowMillis }
+        .minOrNull()
 }

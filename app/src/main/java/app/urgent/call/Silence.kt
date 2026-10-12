@@ -21,13 +21,17 @@ data class SoundSettings(
  *
  * Do Not Disturb is judged from its policy rather than `matchesCallFilter`, which needs
  * `READ_CONTACTS` this app does not ask for. A policy that lets repeat callers through rings on its
- * own; one that lets calls through only from contacts cannot be judged without reading them, so
+ * own, but only for an earlier call inside its own threshold, which can be shorter than the user's
+ * window. One that lets calls through only from contacts cannot be judged without reading them, so
  * Urgent rings then.
  *
  * The alarms bit is new in Android 9; before it, `soundSettings()` sets the bit itself.
  */
 @SuppressLint("InlinedApi")
-fun shouldRingThrough(sound: SoundSettings): Boolean {
+fun shouldRingThrough(
+    sound: SoundSettings,
+    earlierCallAgeMillis: Long,
+): Boolean {
     val onACall =
         sound.audioMode == AudioManager.MODE_IN_CALL || sound.audioMode == AudioManager.MODE_IN_COMMUNICATION
     if (onACall) return false
@@ -42,14 +46,24 @@ fun shouldRingThrough(sound: SoundSettings): Boolean {
 
     return when (sound.interruptionFilter) {
         NotificationManager.INTERRUPTION_FILTER_ALARMS -> true
-        NotificationManager.INTERRUPTION_FILTER_PRIORITY -> !priorityLetsRepeatCallerThrough(sound)
+        NotificationManager.INTERRUPTION_FILTER_PRIORITY -> !dndRingsOnItsOwn(sound, earlierCallAgeMillis)
         else -> false
     }
 }
 
-private fun priorityLetsRepeatCallerThrough(sound: SoundSettings): Boolean {
+/**
+ * AOSP's `config_zen_repeat_callers_threshold`, inclusive. It is a private framework resource, so a
+ * ROM that changes it moves the edge without telling us.
+ */
+const val DND_REPEAT_CALLERS_MILLIS = 15 * 60_000L
+
+private fun dndRingsOnItsOwn(
+    sound: SoundSettings,
+    earlierCallAgeMillis: Long,
+): Boolean {
     val categories = sound.priorityCategories
-    if ((categories and Policy.PRIORITY_CATEGORY_REPEAT_CALLERS) != 0) return true
+    val repeatCallersAllowed = (categories and Policy.PRIORITY_CATEGORY_REPEAT_CALLERS) != 0
+    if (repeatCallersAllowed && earlierCallAgeMillis <= DND_REPEAT_CALLERS_MILLIS) return true
     return (categories and Policy.PRIORITY_CATEGORY_CALLS) != 0 &&
         sound.priorityCallSenders == Policy.PRIORITY_SENDERS_ANY
 }

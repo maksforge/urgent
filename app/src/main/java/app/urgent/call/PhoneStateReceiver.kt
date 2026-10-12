@@ -47,9 +47,10 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
-                if (!app.isRepeatCallNow(number, preferences.repeatWindowMinutes.first())) return@launch
+                val earlierCallAge =
+                    app.repeatCallAgeMillisNow(number, preferences.repeatWindowMinutes.first()) ?: return@launch
                 val sound = app.soundSettings() ?: return@launch
-                if (!shouldRingThrough(sound)) return@launch
+                if (!shouldRingThrough(sound, earlierCallAge)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the
                 // idle broadcast, and starting now would ring for a call that no longer exists.
                 if (!app.isCallStillThere()) return@launch
