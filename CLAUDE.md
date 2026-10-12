@@ -50,7 +50,7 @@ codebase.
   volume or Do Not Disturb; it plays the ringtone on the **alarm** stream, which ringer mode does not
   mute. A crash mid-ring therefore leaves the phone exactly as the user set it. Changing the ringer
   mode instead would need Do Not Disturb access and a restore path that has to survive process death.
-- **It only rings when the phone would not.** `call/PhoneState.kt`'s `wouldStaySilent` is the gate;
+- **It only rings when the phone would not.** `call/Silence.kt`'s `shouldRingThrough` is the gate;
   ringing on top of the phone's own ringtone is two sounds at once and reads as a bug.
 - **The call log is the source of truth for "called before".** Android writes a call to the log
   when it ends, so the ringing call is never in it, and nothing of ours needs storing.
@@ -96,8 +96,9 @@ adb devices                                     # confirm the phone is attached
 app/src/main/java/<namespace>/
   MainActivity.kt, MainApplication.kt, AppContainer.kt, Navigation.kt, NavigationKeys.kt
                the app shell and Nav3 wiring stay at the package root, not under ui/
-  call/        PhoneStateReceiver (the way in), PhoneState (permissions, the call log, "would the
-               phone stay silent"), RepeatCall (the pure rule), RingThroughService (the ringing)
+  call/        PhoneStateReceiver (the way in), PhoneState (permissions, the call log, the sound
+               settings), RepeatCall and Silence (the pure rules: "called before", "would the phone
+               stay silent"), RingThroughService (the ringing)
   data/        AppPreferences.kt — the DataStore keys and their defaults. No database
   theme/       generated palette, type scale, spacing, the night-mode window half
   ui/          Compose screens + ViewModels — home/ is the app; settings/, support/, common/
