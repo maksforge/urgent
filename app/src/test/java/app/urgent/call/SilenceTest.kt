@@ -31,6 +31,12 @@ class SilenceTest {
             priorityCallSenders = PRIORITY_SENDERS_STARRED,
         )
     private val silent = ringing.copy(ringerMode = RINGER_MODE_SILENT)
+    private val repeatCallersAllowed = priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_REPEAT_CALLERS)
+
+    private fun ringsThrough(
+        sound: SoundSettings,
+        earlierCallAgeMillis: Long = 3 * 60_000L,
+    ) = shouldRingThrough(sound, earlierCallAgeMillis)
 
     private fun priority(
         categories: Int,
@@ -41,53 +47,64 @@ class SilenceTest {
         priorityCallSenders = senders,
     )
 
-    @Test fun `a phone that rings on its own is left alone`() = assertFalse(shouldRingThrough(ringing))
+    @Test fun `a phone that rings on its own is left alone`() = assertFalse(ringsThrough(ringing))
 
-    @Test fun `silent mode rings through`() = assertTrue(shouldRingThrough(silent))
+    @Test fun `silent mode rings through`() = assertTrue(ringsThrough(silent))
 
     @Test fun `vibrate mode rings through`() =
         assertTrue(
-            shouldRingThrough(ringing.copy(ringerMode = RINGER_MODE_VIBRATE)),
+            ringsThrough(ringing.copy(ringerMode = RINGER_MODE_VIBRATE)),
         )
 
-    @Test fun `a ring volume of zero rings through`() = assertTrue(shouldRingThrough(ringing.copy(ringVolume = 0)))
+    @Test fun `a ring volume of zero rings through`() = assertTrue(ringsThrough(ringing.copy(ringVolume = 0)))
 
     @Test fun `a waiting call during a phone call stays quiet`() =
-        assertFalse(shouldRingThrough(silent.copy(audioMode = MODE_IN_CALL)))
+        assertFalse(ringsThrough(silent.copy(audioMode = MODE_IN_CALL)))
 
     @Test fun `a waiting call during a VoIP call stays quiet`() =
-        assertFalse(shouldRingThrough(silent.copy(audioMode = MODE_IN_COMMUNICATION)))
+        assertFalse(ringsThrough(silent.copy(audioMode = MODE_IN_COMMUNICATION)))
 
     @Test fun `total silence mutes alarms too, so nothing would be heard`() =
-        assertFalse(shouldRingThrough(silent.copy(interruptionFilter = INTERRUPTION_FILTER_NONE)))
+        assertFalse(ringsThrough(silent.copy(interruptionFilter = INTERRUPTION_FILTER_NONE)))
 
     @Test fun `alarms-only mode mutes the call but not the alarm stream`() =
-        assertTrue(shouldRingThrough(ringing.copy(interruptionFilter = INTERRUPTION_FILTER_ALARMS)))
+        assertTrue(ringsThrough(ringing.copy(interruptionFilter = INTERRUPTION_FILTER_ALARMS)))
 
     @Test fun `priority mode without calls rings through`() =
-        assertTrue(shouldRingThrough(priority(PRIORITY_CATEGORY_ALARMS)))
+        assertTrue(
+            ringsThrough(priority(PRIORITY_CATEGORY_ALARMS)),
+        )
 
-    @Test fun `priority mode with alarms off would not be heard`() = assertFalse(shouldRingThrough(priority(0)))
+    @Test fun `priority mode with alarms off would not be heard`() = assertFalse(ringsThrough(priority(0)))
 
     @Test fun `priority mode with alarms off would not be heard on silent either`() =
-        assertFalse(shouldRingThrough(priority(0).copy(ringerMode = RINGER_MODE_SILENT)))
+        assertFalse(ringsThrough(priority(0).copy(ringerMode = RINGER_MODE_SILENT)))
 
     @Test fun `priority mode letting repeat callers through rings on its own`() =
-        assertFalse(shouldRingThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_REPEAT_CALLERS)))
+        assertFalse(ringsThrough(repeatCallersAllowed))
+
+    @Test fun `DND's repeat-caller threshold edge still rings on its own`() =
+        assertFalse(ringsThrough(repeatCallersAllowed, DND_REPEAT_CALLERS_MILLIS))
+
+    @Test fun `an earlier call past DND's threshold is not a repeat caller to DND`() =
+        assertTrue(ringsThrough(repeatCallersAllowed, DND_REPEAT_CALLERS_MILLIS + 1))
+
+    @Test fun `a 30-minute window catches a call DND's 15 minutes does not`() =
+        assertTrue(ringsThrough(repeatCallersAllowed, 20 * 60_000L))
 
     @Test fun `priority mode letting every caller through rings on its own`() =
         assertFalse(
-            shouldRingThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_ANY)),
+            ringsThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_ANY)),
         )
 
     @Test fun `priority mode letting only contacts through rings through`() =
         assertTrue(
-            shouldRingThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_CONTACTS)),
+            ringsThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_CONTACTS)),
         )
 
     @Test fun `silent mode wins over a priority policy that would let the call through`() =
         assertTrue(
-            shouldRingThrough(
+            ringsThrough(
                 priority(
                     PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_REPEAT_CALLERS,
                 ).copy(ringerMode = RINGER_MODE_SILENT),

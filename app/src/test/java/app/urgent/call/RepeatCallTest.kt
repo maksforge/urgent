@@ -1,7 +1,9 @@
 package app.urgent.call
 
 import android.provider.CallLog
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -14,7 +16,7 @@ class RepeatCallTest {
         vararg earlier: LoggedCall,
         window: Int = 15,
         incoming: String = "600100200",
-    ) = isRepeatCall(incoming, earlier.toList(), now, window, exact)
+    ) = repeatCallAgeMillis(incoming, earlier.toList(), now, window, exact) != null
 
     private fun call(
         minutesAgo: Long,
@@ -46,6 +48,12 @@ class RepeatCallTest {
 
     @Test fun `number matching is delegated`() =
         assertTrue(
-            isRepeatCall("+48600100200", listOf(call(3)), now, 15) { a, b -> a.takeLast(9) == b.takeLast(9) },
+            repeatCallAgeMillis("+48600100200", listOf(call(3)), now, 15) { a, b -> a.takeLast(9) == b.takeLast(9) } !=
+                null,
         )
+
+    @Test fun `the age is the newest matching call's`() =
+        assertEquals(4 * minute, repeatCallAgeMillis("600100200", listOf(call(12), call(4), call(20)), now, 30, exact))
+
+    @Test fun `no repeat has no age`() = assertNull(repeatCallAgeMillis("600100200", listOf(call(31)), now, 30, exact))
 }

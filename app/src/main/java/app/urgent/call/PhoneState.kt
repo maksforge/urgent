@@ -47,12 +47,12 @@ fun Context.callsSince(sinceMillis: Long): List<LoggedCall> {
     }
 }
 
-fun Context.isRepeatCallNow(
+fun Context.repeatCallAgeMillisNow(
     incoming: String,
     windowMinutes: Int,
-): Boolean {
+): Long? {
     val now = System.currentTimeMillis()
-    return isRepeatCall(
+    return repeatCallAgeMillis(
         incoming = incoming,
         earlier = callsSince(now - windowMinutes * 60_000L),
         nowMillis = now,
