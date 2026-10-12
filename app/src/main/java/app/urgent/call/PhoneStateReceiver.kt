@@ -30,7 +30,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
             return
         }
 
-        // Since Android 10 the broadcast arrives twice per call: once without the number, and once
+        // Since Android 9 the broadcast arrives twice per call: once without the number, and once
         // with it for apps holding READ_CALL_LOG. Only the second one can be acted on.
         @Suppress("DEPRECATION")
         val number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
@@ -48,7 +48,8 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
                 if (!app.isRepeatCallNow(number, preferences.repeatWindowMinutes.first())) return@launch
-                if (!app.wouldStaySilent(number)) return@launch
+                val sound = app.soundSettings() ?: return@launch
+                if (!shouldRingThrough(sound)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the
                 // idle broadcast, and starting now would ring for a call that no longer exists.
                 if (!app.isCallStillThere()) return@launch
