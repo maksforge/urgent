@@ -62,3 +62,7 @@ system — for a feature the platform already provides.
   the format.
 - Media is merged rather than replaced on restore: filenames are UUIDs, so a collision means the same
   file, and keeping files the archive does not mention costs disk where deleting them costs photos.
+
+## Amendment — 2026-10-12
+
+Urgent has no database and no media. The custom BackupAgent and the export/restore screens were removed; platform Auto Backup carries the preference store, whose keys are all settings.

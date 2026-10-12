@@ -8,26 +8,10 @@
     supplying only `one` and `other` here would be a red build, not a silently wrong app.
 -->
 <resources>
-    <string name="tab_items">Rzeczy</string>
+    <string name="tab_home">Start</string>
     <string name="tab_settings">Ustawienia</string>
 
     <string name="action_back">Wstecz</string>
-    <string name="action_save">Zapisz</string>
-    <string name="action_edit">Edytuj</string>
-    <string name="action_delete">Usuń</string>
-
-    <string name="item_add">Dodaj rzecz</string>
-    <string name="item_detail_title">Rzecz</string>
-    <string name="item_title_label">Tytuł</string>
-    <string name="item_notes_label">Notatki</string>
-    <string name="item_pick_image">Wybierz zdjęcie</string>
-    <string name="items_empty">Nic tu jeszcze nie ma. Dotknij +, aby dodać pierwszą rzecz.</string>
-    <plurals name="items_count">
-        <item quantity="one">%d rzecz</item>
-        <item quantity="few">%d rzeczy</item>
-        <item quantity="many">%d rzeczy</item>
-        <item quantity="other">%d rzeczy</item>
-    </plurals>
 
     <string name="settings_appearance">Wygląd</string>
     <string name="settings_theme_system">Systemowy</string>
@@ -39,14 +23,6 @@
     <string name="settings_language_system">Systemowy</string>
     <string name="settings_language_report">Coś brzmi nie tak?</string>
     <string name="settings_language_report_hint">Napisz, jeśli jakieś słowo jest nie tak w twoim języku. Otwiera aplikację pocztową z już wpisanym językiem, w którym czytasz.</string>
-    <string name="settings_reminders">Przypomnienia</string>
-    <string name="settings_reminders_enabled">Przypominaj mi</string>
-    <string name="settings_reminders_hint">Jedno sprawdzenie dziennie. Nic nie jest nigdzie wysyłane.</string>
-    <string name="settings_reminders_blocked_title">Przypomnienia nie dotrą</string>
-    <string name="settings_reminders_blocked_body">Android ukrywa przypomnienia tej aplikacji, więc nic nie zostanie wyświetlone, gdy nadejdzie termin.</string>
-    <string name="settings_reminders_blocked_action">Otwórz ustawienia powiadomień</string>
-    <string name="settings_data">Dane</string>
-    <string name="settings_backup">Kopia zapasowa i przywracanie</string>
     <string name="settings_about">O aplikacji</string>
     <string name="settings_support">Pomoc i opinie</string>
     <string name="settings_licences">Licencje open source</string>
@@ -64,18 +40,33 @@
     <string name="support_rate_hint">Otwiera stronę aplikacji w Google Play. Ocena jest dobrowolna i niczego nie odblokowuje.</string>
     <string name="support_no_play">Na tym telefonie nie ma Google Play ani przeglądarki do otwarcia.</string>
 
-    <string name="backup_explainer">Wszystko zostaje na tym telefonie. Kopia zapasowa to pojedynczy plik, który przechowujesz, gdzie chcesz.</string>
-    <string name="backup_export_records">Eksportuj dane</string>
-    <string name="backup_export_everything">Eksportuj wszystko</string>
-    <string name="backup_restore">Przywróć z pliku…</string>
-
     <string name="licence_text_missing">Treść tej licencji nie jest dołączona do aplikacji.</string>
 
-    <string name="channel_reminders_name">Przypomnienia</string>
-    <string name="channel_reminders_description">Codzienne sprawdzenie, czy coś jest do zrobienia.</string>
+    <!-- Home -->
+    <string name="home_intro">Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie naprawdę cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.</string>
+    <string name="home_ring_through">Dzwoń przy powtórnym połączeniu</string>
+    <string name="home_ring_through_hint">Drugie połączenie z tego samego numeru dzwoni z głośnością alarmu i wibruje. Ustawienia telefonu zostają bez zmian.</string>
+    <string name="home_window">Drugie połączenie w ciągu</string>
+    <plurals name="home_window_minutes">
+        <item quantity="one">%d minuty</item>
+        <item quantity="few">%d minut</item>
+        <item quantity="many">%d minut</item>
+        <item quantity="other">%d minuty</item>
+    </plurals>
+    <string name="home_permissions_missing_title">Powtórne połączenia nie zadzwonią</string>
+    <string name="home_permissions_missing_body">Bez uprawnień do telefonu i rejestru połączeń Urgent nie widzi, kto dzwoni ani czy dzwonił już wcześniej.</string>
+    <string name="home_permissions_missing_action">Otwórz uprawnienia aplikacji</string>
+    <string name="home_battery_title">Powtórne połączenia mogą pozostać ciche</string>
+    <string name="home_battery_body">Android może nie pozwolić aplikacji Urgent dzwonić, gdy działa w tle. Ustaw zużycie baterii dla Urgent na „bez ograniczeń”.</string>
+    <string name="home_battery_action">Otwórz ustawienia baterii</string>
+    <string name="home_xiaomi">Xiaomi</string>
+    <string name="home_autostart">Zezwól na autostart</string>
+    <string name="home_autostart_hint">Na telefonach Xiaomi Urgent dowie się o połączeniu tylko przy włączonym autostarcie. Otwiera listę autostartu Xiaomi; telefon nie mówi aplikacji, co wybierzesz.</string>
 
-    <string name="schema_mismatch_title">Te dane zapisała inna wersja</string>
-    <string name="schema_mismatch_body">Dane na tym telefonie zapisano w wersji %1$d, a ta kompilacja odczytuje wersję %2$d.</string>
-    <string name="schema_mismatch_copy">Kopia została zachowana jako %1$s. Nic nie zostało usunięte.</string>
-    <string name="schema_mismatch_continue">Kontynuuj i zacznij od nowa</string>
+    <!-- Ringing -->
+    <string name="channel_ringing_name">Dzwonienie</string>
+    <string name="channel_ringing_description">Widoczne, gdy Urgent dzwoni przy powtórnym połączeniu, z przyciskiem, który je wycisza.</string>
+    <string name="ringing_title">Powtórne połączenie</string>
+    <string name="ringing_body">Dzwonię, bo ten sam numer zadzwonił ponownie.</string>
+    <string name="ringing_silence">Wycisz</string>
 </resources>

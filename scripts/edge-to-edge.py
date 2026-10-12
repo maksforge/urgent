@@ -758,8 +758,8 @@ def relaunch() -> None:
 # it is exactly the question "is a top-level destination on screen?" — and [HOME_TAB] is the bar's
 # first item, the one the back stack is rooted at. Naming them here rather than inline is what lets
 # a locale run translate them with the rest of the table.
-TAB_BAR = "Items"
-HOME_TAB = "Items"
+TAB_BAR = "Home"
+HOME_TAB = "Home"
 
 # The top-level destinations, named so [tap] can tell a tab from anything else it is asked to
 # press. Two things follow from being on this list, and both are about a tab label being a *short*
@@ -1338,50 +1338,16 @@ class Scene:
 
 # The order matters only in that each scene starts from a relaunch, so they are independent.
 SCENES = [
-    # --- the screen with no Scaffold at all, reachable only by lying to the schema guard --------
-    #
-    # `SchemaMismatchScreen` is the one screen outside a `Scaffold` — it pads itself — so it is
-    # exactly the outlier this matrix exists to look at, and there is no route to it through the UI.
-    Scene(
-        "schema-mismatch",
-        "chrome-free",
-        [("fake_schema_mismatch", "")],
-        suite="mismatch",
-    ),
-    Scene(
-        "schema-mismatch-bottom",
-        "chrome-free",
-        [("fake_schema_mismatch", ""), ("swipe_end", "")],
-        suite="mismatch",
-    ),
-
-    # --- a wiped install: the empty states, which no seeded run can show ------------------------
-    Scene("items-empty", "tab", [("wipe", "")], suite="empty"),
-
     # --- the tabs ------------------------------------------------------------------------------
-    Scene("items", "tab", []),
-    Scene("items-bottom", "tab", [("swipe_end", "")]),
+    Scene("home", "tab", []),
+    Scene("home-bottom", "tab", [("swipe_end", "")]),
     Scene("settings", "tab", [("tap", "Settings")]),
     Scene("settings-bottom", "tab", [("tap", "Settings"), ("swipe_end", "")]),
 
     # --- detail screens: no bottom bar, so the navigation-bar inset is the app's own problem ----
-    Scene("item-detail", "detail", [("tap", "First item")]),
-    Scene("backup", "detail", [("tap", "Settings"), ("tap", "Backup and restore")]),
     Scene("support", "detail", [("tap", "Settings"), ("tap", "Help and feedback")]),
     Scene("licences", "detail", [("tap", "Settings"), ("tap", "Open-source licences")]),
     Scene("licences-bottom", "detail", [("tap", "Settings"), ("tap", "Open-source licences"), ("swipe_end", "")]),
-
-    # --- forms: the keyboard is an inset too, and this is where `imePadding` is proved ----------
-    Scene("item-editor", "form", [("tap", "Add an item")]),
-    Scene("item-editor-bottom", "form", [("tap", "Add an item"), ("swipe_end", "")]),
-    Scene(
-        "item-editor-keyboard",
-        "form",
-        # Focus the first field and wait for the keyboard to finish animating in. This is the scene
-        # that catches a window being *panned* instead of resized — the top bar, Save button and all,
-        # slides off the top of the screen and only a screenshot shows it.
-        [("tap", "Add an item"), ("tap_field", "0"), ("wait", "1.5")],
-    ),
 ]
 
 
@@ -1405,9 +1371,9 @@ DEBUG_RES_DIR = Path(__file__).resolve().parent.parent / "app" / "src" / "debug"
 # stages none; leave it as None until yours does, and see `Scene.keeps_seeded_prompt`.
 PROMPT_DISMISS: "str | None" = None
 
-# The walk from a wiped install to the seeded fixture: into Settings and through the debug-only
-# sample-data block at the end of it. Extend this as your app grows a first-run wizard in front of it.
-SEED_WALK = ("Settings", "Seed sample data")
+# The walk from a wiped install to the seeded fixture. Urgent has no sample data — its whole state
+# is two settings — so a wiped install already is the fixture.
+SEED_WALK: tuple[str, ...] = ()
 
 
 def require_bcp47(tag: str) -> None:

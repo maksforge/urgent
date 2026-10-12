@@ -1,0 +1,61 @@
+package app.urgent.ui.settings
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import app.urgent.MainApplication
+import app.urgent.data.AppPreferences
+import app.urgent.data.ThemeMode
+import app.urgent.theme.applyThemeMode
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+data class SettingsUiState(
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val materialYou: Boolean = false,
+)
+
+class SettingsViewModel(
+    private val preferences: AppPreferences,
+) : ViewModel() {
+    val state: StateFlow<SettingsUiState> =
+        combine(
+            preferences.themeMode,
+            preferences.materialYou,
+        ) { theme, materialYou ->
+            SettingsUiState(theme, materialYou)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SettingsUiState())
+
+    /**
+     * **Both halves, and in this order.**
+     *
+     * [applyThemeMode] moves the *window* — the background painted before Compose composes, and the
+     * system-bar scrim — which Compose cannot reach. Writing the preference alone repaints the app
+     * and leaves the window following the phone. Applying it alone repaints the window and forgets
+     * the choice on the next cold start. See `theme/NightMode.kt`.
+     */
+    fun setThemeMode(mode: ThemeMode) {
+        applyThemeMode(mode)
+        viewModelScope.launch { preferences.setThemeMode(mode) }
+    }
+
+    fun setMaterialYou(enabled: Boolean) {
+        viewModelScope.launch { preferences.setMaterialYou(enabled) }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    val app = this[APPLICATION_KEY] as MainApplication
+                    SettingsViewModel(app.preferences)
+                }
+            }
+    }
+}
