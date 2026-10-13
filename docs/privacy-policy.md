@@ -30,7 +30,8 @@ The app stores two settings — whether it is switched on, and how many minutes 
 your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
-permission, and it learns nothing from either:
+permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps
+nothing from either:
 
 - **Battery use**, so that Android lets it ring while it is in the background.
 - **Autostart**, on Xiaomi phones only, so that the phone tells it about a call at all. Xiaomi does
