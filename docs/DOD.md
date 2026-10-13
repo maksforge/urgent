@@ -34,7 +34,7 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Make the artifact allowlists yours.** All four `aab-*.py` pass on a local `bundleRelease`.
 - [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
       read the contrast report it prints on stderr.
-- [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgent.support@gmail.com`.
+- [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgentapp.support@gmail.com`.
 - [ ] **Write the listing.** `docs/store-listing.md` — every heading in it is parsed by a script.
 - [ ] **Write the privacy policy** and confirm GitHub Pages is serving `docs/`. Play requires a
       *hosted* URL, and an offline app has no server of its own.

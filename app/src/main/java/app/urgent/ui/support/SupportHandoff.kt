@@ -23,7 +23,7 @@ import app.urgent.work.startActivitySafely
  * build survives. An alias is welded to one mailbox forever; a real address can be forwarded
  * anywhere, and handed to another maintainer without handing over your own mail.
  */
-private const val SUPPORT_ADDRESS = "urgent.support@gmail.com"
+private const val SUPPORT_ADDRESS = "urgentapp.support@gmail.com"
 
 /**
  * The id Play knows this app by — **a fact about the listing rather than about this build.**
