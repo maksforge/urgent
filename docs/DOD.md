@@ -31,10 +31,7 @@ template's `docs/DOD.md` the day a feature adds a table.
       it is discovered late.
 - [x] **Replace the placeholder domain** with `call/` and `ui/home/`.
 - [x] **Rewrite `scripts/edge-to-edge.py`'s SCENES** against Home, Settings, Support and Licences.
-- [ ] **Make the artifact allowlists yours.** `aab-permissions.py`'s EXPECTED, FORBIDDEN and
-      EXPECTED_ORIENTATION describe the template. Run all four `aab-*.py` scripts against a local
-      `bundleRelease` **before the first tag** — the first app built from it found its stale table in the publish
-      workflow, after the tag, with the version already spent.
+- [x] **Make the artifact allowlists yours.** All four `aab-*.py` pass on a local `bundleRelease`.
 - [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
       read the contrast report it prints on stderr.
 - [ ] **Put a real support address in `ui/support/SupportHandoff.kt`.** It ships as
