@@ -48,17 +48,10 @@ template's `docs/DOD.md` the day a feature adds a table.
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
       the same commit as the privacy policy, every time.
 - [x] **`LICENSE` and `README.md`** — all rights reserved, source-available, as Gloam.
-- [x] **Back up the upload keystore.** `~/.keystores/urgent-upload.jks` and its password in
-      `local.properties` exist only on this machine. Losing them means never updating the app on Play
-      again. Fill in *Backed up to* in `RELEASING.md` the same day.
-      Done 2026-10-13: NordPass.
-- [x] **Set up the GitHub repository** — `python3 scripts/repo-setup.py` does the ruleset, the
-      merge setting and Pages; the release-please PAT is the one step it cannot do, and without it
-      no release PR is ever opened. *Setting up a new repository* in [`RELEASING.md`](RELEASING.md).
-      **None of this is inherited from the template** — GitHub copies files, never settings — and
-      the build stays green while it is all still undone.
-      Done 2026-10-13: ruleset `main: require CI`, rebase-only, Pages, and `RELEASE_PLEASE_TOKEN` —
-      release PR #11 opened with CI running.
+- [x] **Back up the upload keystore.** Backed up to NordPass on 2026-10-13.
+- [x] **Set up the GitHub repository.** Done 2026-10-13: ruleset `main: require CI`, rebase-only,
+      Pages, `RELEASE_PLEASE_TOKEN`. The token expires 2026-11-12: regenerate it and re-set the
+      secret before then, or no release PR appears.
 - [x] **Set the five Play secrets and create the service account** (`docs/RELEASING.md`) — the
       service account is the one step CI cannot do for itself. No account permissions; four app
       permissions, on this app only, all granted on 2026-10-13; no expiry date.
