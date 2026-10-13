@@ -18,14 +18,19 @@ import kotlinx.coroutines.launch
 data class HomeUiState(
     val ringThrough: Boolean = false,
     val windowMinutes: Int = DEFAULT_REPEAT_WINDOW_MINUTES,
+    val countDeclined: Boolean = true,
 )
 
 class HomeViewModel(
     private val preferences: AppPreferences,
 ) : ViewModel() {
     val state: StateFlow<HomeUiState> =
-        combine(preferences.ringThrough, preferences.repeatWindowMinutes, ::HomeUiState)
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
+        combine(
+            preferences.ringThrough,
+            preferences.repeatWindowMinutes,
+            preferences.countDeclinedCalls,
+            ::HomeUiState,
+        ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
     fun setRingThrough(enabled: Boolean) {
         viewModelScope.launch { preferences.setRingThrough(enabled) }
@@ -33,6 +38,10 @@ class HomeViewModel(
 
     fun setWindowMinutes(minutes: Int) {
         viewModelScope.launch { preferences.setRepeatWindowMinutes(minutes) }
+    }
+
+    fun setCountDeclined(enabled: Boolean) {
+        viewModelScope.launch { preferences.setCountDeclinedCalls(enabled) }
     }
 
     companion object {

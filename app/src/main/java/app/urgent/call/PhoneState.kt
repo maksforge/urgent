@@ -50,6 +50,7 @@ fun Context.callsSince(sinceMillis: Long): List<LoggedCall> {
 fun Context.repeatCallAgeMillisNow(
     incoming: String,
     windowMinutes: Int,
+    countDeclined: Boolean,
 ): Long? {
     val now = System.currentTimeMillis()
     return repeatCallAgeMillis(
@@ -57,6 +58,7 @@ fun Context.repeatCallAgeMillisNow(
         earlier = callsSince(now - windowMinutes * 60_000L),
         nowMillis = now,
         windowMinutes = windowMinutes,
+        countDeclined = countDeclined,
         sameNumber = PhoneNumberUtils::compare,
     )
 }

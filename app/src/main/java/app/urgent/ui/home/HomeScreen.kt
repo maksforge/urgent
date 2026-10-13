@@ -122,6 +122,13 @@ fun HomeScreen(
                 }
             }
 
+            SwitchRow(
+                title = stringResource(R.string.home_count_declined),
+                subtitle = stringResource(R.string.home_count_declined_hint),
+                checked = state.countDeclined,
+                onChange = viewModel::setCountDeclined,
+            )
+
             // Only while the switch is on: a warning about a grant a disabled feature would need is
             // the app asking for something it is not using.
             if (state.ringThrough) {

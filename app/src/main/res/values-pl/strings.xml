@@ -47,6 +47,8 @@
     <string name="home_ring_through">Dzwoń przy powtórnym połączeniu</string>
     <string name="home_ring_through_hint">Drugie połączenie z tego samego numeru dzwoni z głośnością alarmu i wibruje. Ustawienia telefonu zostają bez zmian.</string>
     <string name="home_window">Drugie połączenie w ciągu</string>
+    <string name="home_count_declined">Licz odrzucone połączenia</string>
+    <string name="home_count_declined_hint">Odrzucone połączenie liczy się jako pierwsze. Po wyłączeniu kolejne połączenie od odrzuconej osoby pozostaje ciche.</string>
     <plurals name="home_window_minutes">
         <item quantity="one">%d minuty</item>
         <item quantity="few">%d minut</item>

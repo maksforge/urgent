@@ -23,7 +23,8 @@ private val COUNTED_TYPES =
 
 /**
  * How long ago [incoming] last called inside the window, or `null` when the call ringing now is not
- * a repeat.
+ * a repeat. A declined call counts unless [countDeclined] is off, for the user who declines a caller
+ * to mean "not now, even if they try again".
  *
  * The call that is ringing is not in [earlier] yet — Android writes a call to the log when it ends —
  * so any matching row is a genuinely earlier call. [sameNumber] is passed in because number matching
@@ -35,11 +36,13 @@ fun repeatCallAgeMillis(
     earlier: List<LoggedCall>,
     nowMillis: Long,
     windowMinutes: Int,
+    countDeclined: Boolean,
     sameNumber: (String, String) -> Boolean,
 ): Long? {
     val windowMillis = windowMinutes * 60_000L
     return earlier
         .filter { call -> call.type in COUNTED_TYPES && sameNumber(call.number, incoming) }
+        .filter { call -> countDeclined || call.type != CallLog.Calls.REJECTED_TYPE }
         .map { call -> nowMillis - call.atMillis }
         .filter { age -> age in 0..windowMillis }
         .minOrNull()
