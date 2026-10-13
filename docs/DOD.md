@@ -35,9 +35,10 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
       read the contrast report it prints on stderr.
 - [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgentapp.support@gmail.com`.
-- [ ] **Write the listing.** `docs/store-listing.md` — every heading in it is parsed by a script.
-- [ ] **Write the privacy policy** and confirm GitHub Pages is serving `docs/`. Play requires a
-      *hosted* URL, and an offline app has no server of its own.
+- [x] **Write the listing.** English and Polish text in `docs/store-listing.md`, `--strict` green.
+- [ ] **Capture the screenshots** with `scripts/screenshots.py` once the palette and mark are final —
+      shots taken before then are retaken.
+- [x] **Write the privacy policy** — served at `https://srednimax.github.io/urgent/privacy-policy.html`.
 - [ ] **Answer the Console's App content pages and write [`play-app-content.md`](play-app-content.md)
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
       the same commit as the privacy policy, every time.

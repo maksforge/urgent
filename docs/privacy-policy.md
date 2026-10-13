@@ -5,7 +5,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-_Last updated: 2026-10-12_
+_Last updated: 2026-10-13_
 
 Urgent is an Android app that rings your phone when the same number calls you twice within a few
 minutes, even while the phone is silenced. This policy describes what the app reads to do that, and
@@ -29,12 +29,23 @@ not request internet access at all.
 The app stores two settings — whether it is switched on, and how many minutes count as "again" — and
 your theme and language choices.
 
+The app may also send you to two of your phone's own Settings screens. It asks for neither as a
+permission, and it learns nothing from either:
+
+- **Battery use**, so that Android lets it ring while it is in the background.
+- **Autostart**, on Xiaomi phones only, so that the phone tells it about a call at all. Xiaomi does
+  not report back what you chose.
+
 ## The things that happen outside the app
 
 1. **Android's automatic backup.** If it is enabled on your phone, Android backs up the app's
    settings to your own Google Drive. You can turn this off in your phone's settings.
 2. **Google Play**, if you installed the app from there. Installing and updating an app is a
    transaction between your phone and Google, with its own privacy policy.
+3. **An email you choose to send.** *Help and feedback* opens your own email app with a draft that
+   already holds your phone's model, its Android version, the app's version and the language the app
+   is showing. You can read and change every line before sending it, or not send it at all. A sent
+   email reaches the support mailbox and is used only to answer you.
 
 ## Children
 
@@ -52,4 +63,4 @@ in the repository.
 
 ## Contact
 
-<https://github.com/srednimax/urgent/issues>
+**urgentapp.support@gmail.com**, or <https://github.com/srednimax/urgent/issues>
