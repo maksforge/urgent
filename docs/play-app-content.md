@@ -25,9 +25,9 @@ Two rules keep this file honest:
 
 ## What the artifact carries
 
-Read at **versionCode _, versionName _** by `publish-play.yml`'s verify step on _<date>_:
+Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify step on 2026-10-13:
 
-> _paste the summary line `aab-permissions.py` prints_
+> 7 permissions, all accounted for; none of the 6 forbidden ones present; 0 `<uses-feature>` declared; 0 of the 1 activities lock their orientation, every one of them expected
 
 | Permission | Whose | What it is for | Console consequence |
 | --- | --- | --- | --- |
@@ -51,20 +51,22 @@ names them anyway, because a user sent to two Settings screens should find both 
 
 ## Ads
 
-**No.** Answered _<date>_.
+**No.** Answered 2026-10-13.
 
 Would change: any ad SDK, ever. `AD_ID` absent from the artifact is the check that would catch one
 arriving through a dependency.
 
 ## App access
 
-**All functionality is available without special access.** Answered _<date>_.
+**All functionality is available without special access.** Answered 2026-10-13. The Console now calls this page *Sign-in details*.
 
 There is no account and no sign-in. Would change: a feature behind a login.
 
 ## Content rating
 
-**The IARC questionnaire.** Answered _<date>_, category _<category>_, rating contact _<email>_.
+**The IARC questionnaire.** Answered 2026-10-13, category *All other app types*, rating contact `urgentapp.support@gmail.com`. Every question answered No; the result was Everyone (ESRB), All ages (ClassInd), PEGI 3.
+
+Not *Social or communication*: that category means the app's purpose is people talking to each other, and Urgent carries no conversation of its own.
 
 Would change: user-generated content, communication between users, or a link out to anything that
 has either. A support `mailto:` hand-off is not user-to-user communication — it opens the user's own
@@ -73,14 +75,14 @@ Play's surface rather than the app's.
 
 ## Target audience and content
 
-**18 and over** _(or your answer)_. Answered _<date>_.
+**18 and over.** Answered 2026-10-13.
 
 Would change: lowering it. Any age band under 18 brings in the Families policy and its design and
 SDK requirements.
 
 ## Government, financial and health features
 
-**No to all three** _(or your answer)_. Answered _<date>_.
+**No to all three.** Answered 2026-10-13.
 
 Health is the one to guard. **Keep health claims out of the listing, the site and the tags** —
 Play's enforcement has treated a linked page as part of the listing. Would change: copy or a tag
@@ -88,7 +90,7 @@ that sells the app as good for you.
 
 ## Data safety
 
-**No data collected. No data shared.** Answered _<date>_ against versionCode _.
+**No data collected. No data shared.** Answered 2026-10-13 against versionCode 18.
 
 Play's definitions, from its Data safety help page (support.google.com, answer 10787469) — re-read
 them at each re-declaration rather than trusting this quote:
@@ -124,7 +126,30 @@ Would change any of it:
 ## Advertising ID
 
 **No.** The artifact carries no `com.google.android.gms.permission.AD_ID`, and `aab-permissions.py`
-forbids it. Answered _<date>_.
+forbids it. Answered 2026-10-13.
+
+## SMS and call log permissions
+
+**Device automation**, for `READ_CALL_LOG`. Saved 2026-10-13; reviewed when the app is first sent for
+review.
+
+Play's list of permitted uses decides this, and Urgent fits none of it cleanly. *Device automation*
+— "automate repetitive actions across multiple areas of the OS, based on one or more conditions
+(triggers) set by the user" — is the closest: the trigger is a number calling again within the 5,
+10, 15 or 30 minutes the user picks, and the action is the ring. *Physical safety/emergency alert*
+allows only `SEND_SMS`, and *Caller ID, spam detection and blocking* describes a different app.
+
+*Instructions for review*, as given (498 of 500 characters):
+
+> Urgent rings the phone for a repeated call while it is on silent, vibrate or Do Not Disturb. The
+> user turns this on and picks the trigger: the same number calling again within 5, 10, 15 or 30
+> minutes. When a call rings, the app reads the call log for that number in that window, on the
+> device only. Nothing is stored or sent; there is no INTERNET permission. CallScreeningService only
+> sees non-contacts unless the app is the default dialer. Test: turn it on, set silent, call twice
+> from one number.
+
+Would change: a refusal (Plan B is distribution off Play), the window choices, or any use of the
+call log beyond comparing one number.
 
 ## Foreground service permissions
 
