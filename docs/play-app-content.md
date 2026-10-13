@@ -5,14 +5,6 @@ fact that would change it**. The Console shows what was answered but never why, 
 when the app changes, when the questionnaire changes, and once a year. A re-declaration made from
 memory a year from now is how a true answer turns false.
 
-<!--
-    Every section below is a page the Console will make you answer before a closed release. What
-    follows from what Urgent is — no network, no account, no ads, two settings on the device — is
-    filled in; the rest stays a suggestion marked _(or your answer)_ or a placeholder until you give
-    it in the Console. Date every answer the day you give it — the reasons are in front of you then,
-    and gone a week later.
--->
-
 Two rules keep this file honest:
 
 - **The privacy policy and the Data safety form describe the same facts to two audiences**, and Play
@@ -153,7 +145,8 @@ call log beyond comparing one number.
 
 ## Foreground service permissions
 
-**`mediaPlayback`**, for `call/RingThroughService.kt`. Answered 2026-10-13; the Console's task is *Media playback*.
+**`mediaPlayback`**, for `call/RingThroughService.kt`. Answered 2026-10-13 and sent for review the
+same day with 0.1.0 (versionCode 18); the Console's task is *Media playback*.
 
 - **What the user sees:** the ringtone playing on the alarm stream while a repeated call rings, and
   a notification with a *Silence* button. It stops when the call is answered, declined or missed, or
@@ -166,8 +159,9 @@ call log beyond comparing one number.
 - **The video:** two calls from another phone to this one on silent, the second ringing and the
   notification visible. Link: https://drive.google.com/file/d/1OyPG5FtZvUvMMBXS_4AmYt_fBsvuuok4/view
   — 38 s, no sound (`adb screenrecord` has none, and Android's playback capture excludes the alarm
-  stream anyway), the caller's name blurred. Anyone with the link can view it; keep it that way
-  until the declaration is approved.
+  stream anyway), the caller's name blurred. Anyone with the link can view it; keep it viewable
+  while this declaration is on file — Play can re-review it on a later update or at the yearly
+  re-declaration.
 
 Would change: a second foreground service, a change of type, or the ringing outliving the call.
 
