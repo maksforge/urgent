@@ -14,6 +14,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Two calls from another phone, this one on silent.** The first stays silent, the second rings
       at alarm volume and stops when it is answered or declined. Then again on vibrate, and once with
       Do Not Disturb on. `PHONE_STATE` cannot be faked over adb, so this is the only end-to-end test.
+      Silent passed on 2026-10-13 with the R8 release build on HyperOS; vibrate and Do Not Disturb
+      are still to run.
 - [ ] **Decide whether Urgent can be on Google Play at all.** `READ_CALL_LOG` is restricted to default
       dialers and a short list of exceptions; the Permissions Declaration Form is where that is
       argued, and a refusal means distributing outside Play.
@@ -39,7 +41,7 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Capture the screenshots** with `scripts/screenshots.py` once the palette and mark are final —
       shots taken before then are retaken.
 - [x] **Write the privacy policy** — served at `https://srednimax.github.io/urgent/privacy-policy.html`.
-- [ ] **Answer the Console's App content pages and write [`play-app-content.md`](play-app-content.md)
+- [x] **Answer the Console's App content pages and write [`play-app-content.md`](play-app-content.md)
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
       the same commit as the privacy policy, every time.
 - [x] **`LICENSE` and `README.md`** — all rights reserved, source-available, as Gloam.
@@ -58,7 +60,7 @@ template's `docs/DOD.md` the day a feature adds a table.
       closed test — at the time of writing 12 testers opted in for 14 continuous days, then an access
       application. Recruit the testers before the build is ready, not after; `publish-play-closed.yml`
       moves each build to them.
-- [ ] **Decide the `applicationId` deliberately.** It is fixed the moment the Play entry is created —
+- [x] **Decide the `applicationId` deliberately.** It is fixed the moment the Play entry is created —
       not renameable, not transferable without losing every install and review.
 
 ## After the closed test
@@ -82,5 +84,5 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Every release: read the release notes gate's output** rather than trusting it passed.
 - [ ] **Every dependency bump: re-run `licensee`.** The build fails on an unallowed licence, which is
       the point — but the fix is two things, the allowlist *and* the bundled text.
-- [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
+- [x] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
       a feature silently stop working.

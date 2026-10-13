@@ -130,8 +130,8 @@ forbids it. Answered 2026-10-13.
 
 ## SMS and call log permissions
 
-**Device automation**, for `READ_CALL_LOG`. Saved 2026-10-13; reviewed when the app is first sent for
-review.
+**Device automation**, for `READ_CALL_LOG`. Saved 2026-10-13 and sent for review the same day with
+the first closed-testing release (0.1.0, versionCode 18).
 
 Play's list of permitted uses decides this, and Urgent fits none of it cleanly. *Device automation*
 — "automate repetitive actions across multiple areas of the OS, based on one or more conditions
@@ -153,7 +153,7 @@ call log beyond comparing one number.
 
 ## Foreground service permissions
 
-**`mediaPlayback`**, for `call/RingThroughService.kt`. Answered _<date>_.
+**`mediaPlayback`**, for `call/RingThroughService.kt`. Answered 2026-10-13; the Console's task is *Media playback*.
 
 - **What the user sees:** the ringtone playing on the alarm stream while a repeated call rings, and
   a notification with a *Silence* button. It stops when the call is answered, declined or missed, or
@@ -164,7 +164,10 @@ call log beyond comparing one number.
   the app that owns the call — a default dialer or one holding `MANAGE_OWN_CALLS` — and Urgent is
   neither. `specialUse` would claim no named type fits, and one does.
 - **The video:** two calls from another phone to this one on silent, the second ringing and the
-  notification visible. Link: _<url>_.
+  notification visible. Link: https://drive.google.com/file/d/1OyPG5FtZvUvMMBXS_4AmYt_fBsvuuok4/view
+  — 38 s, no sound (`adb screenrecord` has none, and Android's playback capture excludes the alarm
+  stream anyway), the caller's name blurred. Anyone with the link can view it; keep it that way
+  until the declaration is approved.
 
 Would change: a second foreground service, a change of type, or the ringing outliving the call.
 
