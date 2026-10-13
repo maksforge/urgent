@@ -1,37 +1,37 @@
 ---
 layout: default
-title: <App name>
+title: Urgent
 ---
 
-# <App name>
+# Urgent
 
-<!--
-    The site root, served by GitHub Pages from `docs/`. It exists for two reasons: Play's listing
-    asks for a Website, and the privacy policy needs a hosted URL. Both come free from a public
-    repo — no hosting, no domain, no bill.
-
-    Write it for someone who found the app in the store and wants to know what it is before
-    installing. It is not the store listing (that is `store-listing.md`, which scripts parse) and it
-    is not the README (that is for someone reading the code).
--->
-
-**<One sentence about what it does.>** <And the constraint that makes it different — "Free, ad-free,
-and entirely on your own phone: no account, no sign-up, no server.">
+**Rings your phone when the same number calls twice in a few minutes, even on silent or vibrate.**
+Free, ad-free, and entirely on your own phone: no account, no sign-up, no server.
 
 ## What it does
 
-- **<Feature>** — <what it is for, in the user's words, not the schema's>.
-- **<Feature>** — <…>.
+- **Rings for the second call.** When a number that called in the last 5, 10, 15 or 30 minutes calls
+  again, Urgent plays your ringtone at your alarm volume and vibrates. The first call stays as quiet
+  as you set it.
+- **Only when your phone would not.** With the ringer on, your phone rings by itself and Urgent stays
+  quiet. In Do Not Disturb it rings only if alarms are allowed, and not when your phone's own
+  repeat-callers rule already lets the call ring.
+- **Leaves your settings alone.** Urgent never changes your ringer mode, ring volume or Do Not
+  Disturb. A *Silence* button in the notification stops it.
 
-## <The honest limitation>
+## What it cannot do
 
-<If the app is in a domain where people might over-trust it — health, finance, safety — say plainly
-what it does not do. This section costs nothing and is the one people remember.>
+Urgent cannot tell why someone is calling: two calls in a row ring whether they matter or not, and a
+single call stays silent however important it is. A hidden number cannot be matched, so it never
+rings through. Battery optimisation, and on Xiaomi phones a switched-off autostart, can stop it from
+hearing about a call at all.
 
-## Your data stays on your device
+Urgent is a second chance, not a guarantee. If you must not miss a call, keep your ringer on.
 
-There is no backend to send anything to. Everything lives in the app's private storage on your phone,
-and backups go to storage you choose. The details are in the
+## Your data stays on your phone
+
+Urgent does not request internet access. It reads the last few minutes of your call log at the moment
+a call rings, compares one number, and keeps nothing. The details are in the
 
 **[Privacy Policy](privacy-policy.md)**.
 
@@ -41,4 +41,4 @@ and backups go to storage you choose. The details are in the
 
 ## The source
 
-Built in the open at **[<repo>](<url>)**.
+Built in the open at **[github.com/srednimax/urgent](https://github.com/srednimax/urgent)**.

@@ -145,10 +145,10 @@ Would change: a second foreground service, a change of type, or the ringing outl
 
 ## Store settings (not App content, recorded here because it is asked for the same reason)
 
-- **Category:** _<category>_, and why not the obvious neighbour.
+- **Category:** Communication, not Tools — the reason is in [`store-listing.md`](store-listing.md).
 - **Tags:** _<tags>_.
 - **Contact email:** `urgentapp.support@gmail.com`, public on the listing.
-- **Privacy policy:** `https://<owner>.github.io/<repo>/privacy-policy.html`, served from `docs/` by
+- **Privacy policy:** `https://srednimax.github.io/urgent/privacy-policy.html`, served from `docs/` by
   Pages. It updates on a merge to `main`, with no release, which is why it has to be right before the
   app it describes ships rather than after.
 
