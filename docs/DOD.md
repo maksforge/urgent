@@ -51,9 +51,9 @@ template's `docs/DOD.md` the day a feature adds a table.
       no release PR is ever opened. *Setting up a new repository* in [`RELEASING.md`](RELEASING.md).
       **None of this is inherited from the template** — GitHub copies files, never settings — and
       the build stays green while it is all still undone.
-- [ ] **Set the five Play secrets and create the service account** (`docs/RELEASING.md`) — the
-      service account is the one step CI cannot do for itself. No account permissions; two app
-      permissions, on this app only; no expiry date.
+- [x] **Set the five Play secrets and create the service account** (`docs/RELEASING.md`) — the
+      service account is the one step CI cannot do for itself. No account permissions; four app
+      permissions, on this app only, all granted on 2026-10-13; no expiry date.
 - [ ] **Plan the closed test.** A new personal developer account reaches production only after a
       closed test — at the time of writing 12 testers opted in for 14 continuous days, then an access
       application. Recruit the testers before the build is ready, not after; `publish-play-closed.yml`
