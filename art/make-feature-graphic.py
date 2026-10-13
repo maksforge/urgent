@@ -34,7 +34,7 @@ import mark
 
 # The three strings this graphic is *about*. Edit them; everything else is layout.
 APP_NAME = "Urgent"
-TAGLINE = "One line about your app"
+TAGLINE = "Rings for a repeated call, even on silent"
 FEATURES = "Private  ·  Offline  ·  No ads  ·  Free"
 
 ART = Path(__file__).parent
