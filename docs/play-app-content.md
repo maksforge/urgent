@@ -83,7 +83,8 @@ SDK requirements.
 **No to all three** _(or your answer)_. Answered _<date>_.
 
 Health is the one to guard. **Keep health claims out of the listing, the site and the tags** —
-Play's enforcement has treated a linked page as part of the listing. Would change: copy or a tag that sells the app as good for you.
+Play's enforcement has treated a linked page as part of the listing. Would change: copy or a tag
+that sells the app as good for you.
 
 ## Data safety
 
