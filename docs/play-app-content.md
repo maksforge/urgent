@@ -147,7 +147,7 @@ Would change: a second foreground service, a change of type, or the ringing outl
 
 - **Category:** _<category>_, and why not the obvious neighbour.
 - **Tags:** _<tags>_.
-- **Contact email:** `urgent.support@gmail.com`, public on the listing.
+- **Contact email:** `urgentapp.support@gmail.com`, public on the listing.
 - **Privacy policy:** `https://<owner>.github.io/<repo>/privacy-policy.html`, served from `docs/` by
   Pages. It updates on a merge to `main`, with no release, which is why it has to be right before the
   app it describes ships rather than after.

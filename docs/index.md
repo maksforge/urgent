@@ -37,7 +37,7 @@ and backups go to storage you choose. The details are in the
 
 ## Support
 
-**urgent.support@gmail.com** — an ordinary mailbox that a person reads.
+**urgentapp.support@gmail.com** — an ordinary mailbox that a person reads.
 
 ## The source
 
