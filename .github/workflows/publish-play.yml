@@ -1,4 +1,4 @@
-name: Publish to Play
+name: Publish to Play (internal)
 
 # release-please tags the repo and publishes a GitHub Release when its release PR is
 # merged, and that publish is this workflow's trigger. So a build reaches Play only once
