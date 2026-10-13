@@ -139,14 +139,14 @@ Play's list of permitted uses decides this, and Urgent fits none of it cleanly. 
 10, 15 or 30 minutes the user picks, and the action is the ring. *Physical safety/emergency alert*
 allows only `SEND_SMS`, and *Caller ID, spam detection and blocking* describes a different app.
 
-*Instructions for review*, as given (498 of 500 characters):
+*Instructions for review*, as given (488 of 500 characters):
 
-> Urgent rings the phone for a repeated call while it is on silent, vibrate or Do Not Disturb. The
-> user turns this on and picks the trigger: the same number calling again within 5, 10, 15 or 30
-> minutes. When a call rings, the app reads the call log for that number in that window, on the
-> device only. Nothing is stored or sent; there is no INTERNET permission. CallScreeningService only
-> sees non-contacts unless the app is the default dialer. Test: turn it on, set silent, call twice
-> from one number.
+> Urgent rings for a repeated call when the phone is silenced (silent, vibrate, DND). User-set
+> trigger: the same number calling again within 5, 10, 15 or 30 minutes. On a ringing call it
+> reads the last few minutes of the call log, on-device, to compare one number; nothing is
+> stored or sent, and there is no INTERNET permission. Android 9+ gives the ringing number
+> only with READ_CALL_LOG; CallScreeningService skips contacts unless default dialer. Test:
+> turn it on, set silent, call twice.
 
 Would change: a refusal (Plan B is distribution off Play), the window choices, or any use of the
 call log beyond comparing one number.
