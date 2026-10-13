@@ -14,11 +14,14 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Two calls from another phone, this one on silent.** The first stays silent, the second rings
       at alarm volume and stops when it is answered or declined. Then again on vibrate, and once with
       Do Not Disturb on. `PHONE_STATE` cannot be faked over adb, so this is the only end-to-end test.
-      Silent passed on 2026-10-13 with the R8 release build on HyperOS; vibrate and Do Not Disturb
-      are still to run.
+      Silent, 2026-10-13, R8 release build on HyperOS: the first call stayed silent, the second rang
+      and stopped when the call ended unanswered. Answering, declining and *Silence* while it rings,
+      vibrate, and Do Not Disturb are still to run.
 - [ ] **Decide whether Urgent can be on Google Play at all.** `READ_CALL_LOG` is restricted to default
       dialers and a short list of exceptions; the Permissions Declaration Form is where that is
-      argued, and a refusal means distributing outside Play.
+      argued, and a refusal means distributing outside Play. The declaration (*Device automation*)
+      went to review on 2026-10-13 with 0.1.0 (versionCode 18); the answers are in
+      [`play-app-content.md`](play-app-content.md).
 - [ ] **Run the call path on an API 26 phone or emulator.** The pre-P alarm rule in
       `soundSettings()`, the pre-Q `startForeground` and the pre-S/pre-T vibrator paths in
       `RingThroughService` ship unvalidated until then; CI's API 26 leg only reads the manifest.
@@ -62,6 +65,7 @@ template's `docs/DOD.md` the day a feature adds a table.
       moves each build to them.
 - [x] **Decide the `applicationId` deliberately.** It is fixed the moment the Play entry is created —
       not renameable, not transferable without losing every install and review.
+      `io.github.srednimax.urgent`, fixed when the Play entry was created (2026-10-13).
 
 ## After the closed test
 
@@ -84,5 +88,6 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Every release: read the release notes gate's output** rather than trusting it passed.
 - [ ] **Every dependency bump: re-run `licensee`.** The build fails on an unallowed licence, which is
       the point — but the fix is two things, the allowlist *and* the bundled text.
-- [x] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
-      a feature silently stop working.
+- [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
+      a feature silently stop working. On 2026-10-13 the R8 release build ran the call path on
+      HyperOS (first call silent, second rang); Settings, Support and Licences were not exercised.
