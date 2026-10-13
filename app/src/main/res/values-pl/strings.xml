@@ -31,7 +31,7 @@
     <string name="support_report">Zgłoś problem</string>
     <string name="support_report_hint">Otwiera aplikację pocztową z już wpisanymi informacjami o telefonie, które aplikacja zna.</string>
     <string name="support_feature">Zaproponuj funkcję</string>
-    <string name="support_feature_hint">Napisz, co aplikacja mogłaby robić i do czego byś tego używał.</string>
+    <string name="support_feature_hint">Napisz, co aplikacja mogłaby robić i do czego by ci się to przydało.</string>
     <string name="support_body_bug">Co się stało i co powinno się stać zamiast tego:</string>
     <string name="support_body_feature">Co aplikacja mogłaby robić?</string>
     <string name="support_body_language">Które słowo jest nie tak i na którym ekranie?</string>
