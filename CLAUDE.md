@@ -39,7 +39,7 @@ codebase.
 | --- | --- |
 | Kotlin, Jetpack Compose, Material 3 | Android only, `minSdk` 26 |
 | **Navigation 3** (`androidx.navigation3`) | Replaces Navigation Compose 2.x — don't reintroduce the old one |
-| **DataStore only — there is no database** | Two settings and a theme. The call log is the platform's, read on demand |
+| **DataStore only — there is no database** | Three settings and a theme. The call log is the platform's, read on demand |
 | Manual DI via `AppContainer`, **not Hilt** | Constructor injection is clearer at this size and easy to migrate later |
 | A manifest `PHONE_STATE` receiver and one foreground service | `call/` — the app's whole mechanism |
 | On-device storage only | No backend. Platform Auto Backup, no custom agent |

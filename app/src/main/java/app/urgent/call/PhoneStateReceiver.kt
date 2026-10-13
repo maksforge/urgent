@@ -48,7 +48,11 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
                 val earlierCallAge =
-                    app.repeatCallAgeMillisNow(number, preferences.repeatWindowMinutes.first()) ?: return@launch
+                    app.repeatCallAgeMillisNow(
+                        number,
+                        preferences.repeatWindowMinutes.first(),
+                        preferences.countDeclinedCalls.first(),
+                    ) ?: return@launch
                 val sound = app.soundSettings() ?: return@launch
                 if (!shouldRingThrough(sound, earlierCallAge)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the

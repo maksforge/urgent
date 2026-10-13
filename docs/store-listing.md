@@ -52,7 +52,7 @@ The line that appears under the name in search results, and the most-read text i
 Rings when the same number calls twice, even with your phone on silent.
 ```
 
-### Full description — 2818/4000
+### Full description — 2923/4000
 
 **No health or safety claims.** Urgent is a second chance at a call, not an emergency service, and
 the *What it cannot do* section says so; Play's enforcement reads a linked page as part of the
@@ -65,7 +65,7 @@ HOW IT WORKS
 
 When a call comes in, Urgent looks in your call log for the same number in the last few minutes: 5, 10, 15 or 30, you choose. If it called before, and your phone is about to let the call go by without a sound, Urgent plays your ringtone at your alarm volume and vibrates. If Android won't let it read your ringtone, it plays your alarm sound instead. It stops when you answer or decline, when the call ends, or after a minute. A notification with a Silence button stops it sooner.
 
-The first call stays as quiet as you set it. Only the second one rings.
+The first call stays as quiet as you set it. Only the second one rings. A call you declined counts as the first one too, unless you turn that off.
 
 IT ONLY RINGS WHEN YOUR PHONE WOULD NOT
 
@@ -80,7 +80,7 @@ Urgent never changes your ringer mode, your ring volume or Do Not Disturb. It pl
 
 FREE, AND NOTHING LEAVES YOUR PHONE
 
-No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", your theme and your language.
+No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, your theme and your language.
 
 WHAT IT CANNOT DO
 
@@ -119,7 +119,7 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3172/4000
+### Full description — 3281/4000
 
 ```
 Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie naprawdę cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
@@ -128,7 +128,7 @@ JAK TO DZIAŁA
 
 Gdy ktoś dzwoni, Urgent sprawdza w rejestrze połączeń, czy ten sam numer dzwonił w ciągu ostatnich kilku minut: 5, 10, 15 albo 30, do wyboru. Jeśli tak, a telefon nie wydałby przy tym połączeniu żadnego dźwięku, Urgent odtwarza twój dzwonek z głośnością alarmu i wibruje. Jeśli Android nie pozwoli mu odczytać twojego dzwonka, odtwarza zamiast niego dźwięk alarmu. Przestaje, gdy odbierzesz albo odrzucisz, gdy połączenie się skończy, albo po minucie. Powiadomienie z przyciskiem Wycisz pozwala wyciszyć go wcześniej.
 
-Pierwsze połączenie pozostaje ciche, zgodnie z twoimi ustawieniami. Dzwoni dopiero drugie.
+Pierwsze połączenie pozostaje ciche, zgodnie z twoimi ustawieniami. Dzwoni dopiero drugie. Odrzucone połączenie też liczy się jako pierwsze, chyba że to wyłączysz.
 
 DZWONI TYLKO WTEDY, GDY TELEFON BY NIE ZADZWONIŁ
 
@@ -143,7 +143,7 @@ Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przes
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
-Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, motyw i język.
+Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, motyw i język.
 
 CZEGO NIE POTRAFI
 

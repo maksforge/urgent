@@ -26,8 +26,8 @@ not request internet access at all.
   older than the window you chose.
 - **Notifications**, only to show the *Silence* button while it is ringing.
 
-The app stores two settings — whether it is switched on, and how many minutes count as "again" — and
-your theme and language choices.
+The app stores three settings — whether it is switched on, how many minutes count as "again", and
+whether a call you declined counts — and your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
 permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps

@@ -44,6 +44,7 @@ class AppPreferences(
         val MATERIAL_YOU = booleanPreferencesKey("material_you")
         val RING_THROUGH = booleanPreferencesKey("ring_through")
         val REPEAT_WINDOW_MINUTES = intPreferencesKey("repeat_window_minutes")
+        val COUNT_DECLINED_CALLS = booleanPreferencesKey("count_declined_calls")
     }
 
     /**
@@ -87,6 +88,12 @@ class AppPreferences(
         }
 
     /**
+     * Whether a call the user declined counts as the earlier call. Defaults **on**: a decline is often
+     * a reflex at an unknown number, and the second attempt is the one Urgent exists for.
+     */
+    val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
+
+    /**
      * The theme mode, read once, before any Activity exists.
      *
      * The one place a `suspend` read is worth its cost: `MainApplication.onCreate` needs the answer
@@ -110,6 +117,10 @@ class AppPreferences(
 
     suspend fun setRepeatWindowMinutes(minutes: Int) {
         store.edit { it[Keys.REPEAT_WINDOW_MINUTES] = minutes }
+    }
+
+    suspend fun setCountDeclinedCalls(enabled: Boolean) {
+        store.edit { it[Keys.COUNT_DECLINED_CALLS] = enabled }
     }
 }
 
