@@ -22,6 +22,11 @@ permission there.
    background otherwise.
 3. On Xiaomi, turn on **autostart** for Urgent.
 
+## Contributing
+
+Urgent is source-available, not open source: read it, verify it, file issues. Pull requests are not
+accepted — see [LICENSE](LICENSE).
+
 ## Build
 
 ```bash
