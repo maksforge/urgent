@@ -11,8 +11,9 @@ Free, ad-free, and entirely on your own phone: no account, no sign-up, no server
 ## What it does
 
 - **Rings for the second call.** When a number that called in the last few minutes (5, 10, 15 or
-  30 — you choose) calls again, Urgent plays your ringtone at your alarm volume and vibrates, or your
-  alarm sound if Android won't let it read the ringtone. The first call stays as quiet as you set it.
+  30 — you choose) calls again, Urgent plays your ringtone at your alarm volume and vibrates. If
+  Android won't let it read your ringtone, it plays your alarm sound instead. The first call stays as
+  quiet as you set it.
 - **Only when your phone would not.** With the ringer on, your phone rings by itself and Urgent stays
   quiet. In Do Not Disturb it rings only if alarms are allowed, and not when your phone's own
   repeat-callers rule already lets the call ring. If Do Not Disturb lets calls through only from your
