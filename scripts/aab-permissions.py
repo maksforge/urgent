@@ -16,11 +16,9 @@ that merges a new one **fails** rather than passing quietly. When it does fail, 
 fix is to decide what the new permission means for the Play Console, write that into
 `docs/play-app-content.md`, and only then add it below.
 
-⚠ **EXPECTED describes the template as shipped, and it is yours to rewrite.** The
-first app built from this template failed its first release upload here, because the
-table still listed the first app's permissions. Every row below names the file that
-declares or merges it: delete a feature, delete its row in the same commit, and the
-gate stays a reading of *this* app rather than of the one it was copied from.
+Every row below names the file that declares or merges it: delete a feature, delete
+its row in the same commit, and the gate stays a reading of this app rather than of
+the one it was copied from.
 
 **<uses-feature> is checked too, and it is not a lesser half.** A merged
 `android.hardware.camera` at required="true" — the default when the attribute is
@@ -75,10 +73,7 @@ PRIM_INT_DEC = 6
 PRIM_INT_HEX = 7
 
 # Every <uses-permission> the release artifact is allowed to carry. Each is
-# accounted for in docs/play-app-content.md — keep the two in step. Read off the
-# template's own bundle, so the list is true on the day you clone it; it stops
-# being true the day you remove the reminders or WorkManager, and that is the day
-# to edit it.
+# accounted for in docs/play-app-content.md — keep the two in step.
 EXPECTED = {
     # Declared, runtime, asked together when the feature is switched on (ui/home/).
     "android.permission.READ_PHONE_STATE": "ours — the ringing broadcast, call/PhoneStateReceiver.kt",
@@ -106,15 +101,16 @@ FORBIDDEN = {
     # our source. An app that genuinely needs the network moves it to EXPECTED — and
     # rewrites both of those documents in the same commit.
     "android.permission.INTERNET": "no network: a merged one makes the privacy policy and Data safety wrong",
-    # The TakePicture intent needs no permission. Declaring CAMERA would make the
-    # intent *require* it to be granted, and changes the listing.
-    "android.permission.CAMERA": "the camera intent needs none; declaring it changes the listing",
-    # Play permits USE_EXACT_ALARM only for alarm clocks and calendars.
-    "android.permission.USE_EXACT_ALARM": "Play policy: alarm-clock and calendar apps only; SCHEDULE_EXACT_ALARM instead",
+    # The house rule that Urgent never changes Do Not Disturb, read off the artifact:
+    # without this permission it cannot, whatever a later change to the code tries.
+    "android.permission.ACCESS_NOTIFICATION_POLICY": "Urgent never changes Do Not Disturb (CLAUDE.md)",
+    # Play permits USE_EXACT_ALARM only for alarm clocks and calendars, and Urgent
+    # schedules nothing: it acts only while a call is ringing.
+    "android.permission.USE_EXACT_ALARM": "Play policy: alarm-clock and calendar apps only; Urgent schedules nothing",
 }
 
 # Every <uses-feature> the artifact is allowed to carry, with the required= value
-# each is allowed to carry it at. Empty on purpose: the template declares none, and
+# each is allowed to carry it at. Empty on purpose: Urgent declares none, and
 # nothing it depends on merges one — asserted here rather than assumed.
 #
 # A feature at required="true" is a *distribution* rule — Play hides the app from
@@ -127,7 +123,7 @@ EXPECTED_FEATURES: dict[str, bool] = {}
 
 # Every android:screenOrientation the release artifact is allowed to carry, and the
 # value it is allowed to carry it at, keyed by fully-qualified class name. Empty:
-# the template locks no screen. If the product decides to lock one, it goes here
+# Urgent locks no screen. If the product decides to lock one, it goes here
 # with the reason, e.g.
 #
 #     "<namespace>.MainActivity": ("portrait", "ours — the full app, decided <date>"),

@@ -6,14 +6,10 @@ when the app changes, when the questionnaire changes, and once a year. A re-decl
 memory a year from now is how a true answer turns false.
 
 <!--
-    A template with real structure. Every section below is a page the Console will make you answer
-    before a closed release, and the answers are pre-filled for the template *as shipped*: no
-    network, no account, no ads, reminders and photos on the device. Delete what your app does not
-    have, re-reason what it adds, and date every answer the day you give it in the Console.
-
-    The first app built from this template wrote this file in its fifth phase, after `DOD.md` had
-    carried it as owed since before the first upload. Writing it while you fill in the Console is
-    cheaper: the reasons are in front of you then, and gone a week later.
+    Every section below is a page the Console will make you answer before a closed release, and the
+    answers are pre-filled for Urgent: no network, no account, no ads, two settings on the device.
+    Date every answer the day you give it in the Console — the reasons are in front of you then, and
+    gone a week later.
 -->
 
 Two rules keep this file honest:
@@ -42,8 +38,9 @@ Read at **versionCode _, versionName _** by `publish-play.yml`'s verify step on 
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
 **Forbidden, and asserted absent**: `INTERNET`, `AD_ID`, `QUERY_ALL_PACKAGES`,
-`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `CAMERA`, `USE_EXACT_ALARM`. The first two are what the Data
-safety and advertising-ID answers rest on.
+`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `ACCESS_NOTIFICATION_POLICY`, `USE_EXACT_ALARM`. The first
+two are what the Data safety and advertising-ID answers rest on; `ACCESS_NOTIFICATION_POLICY` is
+the house rule that Urgent never changes Do Not Disturb, held on the artifact.
 
 **Two asks are not permissions and appear on no Play list**: the battery-optimisation exemption and
 Xiaomi's autostart. Both are hand-offs to Settings. They need no declaration, and the privacy policy
@@ -130,10 +127,20 @@ forbids it. Answered _<date>_.
 
 ## Foreground service permissions
 
-**None declared** as shipped: WorkManager merges `FOREGROUND_SERVICE` but no foreground service
-*type*, and nothing here starts one. If the app gains a foreground service, this section records the
-type, the `PROPERTY_SPECIAL_USE_FGS_SUBTYPE` text if it is `specialUse`, and the three answers the
-declaration asks for: what the user sees, why it cannot wait, and why no named type fits.
+**`mediaPlayback`**, for `call/RingThroughService.kt`. Answered _<date>_.
+
+- **What the user sees:** the ringtone playing on the alarm stream while a repeated call rings, and
+  a notification with a *Silence* button. It stops when the call is answered, declined or missed, or
+  after a minute at most.
+- **Why it cannot wait:** it exists only while the phone is ringing. Deferred, it rings after the
+  call is over, which is no use to anyone.
+- **Why this type:** the service's whole job is playing a sound the user hears. `phoneCall` is for
+  the app that owns the call — a default dialer or one holding `MANAGE_OWN_CALLS` — and Urgent is
+  neither. `specialUse` would claim no named type fits, and one does.
+- **The video:** two calls from another phone to this one on silent, the second ringing and the
+  notification visible. Link: _<url>_.
+
+Would change: a second foreground service, a change of type, or the ringing outliving the call.
 
 ## Store settings (not App content, recorded here because it is asked for the same reason)
 
