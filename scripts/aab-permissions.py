@@ -37,9 +37,8 @@ and that is how an app built from this template tagged a release that never reac
 Play — it had grown a deliberate portrait lock and the gate still asserted it had none.
 
 `strings | grep` cannot do this job: it cannot tell a <uses-permission> from an
-android:permission guard on a service, and this artifact carries three of the
-latter (BIND_JOB_SERVICE, and DUMP twice) that are not requests at all. So the
-protobuf gets walked properly.
+android:permission guard that a library puts on its own component (ProfileInstaller's
+DUMP, for one), which is not a request at all. So the protobuf gets walked properly.
 
 Exits non-zero if the artifact's <uses-permission> set differs from EXPECTED, if it
 declares a <uses-feature> not accounted for in EXPECTED_FEATURES, or if the screen
@@ -101,8 +100,9 @@ FORBIDDEN = {
     # our source. An app that genuinely needs the network moves it to EXPECTED — and
     # rewrites both of those documents in the same commit.
     "android.permission.INTERNET": "no network: a merged one makes the privacy policy and Data safety wrong",
-    # The house rule that Urgent never changes Do Not Disturb, read off the artifact:
-    # without this permission it cannot, whatever a later change to the code tries.
+    # Closes the Settings "Do Not Disturb access" route; reading the policy, as Silence.kt
+    # does, needs none. It is not the whole house rule: an enabled notification listener
+    # also gets policy access, and ringer mode and volume need no permission at all.
     "android.permission.ACCESS_NOTIFICATION_POLICY": "Urgent never changes Do Not Disturb (CLAUDE.md)",
     # Play permits USE_EXACT_ALARM only for alarm clocks and calendars, and Urgent
     # schedules nothing: it acts only while a call is ringing.

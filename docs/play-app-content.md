@@ -6,10 +6,11 @@ when the app changes, when the questionnaire changes, and once a year. A re-decl
 memory a year from now is how a true answer turns false.
 
 <!--
-    Every section below is a page the Console will make you answer before a closed release, and the
-    answers are pre-filled for Urgent: no network, no account, no ads, two settings on the device.
-    Date every answer the day you give it in the Console — the reasons are in front of you then, and
-    gone a week later.
+    Every section below is a page the Console will make you answer before a closed release. What
+    follows from what Urgent is — no network, no account, no ads, two settings on the device — is
+    filled in; the rest stays a suggestion marked _(or your answer)_ or a placeholder until you give
+    it in the Console. Date every answer the day you give it — the reasons are in front of you then,
+    and gone a week later.
 -->
 
 Two rules keep this file honest:
@@ -39,8 +40,8 @@ Read at **versionCode _, versionName _** by `publish-play.yml`'s verify step on 
 
 **Forbidden, and asserted absent**: `INTERNET`, `AD_ID`, `QUERY_ALL_PACKAGES`,
 `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `ACCESS_NOTIFICATION_POLICY`, `USE_EXACT_ALARM`. The first
-two are what the Data safety and advertising-ID answers rest on; `ACCESS_NOTIFICATION_POLICY` is
-the house rule that Urgent never changes Do Not Disturb, held on the artifact.
+two are what the Data safety and advertising-ID answers rest on; `ACCESS_NOTIFICATION_POLICY` keeps
+Urgent out of Settings' *Do Not Disturb access* list, the usual route to changing Do Not Disturb.
 
 **Two asks are not permissions and appear on no Play list**: the battery-optimisation exemption and
 Xiaomi's autostart. Both are hand-offs to Settings. They need no declaration, and the privacy policy
@@ -81,9 +82,8 @@ SDK requirements.
 
 **No to all three** _(or your answer)_. Answered _<date>_.
 
-Health is the one to guard, for an app anywhere near wellbeing. **Keep health claims out of the
-listing, the site and the tags** — Play's enforcement has treated a linked page as part of the
-listing. Would change: copy or a tag that sells the app as good for you.
+Health is the one to guard. **Keep health claims out of the listing, the site and the tags** —
+Play's enforcement has treated a linked page as part of the listing. Would change: copy or a tag that sells the app as good for you.
 
 ## Data safety
 
