@@ -17,12 +17,14 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Decide whether Urgent can be on Google Play at all.** `READ_CALL_LOG` is restricted to default
       dialers and a short list of exceptions; the Permissions Declaration Form is where that is
       argued, and a refusal means distributing outside Play.
+- [ ] **Run the call path on an API 26 phone or emulator.** The pre-P alarm rule in
+      `soundSettings()`, the pre-Q `startForeground` and the pre-S/pre-T vibrator paths in
+      `RingThroughService` ship unvalidated until then; CI's API 26 leg only reads the manifest.
 
 ## Before the first upload
 
 - [x] **Delete what the app does not need** — Room, photos, backup and reminders are gone.
 - [x] **Decide `minSdk` deliberately.** 26, kept on 2026-10-13; the reason is beside it in `app/build.gradle.kts`.
-
 - [ ] **Replace the placeholder mark.** `art/mark.py`, then `python3 art/make-launcher-icon.py` and
       `make-feature-graphic.py`. Commit the concept image and record its provenance in
       `art/README.md` — where the art came from is the thing most likely to block a first upload, and
@@ -33,7 +35,6 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
       read the contrast report it prints on stderr.
 - [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgent.support@gmail.com`.
-
 - [ ] **Write the listing.** `docs/store-listing.md` — every heading in it is parsed by a script.
 - [ ] **Write the privacy policy** and confirm GitHub Pages is serving `docs/`. Play requires a
       *hosted* URL, and an offline app has no server of its own.
@@ -41,11 +42,9 @@ template's `docs/DOD.md` the day a feature adds a table.
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
       the same commit as the privacy policy, every time.
 - [x] **`LICENSE` and `README.md`** — all rights reserved, source-available, as Gloam.
-
 - [ ] **Back up the upload keystore.** `~/.keystores/urgent-upload.jks` and its password in
       `local.properties` exist only on this machine. Losing them means never updating the app on Play
       again. Fill in *Backed up to* in `RELEASING.md` the same day.
-
 - [ ] **Set up the GitHub repository** — `python3 scripts/repo-setup.py` does the ruleset, the
       merge setting and Pages; the release-please PAT is the one step it cannot do, and without it
       no release PR is ever opened. *Setting up a new repository* in [`RELEASING.md`](RELEASING.md).

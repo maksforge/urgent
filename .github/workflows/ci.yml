@@ -143,11 +143,12 @@ jobs:
           # `targetSdk` moves, these lines move with it in the same commit — a floor leg below
           # `minSdk` covers code the app cannot run, on a level it cannot install on.
           #
-          # The `minSdk` floor. Three SDK_INT branches — the pre-S path into system
-          # backup settings, the pre-R agent branch and the pre-S theme — plus
-          # AppCompat's pre-13 locale backport (ADR-0004) run *only* down here, and a
-          # single modern emulator never executes any of them. `default` rather than
-          # `aosp_atd`: the slim ATD images start at API 30, so 26 has no such image.
+          # The `minSdk` floor. `ManifestWiringTest` proves the APK installs at 26 and that
+          # the OS there resolves the PHONE_STATE receiver and the ringing service; it runs
+          # none of the app's SDK_INT branches. The call path's pre-P/Q/S/T branches are an
+          # open item in docs/DOD.md, and only edge-to-edge's API 26 cells reach the pre-R/S
+          # UI side. `default` rather than `aosp_atd`: the slim ATD images start at API 30,
+          # so 26 has no such image.
           - api-level: 26
             target: default
           # `targetSdk`. Where the platform applies its newest behaviour changes to us
