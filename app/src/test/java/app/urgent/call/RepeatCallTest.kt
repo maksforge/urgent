@@ -45,8 +45,11 @@ class RepeatCallTest {
     @Test fun `a missed call still counts when declined calls are switched off`() =
         assertTrue(repeat(call(3), countDeclined = false))
 
-    @Test fun `an earlier missed call still counts behind a newer declined one`() =
-        assertTrue(repeat(call(2, CallLog.Calls.REJECTED_TYPE), call(9), countDeclined = false))
+    @Test fun `a newer declined call outweighs an earlier missed one when declined calls are off`() =
+        assertFalse(repeat(call(2, CallLog.Calls.REJECTED_TYPE), call(9), countDeclined = false))
+
+    @Test fun `a newer missed call counts behind an earlier declined one`() =
+        assertTrue(repeat(call(2), call(9, CallLog.Calls.REJECTED_TYPE), countDeclined = false))
 
     @Test fun `my own outgoing call does not count`() = assertFalse(repeat(call(3, CallLog.Calls.OUTGOING_TYPE)))
 
