@@ -267,6 +267,8 @@ pushes descriptions, images and screenshots. **Release notes need neither**: the
 release rather than the listing. Granting these is the deliberate act that opens the production
 door. Nothing beyond the two boxes is needed for `publish-play-closed.yml`, which never touches the
 listing, nor for `publish-play.yml`, which sends the AAB and its mapping and nothing else.
+**Urgent's service account was given all four on 2026-10-13**, so its production door is open and
+the `production` environment's reviewer is the gate that remains.
 
 **Retry before you debug.** Propagation between Play and the API is not instant — a permission
 granted in the Console can take minutes to reach the API, so a first run that 401s is worth simply
