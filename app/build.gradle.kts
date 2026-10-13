@@ -81,6 +81,8 @@ android {
         // package name is fixed the moment the app entry is created. Deliberately allowed to differ
         // from `namespace` for that reason — see docs/adr/0002.
         applicationId = "io.github.srednimax.urgent"
+        // Decided 2026-10-13: lowering it later is free, raising it strands installs, and CI's
+        // instrumented API 26 leg covers the SDK_INT branches the Xiaomi at the top cannot.
         minSdk = 26
         targetSdk = 36
         versionCode = gitVersionCode

@@ -21,10 +21,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 ## Before the first upload
 
 - [x] **Delete what the app does not need** — Room, photos, backup and reminders are gone.
-- [ ] **Decide `minSdk` deliberately, before launch.** The direction is asymmetric: raising it later
-      strands existing installs on the last build that fitted them, lowering it later is free. If the
-      only phone in the loop sits at the top of the range, every `SDK_INT` branch below it ships
-      unvalidated — the first app built from this template raised 26 to 33 for exactly that reason. Move CI's floor legs with it.
+- [x] **Decide `minSdk` deliberately.** 26, kept on 2026-10-13; the reason is beside it in `app/build.gradle.kts`.
+
 - [ ] **Replace the placeholder mark.** `art/mark.py`, then `python3 art/make-launcher-icon.py` and
       `make-feature-graphic.py`. Commit the concept image and record its provenance in
       `art/README.md` — where the art came from is the thing most likely to block a first upload, and
@@ -34,23 +32,20 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Make the artifact allowlists yours.** All four `aab-*.py` pass on a local `bundleRelease`.
 - [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
       read the contrast report it prints on stderr.
-- [ ] **Put a real support address in `ui/support/SupportHandoff.kt`.** It ships as
-      `support@example.com`, `bootstrap.py` cannot guess it, and a release carrying it is a release
-      with no way for anyone to reach you — Play's listing wants the same address in its contact
-      field, and a sideloaded APK keeps mailing whatever string was compiled in for as long as that
-      build survives. A dedicated account, not an alias on your personal mail.
+- [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgent.support@gmail.com`.
+
 - [ ] **Write the listing.** `docs/store-listing.md` — every heading in it is parsed by a script.
 - [ ] **Write the privacy policy** and confirm GitHub Pages is serving `docs/`. Play requires a
       *hosted* URL, and an offline app has no server of its own.
 - [ ] **Answer the Console's App content pages and write [`play-app-content.md`](play-app-content.md)
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
       the same commit as the privacy policy, every time.
-- [ ] **`LICENSE` and `README.md`.** Bootstrap wrote an all-rights-reserved notice that grants
-      nothing; choose the licence you mean, and make the README's *Contributing* agree with it.
-- [ ] **Create the upload keystore, outside the repo**, and put its four values in
-      `local.properties`. Back it up somewhere that is not this machine: losing it means never being
-      able to update the app on Play again. Fill in *The upload key* table in `RELEASING.md` the same
-      day — the fingerprint is what Play asks you to compare.
+- [x] **`LICENSE` and `README.md`** — all rights reserved, source-available, as Gloam.
+
+- [ ] **Back up the upload keystore.** `~/.keystores/urgent-upload.jks` and its password in
+      `local.properties` exist only on this machine. Losing them means never updating the app on Play
+      again. Fill in *Backed up to* in `RELEASING.md` the same day.
+
 - [ ] **Set up the GitHub repository** — `python3 scripts/repo-setup.py` does the ruleset, the
       merge setting and Pages; the release-please PAT is the one step it cannot do, and without it
       no release PR is ever opened. *Setting up a new repository* in [`RELEASING.md`](RELEASING.md).
