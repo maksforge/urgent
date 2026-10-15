@@ -91,6 +91,6 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
       a feature silently stop working. On 2026-10-13 the R8 release build ran the call path on
       HyperOS (first call silent, second rang); Settings, Support and Licences were not exercised.
-- [ ] **Before the next Play declaration, re-read Data safety.** Chosen callers are now stored and backed
-      up, which [`play-app-content.md`](play-app-content.md) lists as a reason to re-answer. Decide whether
-      *No data collected* still stands.
+- [ ] **Confirm Data safety at the next Play declaration.** Re-read on 2026-10-15: the answer stands,
+      because chosen numbers stay on the device and Auto Backup is Android's transfer
+      ([`play-app-content.md`](play-app-content.md), Data safety). Tick once the Console answer matches.

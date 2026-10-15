@@ -222,7 +222,11 @@ private fun CallersSection(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
         ) {
-            Text(number, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+            Text(
+                number.split(' ').joinToString(" / "),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.weight(1f),
+            )
             TextButton(onClick = { onRemove(number) }) {
                 Text(stringResource(R.string.home_callers_remove))
             }

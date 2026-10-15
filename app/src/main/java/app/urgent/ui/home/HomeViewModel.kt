@@ -65,9 +65,13 @@ class HomeViewModel(
     fun addChosenCallerFromContacts(pickedUri: Uri) {
         viewModelScope.launch {
             val numbers = withContext(Dispatchers.IO) { contentResolver.pickedNumbers(pickedUri) }
-            val stored = numbers.mapNotNull(::storedCallerNumber).distinct()
-            if (stored.isEmpty()) pickMisses.trySend(Unit)
-            stored.forEach { preferences.addChosenCaller(it) }
+            val forms = numbers.mapNotNull(::storedCallerNumber).distinct()
+            if (forms.isEmpty()) {
+                pickMisses.trySend(Unit)
+            } else {
+                // One entry per contact, so removing the contact removes all of its numbers.
+                preferences.addChosenCaller(forms.joinToString(" "))
+            }
         }
     }
 
