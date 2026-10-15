@@ -86,6 +86,14 @@
     <string name="home_xiaomi">Xiaomi</string>
     <string name="home_autostart">Allow autostart</string>
     <string name="home_autostart_hint">On Xiaomi phones Urgent only hears about a call if autostart is on. Opens Xiaomi\'s autostart list; the phone does not tell Urgent what you chose.</string>
+    <string name="home_callers">Callers</string>
+    <string name="home_callers_anyone">Repeated calls ring from anyone. Choose callers to ring only for them.</string>
+    <string name="home_callers_chosen">Repeated calls ring only from the callers below.</string>
+    <string name="home_callers_from_contacts">Add from contacts</string>
+    <string name="home_callers_type">Phone number</string>
+    <string name="home_callers_add">Add</string>
+    <string name="home_callers_remove">Remove</string>
+    <string name="home_callers_no_number">Urgent could not read a number from that contact.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Ringing</string>

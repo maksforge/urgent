@@ -58,8 +58,8 @@
         devices ignore the attribute and AppCompat's backport reads the same file, so the list of
         shipped languages stays in one place across the whole supported range (ADR-0004).
 
-        Platform Auto Backup carries the preference store, and that is all there is: two
-        settings and a theme, all welcome on the user's next phone.
+        Platform Auto Backup carries the preference store, and that is all there is: the settings,
+        the chosen callers and a theme, all welcome on the user's next phone.
     -->
     <application
         android:name=".MainApplication"

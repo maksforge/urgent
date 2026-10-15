@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -45,6 +46,7 @@ class AppPreferences(
         val RING_THROUGH = booleanPreferencesKey("ring_through")
         val REPEAT_WINDOW_MINUTES = intPreferencesKey("repeat_window_minutes")
         val COUNT_DECLINED_CALLS = booleanPreferencesKey("count_declined_calls")
+        val CHOSEN_CALLERS = stringSetPreferencesKey("chosen_callers")
     }
 
     /**
@@ -93,6 +95,9 @@ class AppPreferences(
      */
     val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
 
+    /** The numbers whose repeated calls ring. Empty means anyone. */
+    val chosenCallers: Flow<Set<String>> = store.data.map { it[Keys.CHOSEN_CALLERS] ?: emptySet() }
+
     /**
      * The theme mode, read once, before any Activity exists.
      *
@@ -121,6 +126,14 @@ class AppPreferences(
 
     suspend fun setCountDeclinedCalls(enabled: Boolean) {
         store.edit { it[Keys.COUNT_DECLINED_CALLS] = enabled }
+    }
+
+    suspend fun addChosenCaller(number: String) {
+        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) + number }
+    }
+
+    suspend fun removeChosenCaller(number: String) {
+        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) - number }
     }
 }
 

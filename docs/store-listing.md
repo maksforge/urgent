@@ -80,7 +80,7 @@ Urgent never changes your ringer mode, your ring volume or Do Not Disturb. It pl
 
 FREE, AND NOTHING LEAVES YOUR PHONE
 
-No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, your theme and your language.
+No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, the numbers you chose, your theme and your language.
 
 WHAT IT CANNOT DO
 
@@ -143,7 +143,7 @@ Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przes
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
-Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, motyw i język.
+Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, wybrane numery, motyw i język.
 
 CZEGO NIE POTRAFI
 
