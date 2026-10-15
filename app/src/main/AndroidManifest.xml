@@ -18,8 +18,9 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
     <!--
-        READ_CONTACTS is asked when the user presses Add from contacts, never at launch. The list it
-        opens is read on the phone, and only the callers the user taps are kept.
+        READ_CONTACTS is asked when the user presses Add from contacts or turns on Everyone in your
+        contacts, never at launch. The picker keeps only the callers the user taps; the ring-time check
+        looks up a repeated call's number and keeps nothing.
     -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
