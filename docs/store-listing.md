@@ -215,3 +215,17 @@ Urgent now rings for a repeated call: when the same number calls again within th
 ```
 Urgent dzwoni teraz przy powtórnym połączeniu: gdy ten sam numer zadzwoni ponownie w wybranym przez ciebie czasie, drugie połączenie dzwoni z głośnością alarmu i wibruje, nawet gdy telefon jest wyciszony albo na wibracjach. W trybie Nie przeszkadzać Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy własna reguła twojego telefonu dla powtarzających się połączeń już pozwala połączeniu zadzwonić. Ustawienia telefonu zostają bez zmian.
 ```
+
+### 0.3.0 — chosen callers for repeated calls
+
+**English** — 236/500:
+
+```
+You can now choose the callers that repeated calls ring for. Add numbers from your contacts or type them. With none chosen, a repeated call from anyone rings, as before. Once you choose some, only repeated calls from those numbers ring.
+```
+
+**Polish** — 274/500:
+
+```
+Teraz możesz wybrać osoby, których powtórne połączenia mają dzwonić. Dodaj numery z kontaktów albo wpisz je ręcznie. Jeśli nie wybierzesz nikogo, powtórne połączenie od każdego zadzwoni, jak dotąd. Gdy wybierzesz kilka numerów, dzwonić będą tylko powtórne połączenia z nich.
+```
