@@ -36,7 +36,8 @@ class SilenceTest {
     private fun ringsThrough(
         sound: SoundSettings,
         earlierCallAgeMillis: Long = 3 * 60_000L,
-    ) = shouldRingThrough(sound, earlierCallAgeMillis)
+        contact: CallerContact = CallerContact.NONE,
+    ) = shouldRingThrough(sound, earlierCallAgeMillis, contact)
 
     private fun priority(
         categories: Int,
@@ -101,6 +102,33 @@ class SilenceTest {
         assertTrue(
             ringsThrough(priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_CONTACTS)),
         )
+
+    @Test fun `a saved contact stays with the phone when only contacts get through`() =
+        assertFalse(
+            ringsThrough(
+                priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_CONTACTS),
+                contact = CallerContact.SAVED,
+            ),
+        )
+
+    @Test fun `a starred contact stays with the phone when only starred contacts get through`() =
+        assertFalse(
+            ringsThrough(
+                priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_STARRED),
+                contact = CallerContact.STARRED,
+            ),
+        )
+
+    @Test fun `a saved contact that is not starred rings through when only starred contacts get through`() =
+        assertTrue(
+            ringsThrough(
+                priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_STARRED),
+                contact = CallerContact.SAVED,
+            ),
+        )
+
+    @Test fun `a saved contact rings through when calls are not let through at all`() =
+        assertTrue(ringsThrough(priority(PRIORITY_CATEGORY_ALARMS), contact = CallerContact.SAVED))
 
     @Test fun `silent mode wins over a priority policy that would let the call through`() =
         assertTrue(

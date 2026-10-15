@@ -19,11 +19,11 @@ data class SoundSettings(
  * Whether Urgent should ring for a repeated call: the phone would let it go by without a sound, and
  * a ringtone on the alarm stream would actually be heard.
  *
- * Do Not Disturb is judged from its policy rather than `matchesCallFilter`, so the ringing decision
- * never reads the contacts list. A policy that lets repeat callers through rings on its
- * own, but only for an earlier call inside its own threshold, which can be shorter than the user's
- * window. One that lets calls through only from contacts cannot be judged without reading them, so
- * Urgent rings then.
+ * Do Not Disturb is judged from its policy and the caller's standing in the contacts. A policy that
+ * lets repeat callers through rings on its own, but only for an earlier call inside its own threshold,
+ * which can be shorter than the user's window. A policy that lets only contacts through rings on its
+ * own for a saved contact, and one that lets only starred contacts through does so for a starred
+ * contact, so [contact] says whether the phone would already let this caller through.
  *
  * The alarms bit is new in Android 9; before it, `soundSettings()` sets the bit itself.
  */
@@ -31,6 +31,7 @@ data class SoundSettings(
 fun shouldRingThrough(
     sound: SoundSettings,
     earlierCallAgeMillis: Long,
+    contact: CallerContact,
 ): Boolean {
     val onACall =
         sound.audioMode == AudioManager.MODE_IN_CALL || sound.audioMode == AudioManager.MODE_IN_COMMUNICATION
@@ -46,7 +47,7 @@ fun shouldRingThrough(
 
     return when (sound.interruptionFilter) {
         NotificationManager.INTERRUPTION_FILTER_ALARMS -> true
-        NotificationManager.INTERRUPTION_FILTER_PRIORITY -> !dndRingsOnItsOwn(sound, earlierCallAgeMillis)
+        NotificationManager.INTERRUPTION_FILTER_PRIORITY -> !dndRingsOnItsOwn(sound, earlierCallAgeMillis, contact)
         else -> false
     }
 }
@@ -60,10 +61,16 @@ const val DND_REPEAT_CALLERS_MILLIS = 15 * 60_000L
 private fun dndRingsOnItsOwn(
     sound: SoundSettings,
     earlierCallAgeMillis: Long,
+    contact: CallerContact,
 ): Boolean {
     val categories = sound.priorityCategories
     val repeatCallersAllowed = (categories and Policy.PRIORITY_CATEGORY_REPEAT_CALLERS) != 0
     if (repeatCallersAllowed && earlierCallAgeMillis <= DND_REPEAT_CALLERS_MILLIS) return true
-    return (categories and Policy.PRIORITY_CATEGORY_CALLS) != 0 &&
-        sound.priorityCallSenders == Policy.PRIORITY_SENDERS_ANY
+    if ((categories and Policy.PRIORITY_CATEGORY_CALLS) == 0) return false
+    return when (sound.priorityCallSenders) {
+        Policy.PRIORITY_SENDERS_ANY -> true
+        Policy.PRIORITY_SENDERS_CONTACTS -> contact != CallerContact.NONE
+        Policy.PRIORITY_SENDERS_STARRED -> contact == CallerContact.STARRED
+        else -> false
+    }
 }
