@@ -120,7 +120,7 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3998/4000
+### Full description — 3994/4000
 
 ```
 Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie naprawdę cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
@@ -135,7 +135,7 @@ DZWONI TYLKO WTEDY, GDY TELEFON BY NIE ZADZWONIŁ
 
 - Dzwonek włączony: telefon dzwoni sam, więc Urgent milczy.
 - Wyciszenie albo wibracje: Urgent dzwoni.
-- Nie przeszkadzać: Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy telefon już pozwala połączeniu dzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty albo oznaczone gwiazdką, przy włączonym „Wszyscy z twoich kontaktów” Urgent milczy wtedy. Przy wyłączonym może dzwonić też od nich, nawet gdy telefon dzwoni.
+- Nie przeszkadzać: Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy telefon już pozwala połączeniu dzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty albo oznaczone gwiazdką, przy włączonym „Wszyscy z twoich kontaktów” Urgent milczy w ich przypadku. Przy wyłączonym może dzwonić też od nich, nawet gdy telefon dzwoni.
 - W trakcie innej rozmowy: Urgent milczy.
 
 TWOJE USTAWIENIA ZOSTAJĄ BEZ ZMIAN
@@ -160,7 +160,7 @@ UPRAWNIENIA
 
 - Telefon. Mówi aplikacji Urgent, że ktoś dzwoni.
 - Rejestr połączeń. Numer, z którego ktoś dzwoni, i to, czy ten numer dzwonił w ciągu ostatnich kilku minut. Odczytywany na telefonie, nigdy nie zapisywany ani nie wysyłany.
-- Kontakty. Urgent prosi o dostęp po naciśnięciu „Dodaj z kontaktów” albo po włączeniu „Wszyscy z twoich kontaktów”. Lista jest odczytywana na telefonie. Przy włączonym „Wszyscy z twoich kontaktów” numer dzwoniącego jest sprawdzany w kontaktach, gdy dzwoni powtórnie. Urgent przechowuje tylko rozmówców, których wybierzesz.
+- Kontakty. Urgent prosi o dostęp po naciśnięciu „Dodaj z kontaktów” albo po włączeniu „Wszyscy z twoich kontaktów”. Lista jest czytana na telefonie. Przy włączonym „Wszyscy z twoich kontaktów” numer dzwoniącego jest sprawdzany w kontaktach, gdy dzwoni powtórnie. Urgent przechowuje tylko wybranych rozmówców.
 - Powiadomienia. Przycisk Wycisz, gdy Urgent dzwoni.
 - Usługa na pierwszym planie. Odtwarza dzwonek, gdy trwa połączenie.
 
