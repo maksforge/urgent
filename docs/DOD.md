@@ -29,6 +29,8 @@ template's `docs/DOD.md` the day a feature adds a table.
       hand, then call twice from a chosen number and twice from another. Only the chosen one rings.
       Use one contact saved without its country code and one with an extension (`…,567`). Neither
       path has run on a phone yet.
+- [ ] **Everyone in your contacts.** With this phone on silent and the switch on, call twice from a saved
+      contact and twice from a number that is not saved. Only the contact rings. Needs a second phone, as above.
 
 ## Before the first upload
 
@@ -66,6 +68,12 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Decide the `applicationId` deliberately.** It is fixed the moment the Play entry is created —
       not renameable, not transferable without losing every install and review.
       `io.github.srednimax.urgent`, fixed when the Play entry was created (2026-10-13).
+
+## Before the next upload
+
+- [ ] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
+      answer describe only *Add from contacts*. The *Everyone in your contacts* switch reads contacts when a
+      call rings, so update both before the next upload.
 
 ## After the closed test
 

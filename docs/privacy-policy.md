@@ -28,11 +28,13 @@ not request internet access at all.
   your contacts. If you allow it, the app lists the phone numbers in your contacts on your phone, and
   keeps only the numbers and names of the contacts you tap. It keeps a name only when it is the
   contact's own name, never a nickname. The list is read on the phone and is never sent anywhere. The
-  app reads your contacts at no other time, and never to decide whether a call rings.
+  app reads your contacts at no other time. Turning on *Everyone in your contacts* asks for the same
+  permission. Then, when a repeated call comes in, the app checks the caller's number against your contacts
+  on the phone, to decide whether to ring. It keeps nothing from that check and never sends it anywhere.
 - **Notifications**, only to show the *Silence* button while it is ringing.
 
 The app stores its settings — whether it is switched on, how many minutes count as "again", whether
-a call you declined counts, and which numbers and names you chose — and your theme and language choices.
+a call you declined counts, whether *Everyone in your contacts* is on, and which numbers and names you chose — and your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
 permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps

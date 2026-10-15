@@ -47,6 +47,7 @@ class AppPreferences(
         val REPEAT_WINDOW_MINUTES = intPreferencesKey("repeat_window_minutes")
         val COUNT_DECLINED_CALLS = booleanPreferencesKey("count_declined_calls")
         val CHOSEN_CALLERS = stringSetPreferencesKey("chosen_callers")
+        val FROM_CONTACTS = booleanPreferencesKey("from_contacts")
     }
 
     /**
@@ -95,8 +96,14 @@ class AppPreferences(
      */
     val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
 
-    /** The chosen callers, one encoded entry each. Empty means anyone. */
+    /** The chosen callers, one encoded entry each. Empty means anyone, unless [fromContacts] is on. */
     val chosenCallers: Flow<Set<String>> = store.data.map { it[Keys.CHOSEN_CALLERS] ?: emptySet() }
+
+    /**
+     * Whether every saved contact may ring too, alongside the chosen callers. Defaults off, so an
+     * install that never touched it keeps the rule it always had.
+     */
+    val fromContacts: Flow<Boolean> = store.data.map { it[Keys.FROM_CONTACTS] ?: false }
 
     /**
      * The theme mode, read once, before any Activity exists.
@@ -126,6 +133,10 @@ class AppPreferences(
 
     suspend fun setCountDeclinedCalls(enabled: Boolean) {
         store.edit { it[Keys.COUNT_DECLINED_CALLS] = enabled }
+    }
+
+    suspend fun setFromContacts(enabled: Boolean) {
+        store.edit { it[Keys.FROM_CONTACTS] = enabled }
     }
 
     suspend fun addChosenCaller(entry: String) {

@@ -1,14 +1,10 @@
 package app.urgent.ui.home
 
-import android.Manifest
 import android.content.ContentResolver
-import android.content.Context
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.DisplayNameSources
 import android.telephony.PhoneNumberUtils
-import androidx.core.content.ContextCompat
 
 // The platform matches on trailing digits; a shorter number matches only in full, so it silences other callers.
 const val MIN_CALLER_DIGITS = 7
@@ -27,9 +23,6 @@ data class PickedCaller(
     val name: String?,
     val forms: List<String>,
 )
-
-fun Context.hasContactsPermission(): Boolean =
-    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
 
 /**
  * Every phone number in the contacts list that Urgent can match on, one row per number, sorted by name.

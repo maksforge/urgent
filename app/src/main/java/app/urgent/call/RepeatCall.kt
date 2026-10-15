@@ -51,10 +51,19 @@ fun repeatCallAgeMillis(
     return nowMillis - newest.atMillis
 }
 
-/** Whether [incoming] is one of a chosen caller's numbers. With none chosen, anyone is. */
-fun isChosenCaller(
+/**
+ * Whether a repeated call from [incoming] may ring. With no chosen caller and [contactsOn] off, anyone may.
+ * Otherwise a chosen caller's number may, and with [contactsOn] so may a saved contact. [isSavedContact] is
+ * asked only when the chosen callers do not already let the call through.
+ */
+fun isAllowedCaller(
     incoming: String,
     chosen: Set<String>,
+    contactsOn: Boolean,
     sameNumber: (String, String) -> Boolean,
-): Boolean =
-    chosen.isEmpty() || chosen.any { entry -> ChosenCaller.fromEntry(entry).numbers.any { sameNumber(it, incoming) } }
+    isSavedContact: () -> Boolean,
+): Boolean {
+    if (chosen.isEmpty() && !contactsOn) return true
+    if (chosen.any { entry -> ChosenCaller.fromEntry(entry).numbers.any { sameNumber(it, incoming) } }) return true
+    return contactsOn && isSavedContact()
+}

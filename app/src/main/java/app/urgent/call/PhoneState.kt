@@ -6,8 +6,10 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.net.Uri
 import android.os.Build
 import android.provider.CallLog
+import android.provider.ContactsContract
 import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
 
@@ -20,6 +22,24 @@ val CALL_PERMISSIONS = arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.pe
 
 fun Context.hasCallPermissions(): Boolean =
     CALL_PERMISSIONS.all { checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }
+
+fun Context.hasContactsPermission(): Boolean =
+    checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+
+/**
+ * Whether a call from [number] comes from a saved contact. The platform matches the number itself, so
+ * `+48 600…` and `600…` are the same phone.
+ */
+fun Context.isSavedContact(number: String): Boolean {
+    val uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+    val cursor =
+        try {
+            contentResolver.query(uri, arrayOf(ContactsContract.PhoneLookup._ID), null, null, null)
+        } catch (e: SecurityException) {
+            null
+        }
+    return cursor?.use { it.moveToFirst() } == true
+}
 
 /** Calls logged since [sinceMillis], or nothing if the log cannot be read. */
 fun Context.callsSince(sinceMillis: Long): List<LoggedCall> {
