@@ -33,22 +33,25 @@ enum class CallerContact { NONE, SAVED, STARRED }
  * What the contacts say about a call from [number]. The platform matches the number itself, so
  * `+48 600…` and `600…` are the same phone.
  */
-fun Context.callerContact(number: String): CallerContact {
+fun Context.callerContact(number: String): CallerContact =
+    try {
+        queryCallerContact(number)
+    } catch (e: RuntimeException) {
+        // The receiver's coroutine has no catch, so a provider failure here would crash the app.
+        CallerContact.NONE
+    }
+
+/** Lets a provider failure escape; [callerContact] is the version the ring path uses. */
+internal fun Context.queryCallerContact(number: String): CallerContact {
     val uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val columns = arrayOf(ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.STARRED)
-    val cursor =
-        try {
-            contentResolver.query(uri, columns, null, null, null)
-        } catch (e: SecurityException) {
-            null
-        }
-    return cursor?.use { found ->
-        when {
-            !found.moveToFirst() -> CallerContact.NONE
-            found.getInt(1) == 1 -> CallerContact.STARRED
-            else -> CallerContact.SAVED
-        }
-    } ?: CallerContact.NONE
+    val cursor = contentResolver.query(uri, columns, null, null, null) ?: return CallerContact.NONE
+    val starredFlags = cursor.use { found -> buildList { while (found.moveToNext()) add(found.getInt(1) == 1) } }
+    return when {
+        starredFlags.any { it } -> CallerContact.STARRED
+        starredFlags.isNotEmpty() -> CallerContact.SAVED
+        else -> CallerContact.NONE
+    }
 }
 
 /** Calls logged since [sinceMillis], or nothing if the log cannot be read. */
