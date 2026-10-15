@@ -69,7 +69,7 @@ class HomeViewModel(
             if (forms.isEmpty()) {
                 pickMisses.trySend(Unit)
             } else {
-                // One entry per contact, so removing the contact removes all of its numbers.
+                // One entry per picked number, so removing the row removes every form of it.
                 preferences.addChosenCaller(forms.joinToString(" "))
             }
         }
