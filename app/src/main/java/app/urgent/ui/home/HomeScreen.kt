@@ -1,35 +1,48 @@
 package app.urgent.ui.home
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.telephony.PhoneNumberUtils
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -66,6 +79,11 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    LaunchedEffect(viewModel) {
+        viewModel.pickMissed.collect {
+            Toast.makeText(context, R.string.home_callers_no_number, Toast.LENGTH_LONG).show()
+        }
+    }
 
     var callPermissions by remember { mutableStateOf(context.hasCallPermissions()) }
     var batteryExempt by remember { mutableStateOf(context.isIgnoringBatteryOptimisations()) }
@@ -129,6 +147,13 @@ fun HomeScreen(
                 onChange = viewModel::setCountDeclined,
             )
 
+            CallersSection(
+                chosenCallers = state.chosenCallers,
+                onAddTyped = viewModel::addChosenCaller,
+                onAddFromContacts = viewModel::addChosenCallerFromContacts,
+                onRemove = viewModel::removeChosenCaller,
+            )
+
             // Only while the switch is on: a warning about a grant a disabled feature would need is
             // the app asking for something it is not using.
             if (state.ringThrough) {
@@ -168,6 +193,79 @@ fun HomeScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+// The platform matches numbers on their last seven digits. Shorter ones match only in full, so a stray
+// entry would silence every other caller.
+private const val MIN_TYPED_DIGITS = 7
+
+@Composable
+private fun CallersSection(
+    chosenCallers: Set<String>,
+    onAddTyped: (String) -> Unit,
+    onAddFromContacts: (Uri) -> Unit,
+    onRemove: (String) -> Unit,
+) {
+    var typed by rememberSaveable { mutableStateOf("") }
+    // The picker answers through a callback the Activity registered, not a return value.
+    val pickContact =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data?.data?.let(onAddFromContacts)
+        }
+    val status = if (chosenCallers.isEmpty()) R.string.home_callers_anyone else R.string.home_callers_chosen
+
+    SectionHeader(stringResource(R.string.home_callers))
+    Text(
+        text = stringResource(status),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(horizontal = Spacing.base),
+    )
+    for (number in chosenCallers.sorted()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
+        ) {
+            Text(number, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+            TextButton(onClick = { onRemove(number) }) {
+                Text(stringResource(R.string.home_callers_remove))
+            }
+        }
+    }
+    OutlinedButton(
+        onClick = {
+            try {
+                pickContact.launch(pickCallerIntent())
+            } catch (e: ActivityNotFoundException) {
+                // No Contacts app on this phone; the typed field below still works.
+            }
+        },
+        modifier = Modifier.padding(horizontal = Spacing.base),
+    ) {
+        Text(stringResource(R.string.home_callers_from_contacts))
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
+    ) {
+        OutlinedTextField(
+            value = typed,
+            onValueChange = { typed = it },
+            label = { Text(stringResource(R.string.home_callers_type)) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            modifier = Modifier.weight(1f),
+        )
+        TextButton(
+            enabled = PhoneNumberUtils.extractNetworkPortion(typed).count { it.isDigit() } >= MIN_TYPED_DIGITS,
+            onClick = {
+                onAddTyped(typed)
+                typed = ""
+            },
+        ) {
+            Text(stringResource(R.string.home_callers_add))
         }
     }
 }

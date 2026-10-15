@@ -50,3 +50,10 @@ fun repeatCallAgeMillis(
     if (!countDeclined && newest.type == CallLog.Calls.REJECTED_TYPE) return null
     return nowMillis - newest.atMillis
 }
+
+/** Whether [incoming] is one of the numbers the user chose. With none chosen, anyone is. */
+fun isChosenCaller(
+    incoming: String,
+    chosen: Set<String>,
+    sameNumber: (String, String) -> Boolean,
+): Boolean = chosen.isEmpty() || chosen.any { sameNumber(it, incoming) }

@@ -25,6 +25,10 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Run the call path on an API 26 phone or emulator.** The pre-P alarm rule in
       `soundSettings()`, the pre-Q `startForeground` and the pre-S/pre-T vibrator paths in
       `RingThroughService` ship unvalidated until then; CI's API 26 leg only reads the manifest.
+- [ ] **Chosen callers.** With this phone on silent, add one number from contacts and one typed by
+      hand, then call twice from a chosen number and twice from another. Only the chosen one rings.
+      Use one contact saved without its country code and one with an extension (`…,567`). Neither
+      path has run on a phone yet.
 
 ## Before the first upload
 
@@ -87,3 +91,6 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
       a feature silently stop working. On 2026-10-13 the R8 release build ran the call path on
       HyperOS (first call silent, second rang); Settings, Support and Licences were not exercised.
+- [ ] **Before the next Play declaration, re-read Data safety.** Chosen callers are now stored and backed
+      up, which [`play-app-content.md`](play-app-content.md) lists as a reason to re-answer. Decide whether
+      *No data collected* still stands.

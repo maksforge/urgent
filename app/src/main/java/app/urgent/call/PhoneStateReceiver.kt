@@ -3,6 +3,7 @@ package app.urgent.call
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
 import app.urgent.MainApplication
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +48,9 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
+                if (!isChosenCaller(number, preferences.chosenCallers.first(), PhoneNumberUtils::compare)) {
+                    return@launch
+                }
                 val earlierCallAge =
                     app.repeatCallAgeMillisNow(
                         number,

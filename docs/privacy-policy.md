@@ -5,7 +5,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-_Last updated: 2026-10-13_
+_Last updated: 2026-10-15_
 
 Urgent is an Android app that rings your phone when the same number calls you twice within a few
 minutes, even while the phone is silenced. This policy describes what the app reads to do that, and
@@ -24,10 +24,13 @@ not request internet access at all.
 - **Your call log.** At that moment, the app reads the calls from the last few minutes to see whether
   the same number called before. It does not copy, store or send the call log, and it reads nothing
   older than the window you chose.
+- **Contacts you choose.** To pick a caller from your contacts, your phone's contact picker opens.
+  The app reads only the number of the one contact you tap. It asks for no contacts permission and
+  never reads your contacts list.
 - **Notifications**, only to show the *Silence* button while it is ringing.
 
-The app stores three settings — whether it is switched on, how many minutes count as "again", and
-whether a call you declined counts — and your theme and language choices.
+The app stores its settings — whether it is switched on, how many minutes count as "again", whether
+a call you declined counts, and which numbers you chose — and your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
 permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps
@@ -40,7 +43,7 @@ nothing from either:
 ## The things that happen outside the app
 
 1. **Android's automatic backup.** If it is enabled on your phone, Android backs up the app's
-   settings to your own Google Drive. You can turn this off in your phone's settings.
+   settings, including which numbers you chose, to your own Google Drive. You can turn this off in your phone's settings.
 2. **Google Play**, if you installed the app from there. Installing and updating an app is a
    transaction between your phone and Google, with its own privacy policy.
 3. **An email you choose to send.** *Help and feedback* opens your own email app with a draft that
@@ -54,8 +57,8 @@ The app is not directed at children and collects nothing from anyone.
 
 ## Deleting your data
 
-Uninstalling the app removes the settings it stored. There is nowhere else to delete anything from,
-because nothing went anywhere else.
+Uninstalling the app removes the settings from your phone. If Android's backup saved them, a copy
+stays in your Google Drive until you delete it from your Google account.
 
 ## Changes
 
