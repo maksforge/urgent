@@ -95,7 +95,7 @@ class AppPreferences(
      */
     val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
 
-    /** The numbers whose repeated calls ring. Empty means anyone. */
+    /** The chosen callers, one encoded entry each. Empty means anyone. */
     val chosenCallers: Flow<Set<String>> = store.data.map { it[Keys.CHOSEN_CALLERS] ?: emptySet() }
 
     /**
@@ -128,12 +128,12 @@ class AppPreferences(
         store.edit { it[Keys.COUNT_DECLINED_CALLS] = enabled }
     }
 
-    suspend fun addChosenCaller(number: String) {
-        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) + number }
+    suspend fun addChosenCaller(entry: String) {
+        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) + entry }
     }
 
-    suspend fun removeChosenCaller(number: String) {
-        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) - number }
+    suspend fun removeChosenCaller(entry: String) {
+        store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) - entry }
     }
 }
 

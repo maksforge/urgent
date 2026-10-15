@@ -1,10 +1,8 @@
 package app.urgent.ui.home
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
@@ -15,10 +13,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -30,9 +32,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -50,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.urgent.R
 import app.urgent.call.CALL_PERMISSIONS
+import app.urgent.call.ChosenCaller
 import app.urgent.call.hasCallPermissions
 import app.urgent.data.REPEAT_WINDOW_CHOICES
 import app.urgent.theme.Spacing
@@ -62,6 +66,7 @@ import app.urgent.work.isIgnoringBatteryOptimisations
 import app.urgent.work.openAutostartSettings
 import app.urgent.work.openBatteryOptimisationSettings
 import app.urgent.work.startActivitySafely
+import java.text.Collator
 
 /**
  * The whole app, really: the switch, the window, and everything Android or the ROM must allow before
@@ -78,11 +83,6 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    LaunchedEffect(viewModel) {
-        viewModel.pickMissed.collect {
-            Toast.makeText(context, R.string.home_callers_no_number, Toast.LENGTH_LONG).show()
-        }
-    }
 
     var callPermissions by remember { mutableStateOf(context.hasCallPermissions()) }
     var batteryExempt by remember { mutableStateOf(context.isIgnoringBatteryOptimisations()) }
@@ -188,6 +188,7 @@ fun HomeScreen(
             CallersSection(
                 chosenCallers = state.chosenCallers,
                 onAddTyped = viewModel::addChosenCaller,
+                loadContacts = viewModel::contactCallers,
                 onAddFromContacts = viewModel::addChosenCallerFromContacts,
                 onRemove = viewModel::removeChosenCaller,
             )
@@ -199,14 +200,21 @@ fun HomeScreen(
 private fun CallersSection(
     chosenCallers: Set<String>,
     onAddTyped: (String) -> Unit,
-    onAddFromContacts: (Uri) -> Unit,
+    loadContacts: suspend () -> List<PickedCaller>,
+    onAddFromContacts: (PickedCaller) -> Unit,
     onRemove: (String) -> Unit,
 ) {
     var typed by rememberSaveable { mutableStateOf("") }
-    // The picker answers through a callback the Activity registered, not a return value.
-    val pickContact =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            result.data?.data?.let(onAddFromContacts)
+    var choosingContact by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    // The ask waits for the button: the contacts list is only needed once the user asks for it.
+    val askForContacts =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                choosingContact = true
+            } else {
+                Toast.makeText(context, R.string.home_callers_contacts_denied, Toast.LENGTH_LONG).show()
+            }
         }
     val status = if (chosenCallers.isEmpty()) R.string.home_callers_anyone else R.string.home_callers_chosen
 
@@ -217,32 +225,43 @@ private fun CallersSection(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(horizontal = Spacing.base),
     )
-    for (number in chosenCallers.sorted()) {
+    // Plain string order puts Ł after Z; a collator follows the default locale's alphabet.
+    val collator = Collator.getInstance()
+    for (entry in chosenCallers.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {
+        val caller = ChosenCaller.fromEntry(entry)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
         ) {
-            Text(
-                number.substringBefore(' '),
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.weight(1f),
-            )
-            TextButton(onClick = { onRemove(number) }) {
+            Column(modifier = Modifier.weight(1f)) {
+                CallerText(caller.name, caller.numbers.firstOrNull().orEmpty())
+            }
+            TextButton(onClick = { onRemove(entry) }) {
                 Text(stringResource(R.string.home_callers_remove))
             }
         }
     }
     OutlinedButton(
         onClick = {
-            try {
-                pickContact.launch(pickCallerIntent())
-            } catch (e: ActivityNotFoundException) {
-                // No Contacts app on this phone; the typed field below still works.
+            if (context.hasContactsPermission()) {
+                choosingContact = true
+            } else {
+                askForContacts.launch(Manifest.permission.READ_CONTACTS)
             }
         },
         modifier = Modifier.padding(horizontal = Spacing.base),
     ) {
         Text(stringResource(R.string.home_callers_from_contacts))
+    }
+    if (choosingContact) {
+        ContactsDialog(
+            loadContacts = loadContacts,
+            onPick = { caller ->
+                choosingContact = false
+                onAddFromContacts(caller)
+            },
+            onDismiss = { choosingContact = false },
+        )
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -265,6 +284,67 @@ private fun CallersSection(
         ) {
             Text(stringResource(R.string.home_callers_add))
         }
+    }
+}
+
+@Composable
+private fun ContactsDialog(
+    loadContacts: suspend () -> List<PickedCaller>,
+    onPick: (PickedCaller) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val contacts by produceState<List<PickedCaller>>(initialValue = emptyList()) { value = loadContacts() }
+    var query by rememberSaveable { mutableStateOf("") }
+    val shown = remember(contacts, query) { contacts.filter { caller -> caller.matches(query) } }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.home_callers_from_contacts)) },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    label = { Text(stringResource(R.string.home_callers_search)) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                LazyColumn(modifier = Modifier.heightIn(max = 420.dp)) {
+                    items(shown) { caller ->
+                        Column(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onPick(caller) }
+                                    .padding(vertical = Spacing.tight),
+                        ) {
+                            CallerText(caller.name, caller.forms.first())
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.cancel))
+            }
+        },
+    )
+}
+
+@Composable
+private fun CallerText(
+    name: String?,
+    number: String,
+) {
+    if (name == null) {
+        Text(number, style = MaterialTheme.typography.bodyLarge)
+    } else {
+        Text(name, style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = number,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

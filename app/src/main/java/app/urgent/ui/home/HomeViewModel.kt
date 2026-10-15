@@ -1,7 +1,6 @@
 package app.urgent.ui.home
 
 import android.content.ContentResolver
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -9,15 +8,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.urgent.MainApplication
+import app.urgent.call.ChosenCaller
 import app.urgent.data.AppPreferences
 import app.urgent.data.DEFAULT_REPEAT_WINDOW_MINUTES
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,10 +39,6 @@ class HomeViewModel(
             ::HomeUiState,
         ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
-    // A Channel, not a StateFlow: two misses in a row must both reach the screen.
-    private val pickMisses = Channel<Unit>(Channel.BUFFERED)
-    val pickMissed: Flow<Unit> = pickMisses.receiveAsFlow()
-
     fun setRingThrough(enabled: Boolean) {
         viewModelScope.launch { preferences.setRingThrough(enabled) }
     }
@@ -62,26 +55,23 @@ class HomeViewModel(
         viewModelScope.launch { storeChosenCaller(number) }
     }
 
-    fun addChosenCallerFromContacts(pickedUri: Uri) {
+    suspend fun contactCallers(): List<PickedCaller> =
+        withContext(Dispatchers.IO) { contentResolver.readContactCallers() }
+
+    fun addChosenCallerFromContacts(caller: PickedCaller) {
         viewModelScope.launch {
-            val numbers = withContext(Dispatchers.IO) { contentResolver.pickedNumbers(pickedUri) }
-            val forms = numbers.mapNotNull(::storedCallerNumber).distinct()
-            if (forms.isEmpty()) {
-                pickMisses.trySend(Unit)
-            } else {
-                // One entry per picked number, so removing the row removes every form of it.
-                preferences.addChosenCaller(forms.joinToString(" "))
-            }
+            // One entry per row, so removing the row removes every form of it.
+            preferences.addChosenCaller(ChosenCaller(caller.forms, caller.name).toEntry())
         }
     }
 
-    fun removeChosenCaller(number: String) {
-        viewModelScope.launch { preferences.removeChosenCaller(number) }
+    fun removeChosenCaller(entry: String) {
+        viewModelScope.launch { preferences.removeChosenCaller(entry) }
     }
 
     private suspend fun storeChosenCaller(number: String?): Boolean {
         val stored = storedCallerNumber(number) ?: return false
-        preferences.addChosenCaller(stored)
+        preferences.addChosenCaller(ChosenCaller(listOf(stored)).toEntry())
         return true
     }
 

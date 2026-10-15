@@ -19,8 +19,8 @@ data class SoundSettings(
  * Whether Urgent should ring for a repeated call: the phone would let it go by without a sound, and
  * a ringtone on the alarm stream would actually be heard.
  *
- * Do Not Disturb is judged from its policy rather than `matchesCallFilter`, which needs
- * `READ_CONTACTS` this app does not ask for. A policy that lets repeat callers through rings on its
+ * Do Not Disturb is judged from its policy rather than `matchesCallFilter`, so the ringing decision
+ * never reads the contacts list. A policy that lets repeat callers through rings on its
  * own, but only for an earlier call inside its own threshold, which can be shorter than the user's
  * window. One that lets calls through only from contacts cannot be judged without reading them, so
  * Urgent rings then.

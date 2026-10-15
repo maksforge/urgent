@@ -51,12 +51,10 @@ fun repeatCallAgeMillis(
     return nowMillis - newest.atMillis
 }
 
-/**
- * Whether [incoming] is one of a chosen caller's numbers. An entry holds one caller's numbers separated by
- * spaces. With none chosen, anyone is.
- */
+/** Whether [incoming] is one of a chosen caller's numbers. With none chosen, anyone is. */
 fun isChosenCaller(
     incoming: String,
     chosen: Set<String>,
     sameNumber: (String, String) -> Boolean,
-): Boolean = chosen.isEmpty() || chosen.any { entry -> entry.split(' ').any { sameNumber(it, incoming) } }
+): Boolean =
+    chosen.isEmpty() || chosen.any { entry -> ChosenCaller.fromEntry(entry).numbers.any { sameNumber(it, incoming) } }

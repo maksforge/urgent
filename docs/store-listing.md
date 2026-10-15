@@ -52,7 +52,7 @@ The line that appears under the name in search results, and the most-read text i
 Rings when the same number calls twice, even with your phone on silent.
 ```
 
-### Full description — 3031/4000
+### Full description — 3162/4000
 
 **No health or safety claims.** Urgent is a second chance at a call, not an emergency service, and
 the *What it cannot do* section says so; Play's enforcement reads a linked page as part of the
@@ -80,7 +80,7 @@ Urgent never changes your ringer mode, your ring volume or Do Not Disturb. It pl
 
 FREE, AND NOTHING LEAVES YOUR PHONE
 
-No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, the numbers you chose, your theme and your language.
+No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, the numbers and names you chose, your theme and your language.
 
 WHAT IT CANNOT DO
 
@@ -96,6 +96,7 @@ PERMISSIONS
 
 - Phone. Tells Urgent that a call is ringing.
 - Call log. The caller's number, and whether they called in the last few minutes. Read on the phone, never stored, never sent.
+- Contacts. Asked for only when you press "Add from contacts". Read on the phone, and only the callers you tap are kept.
 - Notifications. The Silence button while Urgent rings.
 - Foreground service. Plays the ringtone while the call rings.
 
@@ -119,7 +120,7 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3401/4000
+### Full description — 3582/4000
 
 ```
 Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie naprawdę cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
@@ -143,7 +144,7 @@ Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przes
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
-Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, wybrane numery, motyw i język.
+Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, wybrane numery i nazwy, motyw i język.
 
 CZEGO NIE POTRAFI
 
@@ -159,6 +160,7 @@ UPRAWNIENIA
 
 - Telefon. Mówi aplikacji Urgent, że ktoś dzwoni.
 - Rejestr połączeń. Numer, z którego ktoś dzwoni, i to, czy ten numer dzwonił w ciągu ostatnich kilku minut. Odczytywany na telefonie, nigdy nie zapisywany ani nie wysyłany.
+- Kontakty. Urgent prosi o dostęp dopiero po naciśnięciu „Dodaj z kontaktów”. Lista jest odczytywana na telefonie, a Urgent przechowuje tylko rozmówców, których wybierzesz.
 - Powiadomienia. Przycisk Wycisz, gdy Urgent dzwoni.
 - Usługa na pierwszym planie. Odtwarza dzwonek, gdy trwa połączenie.
 

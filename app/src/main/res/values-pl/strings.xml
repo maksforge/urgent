@@ -69,10 +69,11 @@
     <string name="home_callers_anyone">Powtórne połączenia dzwonią od każdego. Wybierz rozmówców, by dzwoniły tylko od nich.</string>
     <string name="home_callers_chosen">Powtórne połączenia dzwonią tylko od rozmówców poniżej.</string>
     <string name="home_callers_from_contacts">Dodaj z kontaktów</string>
+    <string name="home_callers_search">Szukaj w kontaktach</string>
     <string name="home_callers_type">Numer telefonu</string>
     <string name="home_callers_add">Dodaj</string>
     <string name="home_callers_remove">Usuń</string>
-    <string name="home_callers_no_number">Urgent nie mógł użyć numeru tego kontaktu. Wybierz kontakt z pełnym numerem telefonu.</string>
+    <string name="home_callers_contacts_denied">Urgent potrzebuje dostępu do kontaktów, żeby wybrać rozmówcę. Możesz na to zezwolić w Ustawieniach.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Dzwonienie</string>

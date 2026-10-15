@@ -27,8 +27,21 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
+| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept | Runtime, asked when that button is pressed and never at launch. Re-read the Data safety answer before the next declaration |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
+
+**`READ_CONTACTS` and Play's API 37 policy.**
+
+- **Policy:** an app targeting Android 17 (API 37) or later may request `READ_CONTACTS` only when the
+  Android Contact Picker cannot meet its core functionality. A custom picker does not qualify. Play
+  starts prompting affected developers in September 2026, and compliance is mandatory from 27 January
+  2027 ([Play Console Help 16935362](https://support.google.com/googleplay/android-developer/answer/16935362)).
+- **Our status:** `targetSdk` is 36, so the policy does not apply yet. `READ_CONTACTS` is requested only
+  when the user presses *Add from contacts*.
+- **Plan before `targetSdk` goes to 37:** move the flow to the system contact picker and drop
+  `READ_CONTACTS`, or file the Console declaration with the core-functionality justification. Re-read
+  this section when `targetSdk` changes; the exact picker API is checked when that migration starts.
 
 **Forbidden, and asserted absent**: `INTERNET`, `AD_ID`, `QUERY_ALL_PACKAGES`,
 `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `ACCESS_NOTIFICATION_POLICY`, `USE_EXACT_ALARM`. The first
@@ -102,18 +115,22 @@ The answer rests on one fact per route data could take:
 3. **Auto Backup is still "no data collected".** The platform moves the user's backup to the user's
    own Google Drive; the developer never sees it. That is Android transmitting the user's backup, not
    the app transmitting to the developer. ⚠ Every file the backup carries lands on the user's *next*
-   phone too — and here that is the settings, the chosen callers' numbers and the theme (ADR-0005's amendment). Re-read on 2026-10-15 when the chosen callers landed: the answer stands, because nothing reaches the developer.
+   phone too — and here that is the settings, the chosen callers' numbers and names, and the theme (ADR-0005's amendment). Re-read on 2026-10-15 when the chosen callers landed, and again when they kept names: the answer stands, because nothing reaches the developer.
 4. **A support mail is still "no data collected", and the reason is the definition rather than an
    exemption.** A `mailto:` hands a draft to **another app**; the user reads it, can edit every line,
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
    flows" in a re-declaration.** The help page has no such exemption; the claim is true because of
    what "collect" means, and that is the reason to give.
+5. **The contacts list is read only on the device, and only when the user presses *Add from contacts*.**
+   Only the callers the user taps are kept, and nothing from the list is sent. Still disclose it if the form
+   asks about *access* rather than collection, as for the call log.
 
 Would change any of it:
 
 - **`INTERNET` on the artifact**, from our code or a dependency. Every answer here becomes a question.
 - **Anything the app sends by itself**, such as crash reporting or analytics. There is none today.
-- **Storing call-log rows or numbers** in the app's own storage, where a backup would carry them.
+- **Storing call-log rows, or contacts beyond the callers the user taps,** in the app's own storage, where a backup would carry them.
+- **Reading the contacts list anywhere other than the *Add from contacts* button.** The Data safety answer and the Console's permission questions need re-reading.
 
 ## Advertising ID
 
