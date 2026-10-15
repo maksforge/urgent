@@ -89,6 +89,13 @@
     <string name="home_callers">Callers</string>
     <string name="home_callers_anyone">Repeated calls ring from anyone. Choose callers to ring only for them.</string>
     <string name="home_callers_chosen">Repeated calls ring only from the callers below.</string>
+    <string name="home_callers_contacts_only">Repeated calls ring only from your contacts.</string>
+    <string name="home_callers_contacts_and_chosen">Repeated calls ring from your contacts and from the callers below.</string>
+    <string name="home_from_contacts">Everyone in your contacts</string>
+    <string name="home_from_contacts_hint">Repeated calls from any saved contact ring, along with the callers you choose below. Urgent reads your contacts on the phone to check each call.</string>
+    <string name="home_contacts_missing_title">Contacts are not checked</string>
+    <string name="home_contacts_missing_body">Without access to your contacts, Urgent cannot tell who is in them, so the switch does nothing until you allow it.</string>
+    <string name="home_contacts_ring_denied">Urgent needs access to your contacts to ring for them. You can allow it in Settings.</string>
     <string name="home_callers_from_contacts">Add from contacts</string>
     <string name="home_callers_search">Search contacts</string>
     <string name="home_callers_type">Phone number</string>

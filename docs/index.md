@@ -13,12 +13,12 @@ Free, ad-free, and entirely on your own phone: no account, no sign-up, no server
 - **Rings for the second call.** When a number that called in the last few minutes (5, 10, 15 or
   30 — you choose) calls again, Urgent plays your ringtone at your alarm volume and vibrates. If
   Android won't let it read your ringtone, it plays your alarm sound instead. The first call stays as
-  quiet as you set it. You can choose the callers it rings for; until you choose some, it rings for
-  anyone.
+  quiet as you set it. You can choose the callers it rings for, or turn on Everyone in your contacts;
+  until you choose one of those, it rings for anyone.
 - **Only when your phone would not.** With the ringer on, your phone rings by itself and Urgent stays
   quiet. In Do Not Disturb it rings only if alarms are allowed, and not when your phone's own
   repeat-callers rule already lets the call ring. If Do Not Disturb lets calls through only from your
-  contacts, Urgent cannot tell who is a contact, so it rings anyway, even when your phone rings too.
+  contacts, Urgent does not check your contacts for that, so it rings anyway, even when your phone rings too.
 - **Leaves your settings alone.** Urgent never changes your ringer mode, ring volume or Do Not
   Disturb. A *Silence* button in the notification stops it.
 
@@ -34,7 +34,7 @@ Urgent is a second chance, not a guarantee. If you must not miss a call, keep yo
 ## Your data stays on your phone
 
 Urgent does not request internet access. It reads the last few minutes of your call log at the moment
-a call rings, compares one number, and keeps nothing. The details are in the
+a call rings, compares one number, and keeps nothing. With Everyone in your contacts on, it also checks that number against your contacts at that moment, and keeps nothing. The details are in the
 
 **[Privacy Policy](privacy-policy.md)**.
 

@@ -55,6 +55,7 @@ import app.urgent.R
 import app.urgent.call.CALL_PERMISSIONS
 import app.urgent.call.ChosenCaller
 import app.urgent.call.hasCallPermissions
+import app.urgent.call.hasContactsPermission
 import app.urgent.data.REPEAT_WINDOW_CHOICES
 import app.urgent.theme.Spacing
 import app.urgent.ui.appViewModelExtras
@@ -86,6 +87,7 @@ fun HomeScreen(
 
     var callPermissions by remember { mutableStateOf(context.hasCallPermissions()) }
     var batteryExempt by remember { mutableStateOf(context.isIgnoringBatteryOptimisations()) }
+    var contactsGranted by remember { mutableStateOf(context.hasContactsPermission()) }
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer =
@@ -93,6 +95,7 @@ fun HomeScreen(
                 if (event == Lifecycle.Event.ON_RESUME) {
                     callPermissions = context.hasCallPermissions()
                     batteryExempt = context.isIgnoringBatteryOptimisations()
+                    contactsGranted = context.hasContactsPermission()
                 }
             }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -187,6 +190,9 @@ fun HomeScreen(
             }
             CallersSection(
                 chosenCallers = state.chosenCallers,
+                fromContacts = state.fromContacts,
+                contactsGranted = contactsGranted,
+                onFromContacts = viewModel::setFromContacts,
                 onAddTyped = viewModel::addChosenCaller,
                 loadContacts = viewModel::contactCallers,
                 onAddFromContacts = viewModel::addChosenCallerFromContacts,
@@ -199,6 +205,9 @@ fun HomeScreen(
 @Composable
 private fun CallersSection(
     chosenCallers: Set<String>,
+    fromContacts: Boolean,
+    contactsGranted: Boolean,
+    onFromContacts: (Boolean) -> Unit,
     onAddTyped: (String) -> Unit,
     loadContacts: suspend () -> List<PickedCaller>,
     onAddFromContacts: (PickedCaller) -> Unit,
@@ -216,7 +225,22 @@ private fun CallersSection(
                 Toast.makeText(context, R.string.home_callers_contacts_denied, Toast.LENGTH_LONG).show()
             }
         }
-    val status = if (chosenCallers.isEmpty()) R.string.home_callers_anyone else R.string.home_callers_chosen
+    val askForContactsToRing =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                onFromContacts(true)
+            } else {
+                Toast.makeText(context, R.string.home_contacts_ring_denied, Toast.LENGTH_LONG).show()
+            }
+        }
+    val contactsOn = fromContacts && contactsGranted
+    val status =
+        when {
+            contactsOn && chosenCallers.isEmpty() -> R.string.home_callers_contacts_only
+            contactsOn -> R.string.home_callers_contacts_and_chosen
+            chosenCallers.isEmpty() -> R.string.home_callers_anyone
+            else -> R.string.home_callers_chosen
+        }
 
     SectionHeader(stringResource(R.string.home_callers))
     Text(
@@ -225,6 +249,26 @@ private fun CallersSection(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(horizontal = Spacing.base),
     )
+    SwitchRow(
+        title = stringResource(R.string.home_from_contacts),
+        subtitle = stringResource(R.string.home_from_contacts_hint),
+        checked = fromContacts,
+        onChange = { enabled ->
+            if (enabled && !context.hasContactsPermission()) {
+                askForContactsToRing.launch(Manifest.permission.READ_CONTACTS)
+            } else {
+                onFromContacts(enabled)
+            }
+        },
+    )
+    if (fromContacts && !contactsGranted) {
+        WarningBanner(
+            title = stringResource(R.string.home_contacts_missing_title),
+            body = stringResource(R.string.home_contacts_missing_body),
+            actionLabel = stringResource(R.string.home_permissions_missing_action),
+            onAct = { context.openAppDetails() },
+        )
+    }
     // Plain string order puts Ł after Z; a collator follows the default locale's alphabet.
     val collator = Collator.getInstance()
     for (entry in chosenCallers.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {

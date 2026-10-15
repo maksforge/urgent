@@ -48,9 +48,16 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
-                if (!isChosenCaller(number, preferences.chosenCallers.first(), PhoneNumberUtils::compare)) {
-                    return@launch
-                }
+                val contactsOn = preferences.fromContacts.first() && app.hasContactsPermission()
+                val allowed =
+                    isAllowedCaller(
+                        incoming = number,
+                        chosen = preferences.chosenCallers.first(),
+                        contactsOn = contactsOn,
+                        sameNumber = PhoneNumberUtils::compare,
+                        isSavedContact = { app.isSavedContact(number) },
+                    )
+                if (!allowed) return@launch
                 val earlierCallAge =
                     app.repeatCallAgeMillisNow(
                         number,

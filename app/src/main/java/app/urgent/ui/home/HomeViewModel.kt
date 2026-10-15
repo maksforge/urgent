@@ -24,6 +24,7 @@ data class HomeUiState(
     val windowMinutes: Int = DEFAULT_REPEAT_WINDOW_MINUTES,
     val countDeclined: Boolean = true,
     val chosenCallers: Set<String> = emptySet(),
+    val fromContacts: Boolean = false,
 )
 
 class HomeViewModel(
@@ -36,6 +37,7 @@ class HomeViewModel(
             preferences.repeatWindowMinutes,
             preferences.countDeclinedCalls,
             preferences.chosenCallers,
+            preferences.fromContacts,
             ::HomeUiState,
         ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -49,6 +51,10 @@ class HomeViewModel(
 
     fun setCountDeclined(enabled: Boolean) {
         viewModelScope.launch { preferences.setCountDeclinedCalls(enabled) }
+    }
+
+    fun setFromContacts(enabled: Boolean) {
+        viewModelScope.launch { preferences.setFromContacts(enabled) }
     }
 
     fun addChosenCaller(number: String) {
