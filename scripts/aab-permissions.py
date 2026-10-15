@@ -78,6 +78,8 @@ EXPECTED = {
     "android.permission.READ_PHONE_STATE": "ours — the ringing broadcast, call/PhoneStateReceiver.kt",
     "android.permission.READ_CALL_LOG": "ours — the caller's number and the earlier call, call/PhoneState.kt",
     "android.permission.POST_NOTIFICATIONS": "ours — the ringing notification's Silence button",
+    # Declared, runtime, asked when the user presses Add from contacts (ui/home/), never at launch.
+    "android.permission.READ_CONTACTS": "ours — the contacts list behind Add from contacts, ui/home/CallerPicker.kt",
     # Declared, install-time.
     "android.permission.VIBRATE": "ours — call/RingThroughService.kt",
     "android.permission.FOREGROUND_SERVICE": "ours — call/RingThroughService.kt",

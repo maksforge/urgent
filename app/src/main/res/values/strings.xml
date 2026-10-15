@@ -90,10 +90,11 @@
     <string name="home_callers_anyone">Repeated calls ring from anyone. Choose callers to ring only for them.</string>
     <string name="home_callers_chosen">Repeated calls ring only from the callers below.</string>
     <string name="home_callers_from_contacts">Add from contacts</string>
+    <string name="home_callers_search">Search contacts</string>
     <string name="home_callers_type">Phone number</string>
     <string name="home_callers_add">Add</string>
     <string name="home_callers_remove">Remove</string>
-    <string name="home_callers_no_number">Urgent could not use the number of that contact. Pick a contact with its full phone number.</string>
+    <string name="home_callers_contacts_denied">Urgent needs access to your contacts to pick a caller. You can allow it in Settings.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Ringing</string>

@@ -24,13 +24,15 @@ not request internet access at all.
 - **Your call log.** At that moment, the app reads the calls from the last few minutes to see whether
   the same number called before. It does not copy, store or send the call log, and it reads nothing
   older than the window you chose.
-- **Contacts you choose.** To pick a caller from your contacts, your phone's contact picker opens.
-  The app reads only the number of the one contact you tap. It asks for no contacts permission and
-  never reads your contacts list.
+- **Your contacts, when you ask for them.** Pressing *Add from contacts* asks for permission to read
+  your contacts. If you allow it, the app lists the phone numbers in your contacts on your phone, and
+  keeps only the numbers and names of the contacts you tap. It keeps a name only when it is the
+  contact's own name, never a nickname. The list is read on the phone and is never sent anywhere. The
+  app reads your contacts at no other time, and never to decide whether a call rings.
 - **Notifications**, only to show the *Silence* button while it is ringing.
 
 The app stores its settings — whether it is switched on, how many minutes count as "again", whether
-a call you declined counts, and which numbers you chose — and your theme and language choices.
+a call you declined counts, and which numbers and names you chose — and your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
 permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps
@@ -43,7 +45,7 @@ nothing from either:
 ## The things that happen outside the app
 
 1. **Android's automatic backup.** If it is enabled on your phone, Android backs up the app's
-   settings, including which numbers you chose, to your own Google Drive. You can turn this off in your phone's settings.
+   settings, including which numbers and names you chose, to your own Google Drive. You can turn this off in your phone's settings.
 2. **Google Play**, if you installed the app from there. Installing and updating an app is a
    transaction between your phone and Google, with its own privacy policy.
 3. **An email you choose to send.** *Help and feedback* opens your own email app with a draft that
