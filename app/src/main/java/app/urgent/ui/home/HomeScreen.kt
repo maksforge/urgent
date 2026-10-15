@@ -192,6 +192,7 @@ fun HomeScreen(
                 chosenCallers = state.chosenCallers,
                 fromContacts = state.fromContacts,
                 contactsGranted = contactsGranted,
+                ringThrough = state.ringThrough,
                 onFromContacts = viewModel::setFromContacts,
                 onAddTyped = viewModel::addChosenCaller,
                 loadContacts = viewModel::contactCallers,
@@ -207,6 +208,7 @@ private fun CallersSection(
     chosenCallers: Set<String>,
     fromContacts: Boolean,
     contactsGranted: Boolean,
+    ringThrough: Boolean,
     onFromContacts: (Boolean) -> Unit,
     onAddTyped: (String) -> Unit,
     loadContacts: suspend () -> List<PickedCaller>,
@@ -261,7 +263,7 @@ private fun CallersSection(
             }
         },
     )
-    if (fromContacts && !contactsGranted) {
+    if (ringThrough && fromContacts && !contactsGranted) {
         WarningBanner(
             title = stringResource(R.string.home_contacts_missing_title),
             body = stringResource(R.string.home_contacts_missing_body),
