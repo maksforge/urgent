@@ -26,19 +26,29 @@ fun Context.hasCallPermissions(): Boolean =
 fun Context.hasContactsPermission(): Boolean =
     checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
 
+/** A caller's standing in the contacts. A starred contact is a saved one too. */
+enum class CallerContact { NONE, SAVED, STARRED }
+
 /**
- * Whether a call from [number] comes from a saved contact. The platform matches the number itself, so
+ * What the contacts say about a call from [number]. The platform matches the number itself, so
  * `+48 600…` and `600…` are the same phone.
  */
-fun Context.isSavedContact(number: String): Boolean {
+fun Context.callerContact(number: String): CallerContact {
     val uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+    val columns = arrayOf(ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.STARRED)
     val cursor =
         try {
-            contentResolver.query(uri, arrayOf(ContactsContract.PhoneLookup._ID), null, null, null)
+            contentResolver.query(uri, columns, null, null, null)
         } catch (e: SecurityException) {
             null
         }
-    return cursor?.use { it.moveToFirst() } == true
+    return cursor?.use { found ->
+        when {
+            !found.moveToFirst() -> CallerContact.NONE
+            found.getInt(1) == 1 -> CallerContact.STARRED
+            else -> CallerContact.SAVED
+        }
+    } ?: CallerContact.NONE
 }
 
 /** Calls logged since [sinceMillis], or nothing if the log cannot be read. */

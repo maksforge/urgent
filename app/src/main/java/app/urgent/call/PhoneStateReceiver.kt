@@ -48,24 +48,30 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
+                val chosen = preferences.chosenCallers.first()
                 val contactsOn = preferences.fromContacts.first() && app.hasContactsPermission()
-                val allowed =
-                    isAllowedCaller(
-                        incoming = number,
-                        chosen = preferences.chosenCallers.first(),
-                        contactsOn = contactsOn,
-                        sameNumber = PhoneNumberUtils::compare,
-                        isSavedContact = { app.isSavedContact(number) },
-                    )
-                if (!allowed) return@launch
+                // With contacts off, a caller the chosen list rejects stops here, before any call-log read.
+                if (!contactsOn && chosen.isNotEmpty() && !isChosenCaller(number, chosen, PhoneNumberUtils::compare)) {
+                    return@launch
+                }
                 val earlierCallAge =
                     app.repeatCallAgeMillisNow(
                         number,
                         preferences.repeatWindowMinutes.first(),
                         preferences.countDeclinedCalls.first(),
                     ) ?: return@launch
+                val contact = if (contactsOn) app.callerContact(number) else CallerContact.NONE
+                val allowed =
+                    isAllowedCaller(
+                        incoming = number,
+                        chosen = chosen,
+                        contactsOn = contactsOn,
+                        sameNumber = PhoneNumberUtils::compare,
+                        contact = contact,
+                    )
+                if (!allowed) return@launch
                 val sound = app.soundSettings() ?: return@launch
-                if (!shouldRingThrough(sound, earlierCallAge)) return@launch
+                if (!shouldRingThrough(sound, earlierCallAge, contact)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the
                 // idle broadcast, and starting now would ring for a call that no longer exists.
                 if (!app.isCallStillThere()) return@launch

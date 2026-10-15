@@ -76,7 +76,7 @@
     <string name="home_callers_contacts_only">Powtórne połączenia dzwonią tylko od twoich kontaktów.</string>
     <string name="home_callers_contacts_and_chosen">Powtórne połączenia dzwonią od twoich kontaktów i od rozmówców poniżej.</string>
     <string name="home_from_contacts">Wszyscy z twoich kontaktów</string>
-    <string name="home_from_contacts_hint">Powtórne połączenia z każdego zapisanego kontaktu dzwonią, razem z rozmówcami, których wybierzesz poniżej. Urgent czyta kontakty w telefonie, żeby sprawdzić każde połączenie.</string>
+    <string name="home_from_contacts_hint">Powtórne połączenia z każdego zapisanego kontaktu dzwonią, razem z rozmówcami, których wybierzesz poniżej. Urgent czyta kontakty w telefonie, żeby sprawdzić każde powtórne połączenie.</string>
     <string name="home_contacts_missing_title">Kontakty nie są sprawdzane</string>
     <string name="home_contacts_missing_body">Bez dostępu do kontaktów Urgent nie wie, kto w nich jest, więc przełącznik nic nie robi, dopóki na to nie zezwolisz.</string>
     <string name="home_contacts_ring_denied">Urgent potrzebuje dostępu do kontaktów, żeby dzwonić od nich. Możesz na to zezwolić w Ustawieniach.</string>

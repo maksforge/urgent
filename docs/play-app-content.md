@@ -27,7 +27,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
-| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* on, each incoming number is checked against it when a call rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
+| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
@@ -39,7 +39,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
   2027 ([Play Console Help 16935362](https://support.google.com/googleplay/android-developer/answer/16935362)).
 - **Our status:** `targetSdk` is 36, so the policy does not apply yet. `READ_CONTACTS` is requested only
   when the user presses *Add from contacts* or turns on *Everyone in your contacts*. That switch reads
-  contacts when a call rings, which the contact picker cannot do.
+  contacts when a repeated call rings, which the contact picker cannot do.
 - **Plan before `targetSdk` goes to 37:** move the flow to the system contact picker and drop
   `READ_CONTACTS`, or file the Console declaration with the core-functionality justification. While the switch exists the picker route is closed, so only the declaration
   is left. Re-read
@@ -123,7 +123,7 @@ The answer rests on one fact per route data could take:
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
    flows" in a re-declaration.** The help page has no such exemption; the claim is true because of
    what "collect" means, and that is the reason to give.
-5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* on, to check each incoming number when a call rings.**
+5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* on, to check each repeated call's number when it rings.**
    Only the callers the user taps are kept, nothing from the list is sent, and the ring-time check keeps nothing. Still disclose it if the form
    asks about *access* rather than collection, as for the call log.
 

@@ -52,7 +52,7 @@ The line that appears under the name in search results, and the most-read text i
 Rings when the same number calls twice, even with your phone on silent.
 ```
 
-### Full description — 3493/4000
+### Full description — 3605/4000
 
 **No health or safety claims.** Urgent is a second chance at a call, not an emergency service, and
 the *What it cannot do* section says so; Play's enforcement reads a linked page as part of the
@@ -71,7 +71,7 @@ IT ONLY RINGS WHEN YOUR PHONE WOULD NOT
 
 - Ringer on: your phone rings by itself, so Urgent stays quiet.
 - Silent or vibrate: Urgent rings.
-- Do Not Disturb: Urgent rings only if alarms are allowed, and stays quiet when your phone's own repeat-callers rule already lets the call ring. If Do Not Disturb lets calls through only from your contacts, Urgent does not check your contacts for that, so it rings anyway, even when your phone rings too.
+- Do Not Disturb: Urgent rings only if alarms are allowed, and stays quiet when your phone already lets the call ring, under its repeat-callers rule or for everyone. If Do Not Disturb lets only your contacts, or only starred ones, through, Urgent stays quiet for those with Everyone in your contacts on, since your phone rings for them anyway. With it off, Urgent can ring for them too, even when your phone rings too.
 - On another call: Urgent stays quiet.
 
 YOUR SETTINGS ARE LEFT ALONE
@@ -80,7 +80,7 @@ Urgent never changes your ringer mode, your ring volume or Do Not Disturb. It pl
 
 FREE, AND NOTHING LEAVES YOUR PHONE
 
-No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. If Everyone in your contacts is on, it also checks that number against your contacts at that moment, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, whether Everyone in your contacts is on, the numbers and names you chose, your theme and your language.
+No ads. No account. No server. No subscription. Urgent does not request the internet permission, so it cannot send anything anywhere. It reads the last few minutes of your call log at the moment a call rings, compares one number, and keeps nothing. If Everyone in your contacts is on, it also checks a repeated call's number against your contacts, and keeps nothing. It stores only its own settings: whether it is on, how many minutes count as "again", whether declined calls count, whether Everyone in your contacts is on, the numbers and names you chose, your theme and your language.
 
 WHAT IT CANNOT DO
 
@@ -120,7 +120,7 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3969/4000
+### Full description — 3998/4000
 
 ```
 Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie naprawdę cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
@@ -135,7 +135,7 @@ DZWONI TYLKO WTEDY, GDY TELEFON BY NIE ZADZWONIŁ
 
 - Dzwonek włączony: telefon dzwoni sam, więc Urgent milczy.
 - Wyciszenie albo wibracje: Urgent dzwoni.
-- Nie przeszkadzać: Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy własna reguła twojego telefonu dla powtarzających się połączeń już pozwala połączeniu zadzwonić. Jeśli Nie przeszkadzać przepuszcza połączenia tylko od twoich kontaktów, Urgent nie sprawdza kontaktów w tej sprawie, więc dzwoni mimo to, nawet gdy telefon też dzwoni.
+- Nie przeszkadzać: Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy telefon już pozwala połączeniu dzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty albo oznaczone gwiazdką, przy włączonym „Wszyscy z twoich kontaktów” Urgent milczy wtedy. Przy wyłączonym może dzwonić też od nich, nawet gdy telefon dzwoni.
 - W trakcie innej rozmowy: Urgent milczy.
 
 TWOJE USTAWIENIA ZOSTAJĄ BEZ ZMIAN
@@ -144,7 +144,7 @@ Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przes
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
-Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Jeśli włączono „Wszyscy z twoich kontaktów”, sprawdza też w tej chwili, czy numer jest w kontaktach, i też niczego nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, czy włączono „Wszyscy z twoich kontaktów”, wybrane numery i nazwy, motyw i język.
+Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie prosi o dostęp do internetu, więc nie może niczego nikomu wysłać. Czyta kilka ostatnich minut rejestru połączeń w chwili, gdy ktoś dzwoni, porównuje jeden numer i niczego nie zachowuje. Z włączonym „Wszyscy z twoich kontaktów” przy powtórnym połączeniu sprawdza też, czy numer jest w kontaktach, i nic nie zachowuje. Przechowuje tylko własne ustawienia: czy jest włączony, ile minut liczy się jako „ponownie”, czy liczą się odrzucone połączenia, czy włączono „Wszyscy z twoich kontaktów”, wybrane numery i nazwy, motyw i język.
 
 CZEGO NIE POTRAFI
 
@@ -160,7 +160,7 @@ UPRAWNIENIA
 
 - Telefon. Mówi aplikacji Urgent, że ktoś dzwoni.
 - Rejestr połączeń. Numer, z którego ktoś dzwoni, i to, czy ten numer dzwonił w ciągu ostatnich kilku minut. Odczytywany na telefonie, nigdy nie zapisywany ani nie wysyłany.
-- Kontakty. Urgent prosi o dostęp po naciśnięciu „Dodaj z kontaktów” albo po włączeniu „Wszyscy z twoich kontaktów”. Lista jest odczytywana na telefonie. Przy włączonym „Wszyscy z twoich kontaktów” numer dzwoniącego jest sprawdzany w kontaktach, gdy telefon dzwoni. Urgent przechowuje tylko rozmówców, których wybierzesz.
+- Kontakty. Urgent prosi o dostęp po naciśnięciu „Dodaj z kontaktów” albo po włączeniu „Wszyscy z twoich kontaktów”. Lista jest odczytywana na telefonie. Przy włączonym „Wszyscy z twoich kontaktów” numer dzwoniącego jest sprawdzany w kontaktach, gdy dzwoni powtórnie. Urgent przechowuje tylko rozmówców, których wybierzesz.
 - Powiadomienia. Przycisk Wycisz, gdy Urgent dzwoni.
 - Usługa na pierwszym planie. Odtwarza dzwonek, gdy trwa połączenie.
 

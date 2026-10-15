@@ -15,7 +15,10 @@ class ChosenCallerTest {
         contactsOn: Boolean = false,
         savedContact: Boolean = false,
         sameNumber: (String, String) -> Boolean = exact,
-    ): Boolean = isAllowedCaller(incoming, chosen, contactsOn, sameNumber) { savedContact }
+    ): Boolean {
+        val contact = if (savedContact) CallerContact.SAVED else CallerContact.NONE
+        return isAllowedCaller(incoming, chosen, contactsOn, sameNumber, contact)
+    }
 
     @Test fun `anyone rings when no caller is chosen and contacts are off`() = assertTrue(rings("600100200"))
 
@@ -37,14 +40,20 @@ class ChosenCallerTest {
     @Test fun `a saved contact rings alongside the chosen callers`() =
         assertTrue(rings("700100200", setOf("600100200"), contactsOn = true, savedContact = true))
 
-    @Test fun `a chosen caller rings with contacts on whether or not it is saved`() =
+    @Test fun `a chosen caller rings with contacts on when it is not saved`() =
         assertTrue(rings("600100200", setOf("600100200"), contactsOn = true, savedContact = false))
 
-    @Test fun `contacts are not read when a chosen caller already matches`() =
-        assertTrue(isAllowedCaller("600100200", setOf("600100200"), true, exact) { error("contacts were read") })
+    @Test fun `a chosen caller rings with contacts on when it is saved`() =
+        assertTrue(rings("600100200", setOf("600100200"), contactsOn = true, savedContact = true))
 
-    @Test fun `contacts are not read when they are off`() =
-        assertFalse(isAllowedCaller("700100200", setOf("600100200"), false, exact) { error("contacts were read") })
+    @Test fun `with contacts on, a number that is neither chosen nor saved does not ring`() =
+        assertFalse(rings("800100200", setOf("600100200"), contactsOn = true, savedContact = false))
+
+    @Test fun `a starred contact rings with contacts on`() =
+        assertTrue(isAllowedCaller("600100200", emptySet(), true, exact, CallerContact.STARRED))
+
+    @Test fun `with contacts off, a saved contact does not ring unless it is chosen`() =
+        assertFalse(isAllowedCaller("700100200", setOf("600100200"), false, exact, CallerContact.SAVED))
 
     @Test fun `an entry keeps its name through a round trip`() {
         val caller = ChosenCaller(listOf("+48600100200", "600100200"), "Anna Kowalska")
