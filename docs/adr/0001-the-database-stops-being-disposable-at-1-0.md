@@ -64,3 +64,7 @@ A completely green migration suite says nothing about whether a real upgrade is 
 ## Amendment — 2026-10-12
 
 Urgent has no database: its state is three settings in DataStore, and the call log it reads is the platform's. Room, the schema gate and the wipe guard were removed before the first upload. This ADR comes back into force the day a feature adds a table.
+
+## Amendment — 2026-10-15
+
+The state now also holds the chosen callers: one entry per contact, in the same DataStore. There is still no table, so this ADR stays in abeyance.
