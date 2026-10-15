@@ -2,7 +2,6 @@ package app.urgent.ui.home
 
 import android.content.ContentResolver
 import android.net.Uri
-import android.telephony.PhoneNumberUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -75,9 +74,8 @@ class HomeViewModel(
     }
 
     private suspend fun storeChosenCaller(number: String?): Boolean {
-        val network = number?.let(PhoneNumberUtils::extractNetworkPortion)
-        if (network.isNullOrEmpty()) return false
-        preferences.addChosenCaller(network)
+        val stored = storedCallerNumber(number) ?: return false
+        preferences.addChosenCaller(stored)
         return true
     }
 

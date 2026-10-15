@@ -72,7 +72,7 @@
     <string name="home_callers_type">Numer telefonu</string>
     <string name="home_callers_add">Dodaj</string>
     <string name="home_callers_remove">Usuń</string>
-    <string name="home_callers_no_number">Urgent nie mógł odczytać numeru z tego kontaktu.</string>
+    <string name="home_callers_no_number">Urgent nie mógł użyć numeru tego kontaktu. Wybierz kontakt z pełnym numerem telefonu.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Dzwonienie</string>

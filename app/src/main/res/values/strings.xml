@@ -93,7 +93,7 @@
     <string name="home_callers_type">Phone number</string>
     <string name="home_callers_add">Add</string>
     <string name="home_callers_remove">Remove</string>
-    <string name="home_callers_no_number">Urgent could not read a number from that contact.</string>
+    <string name="home_callers_no_number">Urgent could not use the number of that contact. Pick a contact with its full phone number.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Ringing</string>
