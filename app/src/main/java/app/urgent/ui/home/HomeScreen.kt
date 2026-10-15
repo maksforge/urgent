@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.telephony.PhoneNumberUtils
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -147,13 +146,6 @@ fun HomeScreen(
                 onChange = viewModel::setCountDeclined,
             )
 
-            CallersSection(
-                chosenCallers = state.chosenCallers,
-                onAddTyped = viewModel::addChosenCaller,
-                onAddFromContacts = viewModel::addChosenCallerFromContacts,
-                onRemove = viewModel::removeChosenCaller,
-            )
-
             // Only while the switch is on: a warning about a grant a disabled feature would need is
             // the app asking for something it is not using.
             if (state.ringThrough) {
@@ -193,13 +185,15 @@ fun HomeScreen(
                     }
                 }
             }
+            CallersSection(
+                chosenCallers = state.chosenCallers,
+                onAddTyped = viewModel::addChosenCaller,
+                onAddFromContacts = viewModel::addChosenCallerFromContacts,
+                onRemove = viewModel::removeChosenCaller,
+            )
         }
     }
 }
-
-// The platform matches numbers on their last seven digits. Shorter ones match only in full, so a stray
-// entry would silence every other caller.
-private const val MIN_TYPED_DIGITS = 7
 
 @Composable
 private fun CallersSection(
@@ -259,7 +253,7 @@ private fun CallersSection(
             modifier = Modifier.weight(1f),
         )
         TextButton(
-            enabled = PhoneNumberUtils.extractNetworkPortion(typed).count { it.isDigit() } >= MIN_TYPED_DIGITS,
+            enabled = storedCallerNumber(typed) != null,
             onClick = {
                 onAddTyped(typed)
                 typed = ""
