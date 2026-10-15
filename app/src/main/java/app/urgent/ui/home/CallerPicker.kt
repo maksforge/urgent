@@ -18,21 +18,24 @@ fun storedCallerNumber(raw: String?): String? {
 }
 
 /**
- * The number of the one contact the user tapped. It is read through the grant the picker returns, so
- * the app asks for no contacts permission and never sees the rest of the list.
+ * The numbers of the one contact the user tapped: the normalised form first, then the number as written.
+ * The normalised form takes its country from the phone at save time, so it can differ from the number that
+ * calls, which is why both are kept. It is read through the grant the picker returns, so the app asks for
+ * no contacts permission and never sees the rest of the list.
  */
-fun ContentResolver.pickedNumber(pickedUri: Uri): String? =
+fun ContentResolver.pickedNumbers(pickedUri: Uri): List<String> =
     try {
-        query(pickedUri, arrayOf(Phone.NORMALIZED_NUMBER, Phone.NUMBER), null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) cursor.callerNumber() else null
-        }
+        query(pickedUri, arrayOf(Phone.NORMALIZED_NUMBER, Phone.NUMBER), null, null, null)
+            ?.use { cursor ->
+                if (cursor.moveToFirst()) cursor.callerNumbers() else emptyList()
+            }.orEmpty()
     } catch (e: RuntimeException) {
         // The URI comes from another app's picker, so any provider error means no number, not a crash.
-        null
+        emptyList()
     }
 
-private fun Cursor.callerNumber(): String? =
-    stringAt(Phone.NORMALIZED_NUMBER)?.takeIf { it.isNotBlank() } ?: stringAt(Phone.NUMBER)
+private fun Cursor.callerNumbers(): List<String> =
+    listOf(Phone.NORMALIZED_NUMBER, Phone.NUMBER).mapNotNull { stringAt(it) }.filter { it.isNotBlank() }
 
 private fun Cursor.stringAt(columnName: String): String? {
     val column = getColumnIndex(columnName)

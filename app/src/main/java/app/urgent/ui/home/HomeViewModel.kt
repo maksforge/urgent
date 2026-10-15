@@ -64,8 +64,10 @@ class HomeViewModel(
 
     fun addChosenCallerFromContacts(pickedUri: Uri) {
         viewModelScope.launch {
-            val number = withContext(Dispatchers.IO) { contentResolver.pickedNumber(pickedUri) }
-            if (!storeChosenCaller(number)) pickMisses.trySend(Unit)
+            val numbers = withContext(Dispatchers.IO) { contentResolver.pickedNumbers(pickedUri) }
+            val stored = numbers.mapNotNull(::storedCallerNumber).distinct()
+            if (stored.isEmpty()) pickMisses.trySend(Unit)
+            stored.forEach { preferences.addChosenCaller(it) }
         }
     }
 
