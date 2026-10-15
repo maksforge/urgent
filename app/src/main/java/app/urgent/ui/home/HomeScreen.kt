@@ -223,7 +223,7 @@ private fun CallersSection(
             modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
         ) {
             Text(
-                number.split(' ').joinToString(" / "),
+                number.substringBefore(' '),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f),
             )

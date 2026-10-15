@@ -67,4 +67,4 @@ Urgent has no database: its state is three settings in DataStore, and the call l
 
 ## Amendment — 2026-10-15
 
-The state now also holds the chosen callers: one entry per contact, in the same DataStore. There is still no table, so this ADR stays in abeyance.
+The state now also holds the chosen callers: one entry per picked number, in the same DataStore. There is still no table, so this ADR stays in abeyance.
