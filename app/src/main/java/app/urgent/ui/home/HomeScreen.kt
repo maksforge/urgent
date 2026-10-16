@@ -226,7 +226,7 @@ private fun CallersSection(
 ) {
     var typed by rememberSaveable { mutableStateOf("") }
     var choosingContact by rememberSaveable { mutableStateOf(false) }
-    var scopeAwaitingContacts by remember { mutableStateOf(ContactScope.OFF) }
+    var scopeAwaitingContacts by rememberSaveable { mutableStateOf(ContactScope.OFF) }
     val context = LocalContext.current
     // The ask waits for the button: the contacts list is only needed once the user asks for it.
     val askForContacts =
@@ -275,7 +275,7 @@ private fun CallersSection(
     FlowRow(modifier = Modifier.padding(horizontal = Spacing.base)) {
         for (option in ContactScope.entries) {
             FilterChip(
-                selected = callers.contactScope == option,
+                selected = scope == option,
                 onClick = {
                     if (option != ContactScope.OFF && !context.hasContactsPermission()) {
                         scopeAwaitingContacts = option
