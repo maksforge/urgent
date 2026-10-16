@@ -27,6 +27,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
+| `RECEIVE_BOOT_COMPLETED` *(not yet in a release)* | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
 | `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |

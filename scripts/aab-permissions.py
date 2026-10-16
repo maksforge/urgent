@@ -84,6 +84,7 @@ EXPECTED = {
     "android.permission.VIBRATE": "ours — call/RingThroughService.kt",
     "android.permission.FOREGROUND_SERVICE": "ours — call/RingThroughService.kt",
     "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK": "ours — the ringing service's type on API 34+",
+    "android.permission.RECEIVE_BOOT_COMPLETED": "ours — restarts Run in the background after a reboot or update, call/KeepAliveRestartReceiver.kt",
     # AndroidX defines and uses this itself, signature-level. The prefix is the
     # applicationId, which differs between the debug and release builds, so it is
     # matched by suffix rather than spelled out.
