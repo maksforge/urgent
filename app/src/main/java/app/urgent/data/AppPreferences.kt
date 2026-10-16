@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -137,6 +138,12 @@ class AppPreferences(
      * waits for Android to start the process again. Off by default: it shows a notification.
      */
     val keepAlive: Flow<Boolean> = store.data.map { it[Keys.KEEP_ALIVE] ?: false }
+
+    /**
+     * Whether the keep-alive service should run. It keeps the ringing ready, so it is idle while
+     * [ringThrough] is off. Kotlin note: `combine` is RxJS's `combineLatest`, so it re-emits when either switch changes.
+     */
+    val keepAliveActive: Flow<Boolean> = combine(ringThrough, keepAlive) { ring, keep -> ring && keep }
 
     /**
      * The theme mode, read once, before any Activity exists.

@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
             // A `LaunchedEffect` is a coroutine tied to this composition: it starts here and is cancelled when
             // the Activity goes away, the closest Compose has to a `useEffect` with a cleanup.
             LaunchedEffect(Unit) {
-                app.preferences.keepAlive.distinctUntilChanged().collect { enabled ->
-                    if (enabled) KeepAliveService.start(this@MainActivity) else KeepAliveService.stop(this@MainActivity)
+                app.preferences.keepAliveActive.distinctUntilChanged().collect { active ->
+                    if (active) KeepAliveService.start(this@MainActivity) else KeepAliveService.stop(this@MainActivity)
                 }
             }
             // Kotlin note: a plain `Flow` has no current value the way a `StateFlow` does, so
