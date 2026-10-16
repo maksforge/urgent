@@ -33,13 +33,15 @@ enum class CallerContact { NONE, SAVED, STARRED }
  * What the contacts say about a call from [number]. The platform matches the number itself, so
  * `+48 600…` and `600…` are the same phone.
  */
-fun Context.callerContact(number: String): CallerContact =
-    try {
+fun Context.callerContact(number: String): CallerContact {
+    if (!hasContactsPermission()) return CallerContact.NONE
+    return try {
         queryCallerContact(number)
     } catch (e: RuntimeException) {
         // The receiver's coroutine has no catch, so a provider failure here would crash the app.
         CallerContact.NONE
     }
+}
 
 /** Lets a provider failure escape; [callerContact] is the version the ring path uses. */
 internal fun Context.queryCallerContact(number: String): CallerContact {

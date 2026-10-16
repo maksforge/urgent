@@ -10,6 +10,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import app.urgent.MainApplication
 import app.urgent.call.ChosenCaller
 import app.urgent.data.AppPreferences
+import app.urgent.data.CallerRules
+import app.urgent.data.ContactScope
 import app.urgent.data.DEFAULT_REPEAT_WINDOW_MINUTES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,10 +23,10 @@ import kotlinx.coroutines.withContext
 
 data class HomeUiState(
     val ringThrough: Boolean = false,
+    val keepAlive: Boolean = false,
     val windowMinutes: Int = DEFAULT_REPEAT_WINDOW_MINUTES,
     val countDeclined: Boolean = true,
-    val chosenCallers: Set<String> = emptySet(),
-    val fromContacts: Boolean = false,
+    val callers: CallerRules = CallerRules(),
 )
 
 class HomeViewModel(
@@ -34,15 +36,19 @@ class HomeViewModel(
     val state: StateFlow<HomeUiState> =
         combine(
             preferences.ringThrough,
+            preferences.keepAlive,
             preferences.repeatWindowMinutes,
             preferences.countDeclinedCalls,
-            preferences.chosenCallers,
-            preferences.fromContacts,
+            preferences.callerRules,
             ::HomeUiState,
         ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
     fun setRingThrough(enabled: Boolean) {
         viewModelScope.launch { preferences.setRingThrough(enabled) }
+    }
+
+    fun setKeepAlive(enabled: Boolean) {
+        viewModelScope.launch { preferences.setKeepAlive(enabled) }
     }
 
     fun setWindowMinutes(minutes: Int) {
@@ -53,8 +59,12 @@ class HomeViewModel(
         viewModelScope.launch { preferences.setCountDeclinedCalls(enabled) }
     }
 
-    fun setFromContacts(enabled: Boolean) {
-        viewModelScope.launch { preferences.setFromContacts(enabled) }
+    fun setUseChosenCallers(enabled: Boolean) {
+        viewModelScope.launch { preferences.setUseChosenCallers(enabled) }
+    }
+
+    fun setContactScope(scope: ContactScope) {
+        viewModelScope.launch { preferences.setContactScope(scope) }
     }
 
     fun addChosenCaller(number: String) {

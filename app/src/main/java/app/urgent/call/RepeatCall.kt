@@ -1,6 +1,8 @@
 package app.urgent.call
 
 import android.provider.CallLog
+import app.urgent.data.CallerRules
+import app.urgent.data.ContactScope
 
 /** One row of the phone's call log, reduced to what deciding a repeat needs. */
 data class LoggedCall(
@@ -58,17 +60,22 @@ fun isChosenCaller(
 ): Boolean = chosen.any { entry -> ChosenCaller.fromEntry(entry).numbers.any { sameNumber(it, incoming) } }
 
 /**
- * Whether a repeated call from [incoming] may ring. With no chosen caller and [contactsOn] off, anyone may.
- * Otherwise a chosen caller's number may, and with [contactsOn] so may a caller [contact] finds in the contacts.
+ * Whether a repeated call from [incoming] may ring. Nothing restricts anyone while the chosen list is
+ * off or empty and the contacts setting is off. Otherwise a chosen caller may, and so may a contact
+ * that [rules] admits: any saved one, or only a starred one.
  */
 fun isAllowedCaller(
     incoming: String,
-    chosen: Set<String>,
-    contactsOn: Boolean,
+    rules: CallerRules,
     sameNumber: (String, String) -> Boolean,
     contact: CallerContact,
 ): Boolean {
-    if (chosen.isEmpty() && !contactsOn) return true
-    if (isChosenCaller(incoming, chosen, sameNumber)) return true
-    return contactsOn && contact != CallerContact.NONE
+    val listRestricts = rules.useChosen && rules.chosen.isNotEmpty()
+    if (!listRestricts && rules.contactScope == ContactScope.OFF) return true
+    if (rules.useChosen && isChosenCaller(incoming, rules.chosen, sameNumber)) return true
+    return when (rules.contactScope) {
+        ContactScope.OFF -> false
+        ContactScope.EVERYONE -> contact != CallerContact.NONE
+        ContactScope.STARRED -> contact == CallerContact.STARRED
+    }
 }

@@ -56,6 +56,8 @@ import app.urgent.call.CALL_PERMISSIONS
 import app.urgent.call.ChosenCaller
 import app.urgent.call.hasCallPermissions
 import app.urgent.call.hasContactsPermission
+import app.urgent.data.CallerRules
+import app.urgent.data.ContactScope
 import app.urgent.data.REPEAT_WINDOW_CHOICES
 import app.urgent.theme.Spacing
 import app.urgent.ui.appViewModelExtras
@@ -149,6 +151,13 @@ fun HomeScreen(
                 onChange = viewModel::setCountDeclined,
             )
 
+            SwitchRow(
+                title = stringResource(R.string.home_keep_alive),
+                subtitle = stringResource(R.string.home_keep_alive_hint),
+                checked = state.keepAlive,
+                onChange = viewModel::setKeepAlive,
+            )
+
             // Only while the switch is on: a warning about a grant a disabled feature would need is
             // the app asking for something it is not using.
             if (state.ringThrough) {
@@ -189,11 +198,11 @@ fun HomeScreen(
                 }
             }
             CallersSection(
-                chosenCallers = state.chosenCallers,
-                fromContacts = state.fromContacts,
+                callers = state.callers,
                 contactsGranted = contactsGranted,
                 ringThrough = state.ringThrough,
-                onFromContacts = viewModel::setFromContacts,
+                onUseChosen = viewModel::setUseChosenCallers,
+                onContactScope = viewModel::setContactScope,
                 onAddTyped = viewModel::addChosenCaller,
                 loadContacts = viewModel::contactCallers,
                 onAddFromContacts = viewModel::addChosenCallerFromContacts,
@@ -205,11 +214,11 @@ fun HomeScreen(
 
 @Composable
 private fun CallersSection(
-    chosenCallers: Set<String>,
-    fromContacts: Boolean,
+    callers: CallerRules,
     contactsGranted: Boolean,
     ringThrough: Boolean,
-    onFromContacts: (Boolean) -> Unit,
+    onUseChosen: (Boolean) -> Unit,
+    onContactScope: (ContactScope) -> Unit,
     onAddTyped: (String) -> Unit,
     loadContacts: suspend () -> List<PickedCaller>,
     onAddFromContacts: (PickedCaller) -> Unit,
@@ -217,6 +226,7 @@ private fun CallersSection(
 ) {
     var typed by rememberSaveable { mutableStateOf("") }
     var choosingContact by rememberSaveable { mutableStateOf(false) }
+    var scopeAwaitingContacts by remember { mutableStateOf(ContactScope.OFF) }
     val context = LocalContext.current
     // The ask waits for the button: the contacts list is only needed once the user asks for it.
     val askForContacts =
@@ -230,40 +240,56 @@ private fun CallersSection(
     val askForContactsToRing =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) {
-                onFromContacts(true)
+                onContactScope(scopeAwaitingContacts)
             } else {
                 Toast.makeText(context, R.string.home_contacts_ring_denied, Toast.LENGTH_LONG).show()
             }
         }
-    val contactsOn = fromContacts && contactsGranted
-    val status =
-        when {
-            contactsOn && chosenCallers.isEmpty() -> R.string.home_callers_contacts_only
-            contactsOn -> R.string.home_callers_contacts_and_chosen
-            chosenCallers.isEmpty() -> R.string.home_callers_anyone
-            else -> R.string.home_callers_chosen
-        }
+    val scope = if (contactsGranted) callers.contactScope else ContactScope.OFF
+    val listOn = callers.useChosen && callers.chosen.isNotEmpty()
 
     SectionHeader(stringResource(R.string.home_callers))
     Text(
-        text = stringResource(status),
+        text = stringResource(callersStatus(listOn, scope)),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(horizontal = Spacing.base),
     )
     SwitchRow(
-        title = stringResource(R.string.home_from_contacts),
-        subtitle = stringResource(R.string.home_from_contacts_hint),
-        checked = fromContacts,
-        onChange = { enabled ->
-            if (enabled && !context.hasContactsPermission()) {
-                askForContactsToRing.launch(Manifest.permission.READ_CONTACTS)
-            } else {
-                onFromContacts(enabled)
-            }
-        },
+        title = stringResource(R.string.home_use_chosen),
+        subtitle = stringResource(R.string.home_use_chosen_hint),
+        checked = callers.useChosen,
+        onChange = onUseChosen,
     )
-    if (ringThrough && fromContacts && !contactsGranted) {
+    Text(
+        text = stringResource(R.string.home_contacts_scope),
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = Modifier.padding(horizontal = Spacing.base, vertical = Spacing.tight),
+    )
+    Text(
+        text = stringResource(R.string.home_contacts_scope_hint),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(horizontal = Spacing.base),
+    )
+    FlowRow(modifier = Modifier.padding(horizontal = Spacing.base)) {
+        for (option in ContactScope.entries) {
+            FilterChip(
+                selected = callers.contactScope == option,
+                onClick = {
+                    if (option != ContactScope.OFF && !context.hasContactsPermission()) {
+                        scopeAwaitingContacts = option
+                        askForContactsToRing.launch(Manifest.permission.READ_CONTACTS)
+                    } else {
+                        onContactScope(option)
+                    }
+                },
+                label = { Text(stringResource(option.labelRes())) },
+                modifier = Modifier.padding(end = Spacing.tight),
+            )
+        }
+    }
+    if (ringThrough && callers.contactScope != ContactScope.OFF && !contactsGranted) {
         WarningBanner(
             title = stringResource(R.string.home_contacts_missing_title),
             body = stringResource(R.string.home_contacts_missing_body),
@@ -273,7 +299,7 @@ private fun CallersSection(
     }
     // Plain string order puts Ł after Z; a collator follows the default locale's alphabet.
     val collator = Collator.getInstance()
-    for (entry in chosenCallers.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {
+    for (entry in callers.chosen.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {
         val caller = ChosenCaller.fromEntry(entry)
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -393,6 +419,25 @@ private fun CallerText(
         )
     }
 }
+
+private fun callersStatus(
+    listOn: Boolean,
+    scope: ContactScope,
+): Int =
+    when (scope) {
+        ContactScope.OFF -> if (listOn) R.string.home_callers_chosen else R.string.home_callers_anyone
+        ContactScope.EVERYONE ->
+            if (listOn) R.string.home_callers_contacts_and_chosen else R.string.home_callers_contacts_only
+        ContactScope.STARRED ->
+            if (listOn) R.string.home_callers_starred_and_chosen else R.string.home_callers_starred_only
+    }
+
+private fun ContactScope.labelRes(): Int =
+    when (this) {
+        ContactScope.OFF -> R.string.home_scope_off
+        ContactScope.EVERYONE -> R.string.home_scope_everyone
+        ContactScope.STARRED -> R.string.home_scope_starred
+    }
 
 /**
  * The notification permission rides along on Android 13+: without it the ringing still happens, but

@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.urgent.call.KeepAliveService
 import app.urgent.theme.AppTheme
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 /**
  * AppCompatActivity rather than ComponentActivity, and for one reason only: it is where
@@ -56,6 +59,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContent {
+            // A `LaunchedEffect` is a coroutine tied to this composition: it starts here and is cancelled when
+            // the Activity goes away, the closest Compose has to a `useEffect` with a cleanup.
+            LaunchedEffect(Unit) {
+                app.preferences.keepAlive.distinctUntilChanged().collect { enabled ->
+                    if (enabled) KeepAliveService.start(this@MainActivity) else KeepAliveService.stop(this@MainActivity)
+                }
+            }
             // Kotlin note: a plain `Flow` has no current value the way a `StateFlow` does, so
             // collecting one as state needs an initial. `false` is also the stored default, which is
             // what keeps the first frame from being the wrong palette and then repainting.

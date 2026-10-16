@@ -72,8 +72,11 @@ template's `docs/DOD.md` the day a feature adds a table.
 ## Before the next upload
 
 - [ ] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
-      answer describe only *Add from contacts*. The *Everyone in your contacts* switch reads contacts when a
-      call rings, so update both before the next upload.
+      answer describe only *Add from contacts*. *Everyone in your contacts* and *Starred contacts* read contacts
+      when a call rings, so update both before the next upload.
+- [ ] **Declare the keep-alive foreground service.** *Run in the background* runs `KeepAliveService` as a
+      `specialUse` foreground service (`FOREGROUND_SERVICE_SPECIAL_USE`). Write its purpose into the Console's
+      foreground-service declaration with the release, in the same sitting as the contacts answer.
 
 ## After the closed test
 
