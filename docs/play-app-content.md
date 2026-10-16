@@ -29,7 +29,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
 | `RECEIVE_BOOT_COMPLETED` *(not yet in a release)* | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
 | `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
-| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
+| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `FOREGROUND_SERVICE_SPECIAL_USE` *(the last not yet in a release)* | ours | `RingThroughService` plays the ringtone for up to a minute; `KeepAliveService` keeps the app running while *Run in the background* is on | **Foreground service declarations**: one for each type, `mediaPlayback` and `specialUse`, each with a short video, asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
 **`READ_CONTACTS` and Play's API 37 policy.**
@@ -183,7 +183,16 @@ same day with 0.1.0 (versionCode 18); the Console's task is *Media playback*.
   while this declaration is on file — Play can re-review it on a later update or at the yearly
   re-declaration.
 
-Would change: a second foreground service, a change of type, or the ringing outliving the call.
+Would change: a change of type, or the ringing outliving the call.
+
+**`specialUse`**, for `call/KeepAliveService.kt`. Not yet answered in the Console: it is on the feature branch and not in a release.
+
+- **What the user sees:** a quiet, ongoing notification, *Urgent is running*, for as long as *Run in the background* is on.
+- **Why it cannot wait:** the phone-state receiver should not wait for Android or the ROM to start Urgent again between calls.
+- **Why this type:** the service plays no sound, carries no call and moves no data, so `mediaPlayback`, `phoneCall` and `dataSync` do not fit. The manifest carries the subtype text.
+- **The video:** not yet recorded. It shows the notification with *Run in the background* on, while the app is not open.
+
+Would change: a change of type, or the service running without *Run in the background* on.
 
 ## Store settings (not App content, recorded here because it is asked for the same reason)
 

@@ -32,10 +32,10 @@ not request internet access at all.
   each repeated call that comes in, the app checks the caller's number against your contacts on the
   phone, to decide whether to ring. It keeps nothing from that check and never sends it anywhere.
   Apart from those two uses, the app never reads your contacts.
-- **Notifications**, only to show the *Silence* button while it is ringing.
+- **Notifications**, only to show the *Silence* button while it is ringing, and a quiet one while *Run in the background* is on.
 
 The app stores its settings — whether it is switched on, how many minutes count as "again", whether
-a call you declined counts, whether *Everyone in your contacts* is on, and which numbers and names you chose — and your theme and language choices.
+a call you declined counts, which contacts choice you made, whether *Run in the background* is on, and which numbers and names you chose — and your theme and language choices.
 
 The app may also send you to two of your phone's own Settings screens. It asks for neither as a
 permission. It checks whether the battery exemption is on, to show or hide its reminder, and keeps
