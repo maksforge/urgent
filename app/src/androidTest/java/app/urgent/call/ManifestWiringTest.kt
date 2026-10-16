@@ -1,5 +1,6 @@
 package app.urgent.call
 
+import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.telephony.TelephonyManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -57,5 +59,28 @@ class ManifestWiringTest {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             assertEquals(ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE, info.foregroundServiceType)
         }
+    }
+
+    @Test
+    fun the_boot_receiver_is_not_exported_and_hears_boot_and_update() {
+        val receiver = ComponentName(context, KeepAliveRestartReceiver::class.java)
+        assertFalse(context.packageManager.getReceiverInfo(receiver, 0).exported)
+        for (action in listOf(Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED)) {
+            val names =
+                context.packageManager
+                    .queryBroadcastReceivers(Intent(action).setPackage(context.packageName), 0)
+                    .map { it.activityInfo.name }
+            assertTrue("$action reaches $names", KeepAliveRestartReceiver::class.java.name in names)
+        }
+    }
+
+    @Test
+    fun the_boot_permission_is_requested() {
+        val requested =
+            context.packageManager
+                .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
+                .requestedPermissions
+                .orEmpty()
+        assertTrue(Manifest.permission.RECEIVE_BOOT_COMPLETED in requested)
     }
 }
