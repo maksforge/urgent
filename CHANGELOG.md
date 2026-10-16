@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.3.0](https://github.com/srednimax/urgent/compare/v0.2.0...v0.3.0) (2026-10-16)
+
+
+### Features
+
+* add starred contacts, a list switch and background keep-alive ([5cb32cd](https://github.com/srednimax/urgent/commit/5cb32cd15e0a5a01a410845d9f65718252d33c54))
+* choose callers from an in-app contact list ([465942b](https://github.com/srednimax/urgent/commit/465942b4124c29a07e0d87247796b09ebbed6b02))
+* let repeated calls ring for everyone in your contacts ([804bfc4](https://github.com/srednimax/urgent/commit/804bfc49347d589f14a0b78e4e8a7f0f312a3342))
+* let repeated calls ring only from chosen callers ([edc3d57](https://github.com/srednimax/urgent/commit/edc3d5779e4326b49e77f091c5ac3433fe55a5eb))
+* restart the keep-alive after a reboot or an update ([a742723](https://github.com/srednimax/urgent/commit/a742723f3f0e958326f5c576196c3cfc5ea87834))
+
+
+### Bug Fixes
+
+* contact scope chips show the effective choice and survive recreation ([7a816cf](https://github.com/srednimax/urgent/commit/7a816cf9bb247b5d5867902d1d70796d9e4ff7f9))
+* expect the keep-alive's special-use service in the artifact check ([cdb951e](https://github.com/srednimax/urgent/commit/cdb951eac4488cbf75af91df9fefcf06885e49eb))
+* keep the boot restart receiver unexported ([d99aa13](https://github.com/srednimax/urgent/commit/d99aa1360d0f9391b0a54585a4bf58326d285a92))
+* keep the keep-alive service from crashing and stacking activities ([b86d45d](https://github.com/srednimax/urgent/commit/b86d45dd31a00d10418422d6910905ab761b387c))
+* match both the written and the normalised number from contacts ([5f97c78](https://github.com/srednimax/urgent/commit/5f97c78d2fe69df44cab5b65e76c6012d31f2dc2))
+* pick callers by E.164 and apply the digit minimum to both paths ([71e2c82](https://github.com/srednimax/urgent/commit/71e2c821d021e088ace7ff246ecc5dadbedc063a))
+* read contacts only for a repeated call, and only with contacts on ([2aa11ae](https://github.com/srednimax/urgent/commit/2aa11ae66125524cacfe393ad602846ee590d2cc))
+* read contacts only for repeated calls; respect DND's contact rules ([7511b92](https://github.com/srednimax/urgent/commit/7511b92cda3f9046bed06e80e842a7731a9fd7d8))
+* remove all of a contact's numbers together ([df7f2e1](https://github.com/srednimax/urgent/commit/df7f2e1c5533797a3d2baa180248f6b6f4ad0180))
+* run the keep-alive only while Ring for repeated calls is on ([7e0ce99](https://github.com/srednimax/urgent/commit/7e0ce99a8173930420b2db8cdbb1f6f222b6f133))
+* say one entry per picked number, and show one form per row ([801bc91](https://github.com/srednimax/urgent/commit/801bc914c4e9e333935db77c9947cf4433ce2c47))
+* scan every contact row for starred, and catch provider errors ([8c4589f](https://github.com/srednimax/urgent/commit/8c4589f1f29db8563faed4f4b8cecf9e2dd4e85c))
+* show the contacts banner only while Urgent is on ([72d1599](https://github.com/srednimax/urgent/commit/72d159915609ec72de76509cd38ef961033d2f0a))
+
 ## [0.2.0](https://github.com/srednimax/urgent/compare/v0.1.0...v0.2.0) (2026-10-13)
 
 
