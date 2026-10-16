@@ -52,7 +52,7 @@ The line that appears under the name in search results, and the most-read text i
 Rings when the same number calls twice, even with your phone on silent.
 ```
 
-### Full description — 3907/4000
+### Full description — 3969/4000
 
 **No health or safety claims.** Urgent is a second chance at a call, not an emergency service, and
 the *What it cannot do* section says so; Play's enforcement reads a linked page as part of the
@@ -102,7 +102,7 @@ PERMISSIONS
 - Call log. The caller's number, and whether they called in the last few minutes. Read on the phone, never stored, never sent.
 - Contacts. Asked for when you press "Add from contacts" or choose "Everyone in your contacts" or "Starred contacts". Read on the phone. With either chosen, a repeated call's number is checked against them when it rings. Only the callers you tap are kept.
 - Notifications. The Silence button while Urgent rings, and a quiet one while Run in the background is on.
-- Foreground service. Plays the ringtone while the call rings.
+- Foreground services. One plays the ringtone during a repeated call. The other runs only while Run in the background is on.
 
 Source available, built in the open: github.com/srednimax/urgent
 ```
@@ -124,14 +124,14 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3991/4000
+### Full description — 3997/4000
 
 ```
-Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie cię potrzebuje. Urgent zadzwoni przy tym drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
+Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie cię potrzebuje. Urgent zadzwoni przy drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
 
 JAK TO DZIAŁA
 
-Urgent sprawdza rejestr połączeń, czy ten sam numer dzwonił w ciągu ostatnich 5, 10, 15 albo 30 minut, do wyboru. Jeśli tak i telefon przepuściłby to połączenie bez dźwięku, Urgent odtwarza twój dzwonek z głośnością alarmu i wibruje. Jeśli Android nie pozwoli odczytać dzwonka, odtwarza dźwięk alarmu. Przestaje, gdy odbierzesz, odrzucisz albo połączenie się skończy, albo po minucie. Przycisk Wycisz zatrzymuje go wcześniej.
+Urgent sprawdza rejestr połączeń, czy ten sam numer dzwonił w ciągu ostatnich 5, 10, 15 albo 30 minut, do wyboru. Jeśli tak i telefon przepuściłby połączenie bez dźwięku, Urgent odtwarza twój dzwonek z głośnością alarmu i wibruje. Jeśli Android nie pozwoli odczytać dzwonka, odtwarza dźwięk alarmu. Przestaje, gdy odbierzesz, odrzucisz albo połączenie się skończy, albo po minucie. Przycisk Wycisz zatrzymuje go wcześniej.
 
 Pierwsze połączenie zostaje ciche, jak ustawiono. Dzwoni dopiero drugie. Odrzucone połączenie też liczy się jako pierwsze, chyba że to wyłączysz. Możesz wybrać rozmówców, od których Urgent ma dzwonić, albo włączyć „Wszyscy z twoich kontaktów” lub „Oznaczone gwiazdką”. Dopóki nie wybierzesz żadnej z tych opcji, dzwoni od każdego.
 
@@ -139,16 +139,16 @@ DZWONI TYLKO WTEDY, GDY TELEFON BY NIE ZADZWONIŁ
 
 - Dzwonek włączony: telefon dzwoni sam, więc Urgent milczy.
 - Wyciszenie albo wibracje: Urgent dzwoni.
-- Nie przeszkadzać: Urgent dzwoni tylko przy dozwolonych alarmach i milczy, gdy telefon sam pozwala zadzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty lub oznaczone gwiazdką, Urgent milczy w ich przypadku, przy wybranym „Wszyscy z twoich kontaktów” albo „Oznaczone gwiazdką”. Bez nich nie sprawdza, więc może dzwonić też od nich, nawet gdy telefon dzwoni.
+- Nie przeszkadzać: Urgent dzwoni tylko przy dozwolonych alarmach i milczy, gdy telefon sam pozwala zadzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty lub oznaczone gwiazdką, Urgent milczy przy wybranym „Wszyscy z twoich kontaktów” albo „Oznaczone gwiazdką”. Bez nich nie sprawdza, więc może dzwonić też od nich, nawet gdy telefon dzwoni.
 - W trakcie innej rozmowy: Urgent milczy.
 
 DZIAŁA W TLE, JEŚLI TAK WOLISZ
 
-„Działaj w tle” trzyma Urgent w działaniu z cichym powiadomieniem, żeby Android nie zamykał go między połączeniami. Działa tylko przy włączonym „Dzwoń przy powtórnym połączeniu” i rusza po restarcie albo aktualizacji.
+„Działaj w tle” trzyma Urgent w działaniu z cichym powiadomieniem, by Android nie zamykał go między połączeniami. Działa tylko przy włączonym „Dzwoń przy powtórnym połączeniu” i rusza po restarcie albo aktualizacji.
 
 TWOJE USTAWIENIA ZOSTAJĄ BEZ ZMIAN
 
-Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przeszkadzać. Odtwarza dzwonek na strumieniu alarmu, którego tryb cichy nie wycisza, więc telefon zostaje w takim stanie, w jakim był.
+Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przeszkadzać. Odtwarza dzwonek na strumieniu alarmu, którego tryb cichy nie wycisza, więc telefon zostaje taki, jaki był.
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
@@ -156,11 +156,11 @@ Bez reklam. Bez konta. Bez serwera. Bez subskrypcji. Urgent nie ma uprawnienia d
 
 CZEGO NIE POTRAFI
 
-Urgent nie wie, dlaczego ktoś dzwoni. Dwa połączenia z rzędu zadzwonią, ważne czy nie, a pojedyncze pozostanie ciche, choćby było najważniejsze.
+Urgent nie wie, dlaczego ktoś dzwoni. Dwa połączenia z rzędu zadzwonią, ważne czy nie, a pojedyncze zostanie ciche, choćby było najważniejsze.
 
 Połączenia z ukrytego numeru nie da się dopasować, więc nigdy nie zadzwoni.
 
-Niektóre telefony go zatrzymują. Optymalizacja baterii może nie pozwolić Urgentowi dzwonić w tle; aplikacja otwiera to ustawienie. Na Xiaomi Urgent dowie się o połączeniu tylko przy włączonym autostarcie; aplikacja otwiera też tę listę.
+Niektóre telefony go zatrzymują. Optymalizacja baterii może nie pozwolić Urgentowi dzwonić w tle; aplikacja otwiera to ustawienie. Na Xiaomi Urgent dowie się o połączeniu tylko przy włączonym autostarcie; otwiera też tę listę.
 
 Urgent to druga szansa, nie gwarancja. Jeśli nie możesz przegapić połączenia, zostaw włączony dzwonek.
 
@@ -168,9 +168,9 @@ UPRAWNIENIA
 
 - Telefon. Mówi aplikacji Urgent, że ktoś dzwoni.
 - Rejestr połączeń. Numer dzwoniącego i to, czy dzwonił w ostatnich kilku minutach. Odczytywany na telefonie, nigdy nie zapisywany ani nie wysyłany.
-- Kontakty. Urgent prosi o dostęp po „Dodaj z kontaktów” albo po wybraniu „Wszyscy z twoich kontaktów” lub „Oznaczone gwiazdką”. Lista jest czytana na telefonie. Przy wybranej opcji numer dzwoniącego sprawdzany jest w kontaktach przy powtórnym połączeniu. Zachowuje tylko wybranych rozmówców.
+- Kontakty. Urgent prosi o dostęp po „Dodaj z kontaktów” albo wyborze „Wszyscy z twoich kontaktów” lub „Oznaczone gwiazdką”. Lista jest czytana na telefonie. Przy wybranej opcji numer dzwoniącego sprawdzany jest w kontaktach przy powtórnym połączeniu. Zachowuje tylko wybranych rozmówców.
 - Powiadomienia. Przycisk Wycisz, gdy Urgent dzwoni, i ciche powiadomienie, gdy działa w tle.
-- Usługa na pierwszym planie. Odtwarza dzwonek podczas połączenia.
+- Usługi na pierwszym planie. Jedna odtwarza dzwonek w powtórnym połączeniu; druga działa tylko przy włączonym „Działaj w tle”.
 
 Kod źródłowy jest dostępny publicznie: github.com/srednimax/urgent
 ```
