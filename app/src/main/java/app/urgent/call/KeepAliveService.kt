@@ -33,9 +33,16 @@ class KeepAliveService : Service() {
         flags: Int,
         startId: Int,
     ): Int {
-        ServiceCompat.startForeground(this, NOTIFICATION_ID, keepAliveNotification(), serviceType())
-        // START_STICKY: if Android stops this for memory, it comes back. A ring must not, because it ends with its call.
-        return START_STICKY
+        val notification = keepAliveNotification()
+        return try {
+            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, serviceType())
+            START_STICKY
+        } catch (e: IllegalStateException) {
+            // The API 31+ refusal is an IllegalStateException subclass, so this catch covers every API level.
+            Log.w(TAG, "Not allowed to keep running from the background", e)
+            stopSelf()
+            START_NOT_STICKY
+        }
     }
 
     private fun serviceType(): Int =
@@ -53,11 +60,13 @@ class KeepAliveService : Service() {
                 NotificationManager.IMPORTANCE_LOW,
             ).apply { description = getString(R.string.channel_keep_alive_description) },
         )
+        // Reuses the open MainActivity rather than stacking a new one on every tap.
         val open =
             PendingIntent.getActivity(
                 this,
                 0,
-                Intent(this, MainActivity::class.java),
+                Intent(this, MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),
                 PendingIntent.FLAG_IMMUTABLE,
             )
         return NotificationCompat
