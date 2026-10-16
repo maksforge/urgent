@@ -5,7 +5,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-_Last updated: 2026-10-15_
+_Last updated: 2026-10-16_
 
 Urgent is an Android app that rings your phone when the same number calls you twice within a few
 minutes, even while the phone is silenced. This policy describes what the app reads to do that, and
@@ -28,10 +28,10 @@ not request internet access at all.
   your contacts. If you allow it, the app lists the phone numbers in your contacts on your phone, and
   keeps only the numbers and names of the contacts you tap. It keeps a name only when it is the
   contact's own name, never a nickname. The list is read on the phone and is never sent anywhere.
-  Turning on *Everyone in your contacts* asks for the same permission. Then, for each repeated call
-  that comes in, the app checks the caller's number against your contacts on the phone, to decide
-  whether to ring. It keeps nothing from that check and never sends it anywhere. Apart from those two
-  uses, the app never reads your contacts.
+  Turning on *Everyone in your contacts* or *Starred contacts* asks for the same permission. Then, for
+  each repeated call that comes in, the app checks the caller's number against your contacts on the
+  phone, to decide whether to ring. It keeps nothing from that check and never sends it anywhere.
+  Apart from those two uses, the app never reads your contacts.
 - **Notifications**, only to show the *Silence* button while it is ringing.
 
 The app stores its settings — whether it is switched on, how many minutes count as "again", whether

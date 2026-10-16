@@ -27,7 +27,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
-| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
+| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | ours | `RingThroughService` plays the ringtone for up to a minute | **Foreground service declaration**: the type and a short video of the ring are asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
@@ -38,10 +38,10 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
   starts prompting affected developers in September 2026, and compliance is mandatory from 27 January
   2027 ([Play Console Help 16935362](https://support.google.com/googleplay/android-developer/answer/16935362)).
 - **Our status:** `targetSdk` is 36, so the policy does not apply yet. `READ_CONTACTS` is requested only
-  when the user presses *Add from contacts* or turns on *Everyone in your contacts*. That switch reads
-  contacts when a repeated call rings, which the contact picker cannot do.
+  when the user presses *Add from contacts* or turns on *Everyone in your contacts* or *Starred contacts*.
+  Those choices read contacts when a repeated call rings, which the contact picker cannot do.
 - **Plan before `targetSdk` goes to 37:** move the flow to the system contact picker and drop
-  `READ_CONTACTS`, or file the Console declaration with the core-functionality justification. While the switch exists the picker route is closed, so only the declaration
+  `READ_CONTACTS`, or file the Console declaration with the core-functionality justification. While those choices exist the picker route is closed, so only the declaration
   is left. Re-read
   this section when `targetSdk` changes; the exact picker API is checked when that migration starts.
 
@@ -123,7 +123,7 @@ The answer rests on one fact per route data could take:
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
    flows" in a re-declaration.** The help page has no such exemption; the claim is true because of
    what "collect" means, and that is the reason to give.
-5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* on, to check each repeated call's number when it rings.**
+5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* or *Starred contacts* on, to check each repeated call's number when it rings.**
    Only the callers the user taps are kept, nothing from the list is sent, and the ring-time check keeps nothing. Still disclose it if the form
    asks about *access* rather than collection, as for the call log.
 
@@ -132,7 +132,7 @@ Would change any of it:
 - **`INTERNET` on the artifact**, from our code or a dependency. Every answer here becomes a question.
 - **Anything the app sends by itself**, such as crash reporting or analytics. There is none today.
 - **Storing call-log rows, or contacts beyond the callers the user taps,** in the app's own storage, where a backup would carry them.
-- **Reading the contacts list anywhere other than the *Add from contacts* button and the *Everyone in your contacts* check.** The Data safety answer and the Console's permission questions need re-reading.
+- **Reading the contacts list anywhere other than the *Add from contacts* button and the ring-time check.** The Data safety answer and the Console's permission questions need re-reading.
 
 ## Advertising ID
 

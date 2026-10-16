@@ -49,21 +49,26 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
-                // The contacts setting only counts while the app may read contacts.
+                // Without the permission the contacts setting cannot apply, so it counts as Off, which admits
+                // anyone while the chosen list is off or empty.
                 val rules =
                     preferences.callerRules.first().let {
                         if (app.hasContactsPermission()) it else it.copy(contactScope = ContactScope.OFF)
                     }
-                // A caller the rules reject stops here, before the call-log read. The contact is looked up
-                // for every caller, not only admitted ones: Do Not Disturb's contacts rule needs it too.
-                val contact = app.callerContact(number)
-                if (!isAllowedCaller(number, rules, PhoneNumberUtils::compare, contact)) return@launch
+                val contactsOn = rules.contactScope != ContactScope.OFF
+                // Contacts off: the chosen list decides alone, so a caller it turns away costs no call-log read.
+                if (!contactsOn && !isAllowedCaller(number, rules, PhoneNumberUtils::compare, CallerContact.NONE)) {
+                    return@launch
+                }
                 val earlierCallAge =
                     app.repeatCallAgeMillisNow(
                         number,
                         preferences.repeatWindowMinutes.first(),
                         preferences.countDeclinedCalls.first(),
                     ) ?: return@launch
+                // Contacts are read only for a repeated call, and only while they are on.
+                val contact = if (contactsOn) app.callerContact(number) else CallerContact.NONE
+                if (!isAllowedCaller(number, rules, PhoneNumberUtils::compare, contact)) return@launch
                 val sound = app.soundSettings() ?: return@launch
                 if (!shouldRingThrough(sound, earlierCallAge, contact)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the
