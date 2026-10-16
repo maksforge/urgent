@@ -75,10 +75,19 @@
     <string name="home_callers_remove">Usuń</string>
     <string name="home_callers_contacts_only">Powtórne połączenia dzwonią tylko od twoich kontaktów.</string>
     <string name="home_callers_contacts_and_chosen">Powtórne połączenia dzwonią od twoich kontaktów i od rozmówców poniżej.</string>
-    <string name="home_from_contacts">Wszyscy z twoich kontaktów</string>
-    <string name="home_from_contacts_hint">Powtórne połączenia z każdego zapisanego kontaktu dzwonią, razem z rozmówcami, których wybierzesz poniżej. Urgent czyta kontakty w telefonie, żeby sprawdzić każde powtórne połączenie.</string>
+    <string name="home_callers_starred_only">Powtórne połączenia dzwonią tylko od oznaczonych gwiazdką kontaktów.</string>
+    <string name="home_callers_starred_and_chosen">Powtórne połączenia dzwonią od oznaczonych gwiazdką kontaktów i od rozmówców poniżej.</string>
+    <string name="home_use_chosen">Uwzględniaj rozmówców poniżej</string>
+    <string name="home_use_chosen_hint">Wyłączenie zostawia listę, ale ją ignoruje, dopóki znowu tego nie włączysz.</string>
+    <string name="home_contacts_scope">Z twoich kontaktów</string>
+    <string name="home_contacts_scope_hint">Powtórne połączenia z zapisanych kontaktów dzwonią – od wszystkich albo tylko od oznaczonych gwiazdką. Urgent czyta kontakty w telefonie, żeby sprawdzić każde powtórne połączenie.</string>
+    <string name="home_scope_off">Wyłączone</string>
+    <string name="home_scope_everyone">Wszyscy z twoich kontaktów</string>
+    <string name="home_scope_starred">Oznaczone gwiazdką</string>
     <string name="home_contacts_missing_title">Kontakty nie są sprawdzane</string>
-    <string name="home_contacts_missing_body">Bez dostępu do kontaktów Urgent nie wie, kto w nich jest, więc przełącznik nic nie robi, dopóki na to nie zezwolisz.</string>
+    <string name="home_contacts_missing_body">Bez dostępu do kontaktów Urgent nie wie, kto w nich jest, więc to ustawienie nic nie robi, dopóki na to nie zezwolisz.</string>
+    <string name="home_keep_alive">Działaj w tle</string>
+    <string name="home_keep_alive_hint">Trzyma Urgent uruchomiony z cichym powiadomieniem, żeby Android nie zamykał go między połączeniami. Na Xiaomi zablokuj też Urgent w ostatnich aplikacjach.</string>
     <string name="home_contacts_ring_denied">Urgent potrzebuje dostępu do kontaktów, żeby dzwonić od nich. Możesz na to zezwolić w Ustawieniach.</string>
     <string name="home_callers_contacts_denied">Urgent potrzebuje dostępu do kontaktów, żeby wybrać rozmówcę. Możesz na to zezwolić w Ustawieniach.</string>
 
@@ -88,4 +97,9 @@
     <string name="ringing_title">Powtórne połączenie</string>
     <string name="ringing_body">Dzwonię, bo ten sam numer zadzwonił ponownie.</string>
     <string name="ringing_silence">Wycisz</string>
+
+    <string name="channel_keep_alive_name">Działanie w tle</string>
+    <string name="channel_keep_alive_description">Widoczne, gdy Urgent działa w tle i czeka na powtórne połączenia.</string>
+    <string name="keep_alive_title">Urgent działa</string>
+    <string name="keep_alive_body">Czeka na powtórne połączenia. Dotknij, by otworzyć.</string>
 </resources>

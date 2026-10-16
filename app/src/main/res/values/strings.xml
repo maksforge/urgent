@@ -91,10 +91,19 @@
     <string name="home_callers_chosen">Repeated calls ring only from the callers below.</string>
     <string name="home_callers_contacts_only">Repeated calls ring only from your contacts.</string>
     <string name="home_callers_contacts_and_chosen">Repeated calls ring from your contacts and from the callers below.</string>
-    <string name="home_from_contacts">Everyone in your contacts</string>
-    <string name="home_from_contacts_hint">Repeated calls from any saved contact ring, along with the callers you choose below. Urgent reads your contacts on the phone to check each repeated call.</string>
+    <string name="home_callers_starred_only">Repeated calls ring only from your starred contacts.</string>
+    <string name="home_callers_starred_and_chosen">Repeated calls ring from your starred contacts and from the callers below.</string>
+    <string name="home_use_chosen">Include the callers below</string>
+    <string name="home_use_chosen_hint">Off keeps the list, but ignores it until you switch this back on.</string>
+    <string name="home_contacts_scope">From your contacts</string>
+    <string name="home_contacts_scope_hint">Repeated calls from saved contacts ring, or only from starred ones. Urgent reads your contacts on the phone to check each repeated call.</string>
+    <string name="home_scope_off">Off</string>
+    <string name="home_scope_everyone">Everyone in your contacts</string>
+    <string name="home_scope_starred">Starred contacts</string>
     <string name="home_contacts_missing_title">Contacts are not checked</string>
-    <string name="home_contacts_missing_body">Without access to your contacts, Urgent cannot tell who is in them, so the switch does nothing until you allow it.</string>
+    <string name="home_contacts_missing_body">Without access to your contacts, Urgent cannot tell who is in them, so the setting does nothing until you allow it.</string>
+    <string name="home_keep_alive">Run in the background</string>
+    <string name="home_keep_alive_hint">Keeps Urgent running with a quiet notification, so Android does not stop it between calls. On Xiaomi, also lock Urgent in Recents.</string>
     <string name="home_contacts_ring_denied">Urgent needs access to your contacts to ring for them. You can allow it in Settings.</string>
     <string name="home_callers_from_contacts">Add from contacts</string>
     <string name="home_callers_search">Search contacts</string>
@@ -106,6 +115,10 @@
     <!-- Ringing -->
     <string name="channel_ringing_name">Ringing</string>
     <string name="channel_ringing_description">Shown while Urgent rings for a repeated call, with a button to stop it.</string>
+    <string name="channel_keep_alive_name">Running in the background</string>
+    <string name="channel_keep_alive_description">Shown while Urgent runs in the background, ready for repeated calls.</string>
+    <string name="keep_alive_title">Urgent is running</string>
+    <string name="keep_alive_body">Waiting for repeated calls. Tap to open.</string>
     <string name="ringing_title">Repeated call</string>
     <string name="ringing_body">Ringing because the same number called again.</string>
     <string name="ringing_silence">Silence</string>

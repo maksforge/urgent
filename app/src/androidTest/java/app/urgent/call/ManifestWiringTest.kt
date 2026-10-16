@@ -45,4 +45,17 @@ class ManifestWiringTest {
             assertEquals(ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK, info.foregroundServiceType)
         }
     }
+
+    @Test
+    fun the_keep_alive_service_outlives_the_app_leaving_recents() {
+        val info =
+            context.packageManager.getServiceInfo(
+                ComponentName(context, KeepAliveService::class.java),
+                0,
+            )
+        assertEquals(0, info.flags and ServiceInfo.FLAG_STOP_WITH_TASK)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            assertEquals(ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE, info.foregroundServiceType)
+        }
+    }
 }

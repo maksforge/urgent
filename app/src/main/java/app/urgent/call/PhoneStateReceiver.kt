@@ -6,6 +6,7 @@ import android.content.Intent
 import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
 import app.urgent.MainApplication
+import app.urgent.data.ContactScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -48,28 +49,21 @@ class PhoneStateReceiver : BroadcastReceiver() {
             try {
                 val preferences = app.preferences
                 if (!preferences.ringThrough.first()) return@launch
-                val chosen = preferences.chosenCallers.first()
-                val contactsOn = preferences.fromContacts.first() && app.hasContactsPermission()
-                // With contacts off, a caller the chosen list rejects stops here, before any call-log read.
-                if (!contactsOn && chosen.isNotEmpty() && !isChosenCaller(number, chosen, PhoneNumberUtils::compare)) {
-                    return@launch
-                }
+                // The contacts setting only counts while the app may read contacts.
+                val rules =
+                    preferences.callerRules.first().let {
+                        if (app.hasContactsPermission()) it else it.copy(contactScope = ContactScope.OFF)
+                    }
+                // A caller the rules reject stops here, before the call-log read. The contact is looked up
+                // for every caller, not only admitted ones: Do Not Disturb's contacts rule needs it too.
+                val contact = app.callerContact(number)
+                if (!isAllowedCaller(number, rules, PhoneNumberUtils::compare, contact)) return@launch
                 val earlierCallAge =
                     app.repeatCallAgeMillisNow(
                         number,
                         preferences.repeatWindowMinutes.first(),
                         preferences.countDeclinedCalls.first(),
                     ) ?: return@launch
-                val contact = if (contactsOn) app.callerContact(number) else CallerContact.NONE
-                val allowed =
-                    isAllowedCaller(
-                        incoming = number,
-                        chosen = chosen,
-                        contactsOn = contactsOn,
-                        sameNumber = PhoneNumberUtils::compare,
-                        contact = contact,
-                    )
-                if (!allowed) return@launch
                 val sound = app.soundSettings() ?: return@launch
                 if (!shouldRingThrough(sound, earlierCallAge, contact)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the

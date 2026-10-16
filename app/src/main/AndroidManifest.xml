@@ -27,6 +27,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!--
         Package visibility (API 30+) for the one OEM screen the app offers to open: Xiaomi's
@@ -104,6 +105,16 @@
             android:name=".call.RingThroughService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
+
+        <service
+            android:name=".call.KeepAliveService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Keeps the phone-state receiver's process alive between calls, while the user has switched on Run in the background." />
+        </service>
 
         <!--
             Not a service anybody starts — `android:enabled="false"` means it can never run. It is a

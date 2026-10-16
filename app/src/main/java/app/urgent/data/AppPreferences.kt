@@ -18,6 +18,23 @@ enum class ThemeMode {
     DARK,
 }
 
+/** Which saved contacts may ring a repeated call, as Do Not Disturb's *Calls from* choice does. */
+enum class ContactScope {
+    OFF,
+    EVERYONE,
+    STARRED,
+}
+
+/**
+ * Who may ring a repeated call. [chosen] holds one encoded entry per caller and is ignored, but kept,
+ * while [useChosen] is off. [contactScope] admits saved contacts. The defaults let anyone ring.
+ */
+data class CallerRules(
+    val chosen: Set<String> = emptySet(),
+    val useChosen: Boolean = true,
+    val contactScope: ContactScope = ContactScope.OFF,
+)
+
 /**
  * Everything the app remembers. Settings only — there is no database.
  *
@@ -47,7 +64,9 @@ class AppPreferences(
         val REPEAT_WINDOW_MINUTES = intPreferencesKey("repeat_window_minutes")
         val COUNT_DECLINED_CALLS = booleanPreferencesKey("count_declined_calls")
         val CHOSEN_CALLERS = stringSetPreferencesKey("chosen_callers")
-        val FROM_CONTACTS = booleanPreferencesKey("from_contacts")
+        val USE_CHOSEN_CALLERS = booleanPreferencesKey("use_chosen_callers")
+        val CONTACT_SCOPE = stringPreferencesKey("contact_scope")
+        val KEEP_ALIVE = booleanPreferencesKey("keep_alive")
     }
 
     /**
@@ -96,14 +115,28 @@ class AppPreferences(
      */
     val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
 
-    /** The chosen callers, one encoded entry each. Empty means anyone, unless [fromContacts] is on. */
-    val chosenCallers: Flow<Set<String>> = store.data.map { it[Keys.CHOSEN_CALLERS] ?: emptySet() }
+    /**
+     * The caller rules, read from one snapshot so the list, its switch and the contacts setting always
+     * agree with each other.
+     */
+    val callerRules: Flow<CallerRules> =
+        store.data.map { prefs ->
+            CallerRules(
+                chosen = prefs[Keys.CHOSEN_CALLERS] ?: emptySet(),
+                useChosen = prefs[Keys.USE_CHOSEN_CALLERS] ?: true,
+                contactScope =
+                    prefs[Keys.CONTACT_SCOPE]?.let { name ->
+                        runCatching { enumValueOf<ContactScope>(name) }.getOrNull()
+                    }
+                        ?: ContactScope.OFF,
+            )
+        }
 
     /**
-     * Whether every saved contact may ring too, alongside the chosen callers. Defaults off, so an
-     * install that never touched it keeps the rule it always had.
+     * Whether the app runs as a foreground service all the time, so the phone-state receiver never
+     * waits for Android to start the process again. Off by default: it shows a notification.
      */
-    val fromContacts: Flow<Boolean> = store.data.map { it[Keys.FROM_CONTACTS] ?: false }
+    val keepAlive: Flow<Boolean> = store.data.map { it[Keys.KEEP_ALIVE] ?: false }
 
     /**
      * The theme mode, read once, before any Activity exists.
@@ -135,8 +168,16 @@ class AppPreferences(
         store.edit { it[Keys.COUNT_DECLINED_CALLS] = enabled }
     }
 
-    suspend fun setFromContacts(enabled: Boolean) {
-        store.edit { it[Keys.FROM_CONTACTS] = enabled }
+    suspend fun setUseChosenCallers(enabled: Boolean) {
+        store.edit { it[Keys.USE_CHOSEN_CALLERS] = enabled }
+    }
+
+    suspend fun setContactScope(scope: ContactScope) {
+        store.edit { it[Keys.CONTACT_SCOPE] = scope.name }
+    }
+
+    suspend fun setKeepAlive(enabled: Boolean) {
+        store.edit { it[Keys.KEEP_ALIVE] = enabled }
     }
 
     suspend fun addChosenCaller(entry: String) {
