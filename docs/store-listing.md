@@ -131,15 +131,15 @@ Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie cię potrzebuje. Urgent 
 
 JAK TO DZIAŁA
 
-Urgent sprawdza rejestr połączeń, czy ten sam numer dzwonił w ciągu ostatnich 5, 10, 15 albo 30 minut, do wyboru. Jeśli tak i telefon przepuściłby połączenie bez dźwięku, Urgent odtwarza twój dzwonek z głośnością alarmu i wibruje. Jeśli Android nie pozwoli odczytać dzwonka, odtwarza dźwięk alarmu. Przestaje, gdy odbierzesz, odrzucisz albo połączenie się skończy, albo po minucie. Przycisk Wycisz zatrzymuje go wcześniej.
+Urgent sprawdza rejestr połączeń, czy ten sam numer dzwonił w ciągu ostatnich 5, 10, 15 albo 30 minut, do wyboru. Jeśli tak i telefon przepuściłby połączenie bez dźwięku, Urgent odtwarza twój dzwonek z głośnością alarmu i wibruje. Jeśli Android nie pozwoli odczytać dzwonka, gra dźwięk alarmu. Przestaje, gdy odbierzesz, odrzucisz albo połączenie się skończy, albo po minucie. Przycisk Wycisz zatrzymuje go wcześniej.
 
-Pierwsze połączenie zostaje ciche, jak ustawiono. Dzwoni dopiero drugie. Odrzucone połączenie też liczy się jako pierwsze, chyba że to wyłączysz. Możesz wybrać rozmówców, od których Urgent ma dzwonić, albo włączyć „Wszyscy z twoich kontaktów” lub „Oznaczone gwiazdką”. Dopóki nie wybierzesz żadnej z tych opcji, dzwoni od każdego.
+Pierwsze połączenie zostaje ciche, jak ustawiono. Dzwoni dopiero drugie. Odrzucone połączenie też liczy się jako pierwsze, chyba że to wyłączysz. Możesz wybrać rozmówców, od których Urgent ma dzwonić, albo włączyć „Wszyscy z twoich kontaktów” lub „Oznaczone gwiazdką”. Dopóki nie wybierzesz żadnej z nich, dzwoni od każdego.
 
 DZWONI TYLKO WTEDY, GDY TELEFON BY NIE ZADZWONIŁ
 
 - Dzwonek włączony: telefon dzwoni sam, więc Urgent milczy.
 - Wyciszenie albo wibracje: Urgent dzwoni.
-- Nie przeszkadzać: Urgent dzwoni tylko przy dozwolonych alarmach i milczy, gdy telefon sam pozwala zadzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty lub oznaczone gwiazdką, Urgent milczy przy wybranym „Wszyscy z twoich kontaktów” albo „Oznaczone gwiazdką”. Bez nich nie sprawdza, więc może dzwonić też od nich, nawet gdy telefon dzwoni.
+- Nie przeszkadzać: Urgent dzwoni tylko przy dozwolonych alarmach i milczy, gdy telefon sam pozwala zadzwonić (reguła powtórnych połączeń albo dla każdego). Gdy Nie przeszkadzać przepuszcza tylko kontakty lub oznaczone gwiazdką, Urgent milczy w ich przypadku, gdy wybrano „Wszyscy z twoich kontaktów” albo „Oznaczone gwiazdką”. Bez nich nie sprawdza, więc może dzwonić też od nich, nawet gdy telefon dzwoni.
 - W trakcie innej rozmowy: Urgent milczy.
 
 DZIAŁA W TLE, JEŚLI TAK WOLISZ
@@ -148,7 +148,7 @@ DZIAŁA W TLE, JEŚLI TAK WOLISZ
 
 TWOJE USTAWIENIA ZOSTAJĄ BEZ ZMIAN
 
-Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przeszkadzać. Odtwarza dzwonek na strumieniu alarmu, którego tryb cichy nie wycisza, więc telefon zostaje taki, jaki był.
+Urgent nigdy nie zmienia trybu dzwonka, głośności dzwonka ani trybu Nie przeszkadzać. Odtwarza dzwonek na strumieniu alarmu, którego tryb cichy nie wycisza, więc telefon zostaje bez zmian.
 
 ZA DARMO I NIC NIE OPUSZCZA TELEFONU
 
