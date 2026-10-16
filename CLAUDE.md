@@ -51,7 +51,10 @@ codebase.
   mute. A crash mid-ring therefore leaves the phone exactly as the user set it. Changing the ringer
   mode instead would need Do Not Disturb access and a restore path that has to survive process death.
 - **It only rings when the phone would not.** `call/Silence.kt`'s `shouldRingThrough` is the gate;
-  ringing on top of the phone's own ringtone is two sounds at once and reads as a bug.
+  ringing on top of the phone's own ringtone is two sounds at once and reads as a bug. The one exception:
+  with *From your contacts* off, Do Not Disturb's contacts-only or starred-only rule can let a saved contact
+  ring the phone and Urgent together. Contacts stay unread unless the user opts in, and the store listing
+  says so.
 - **The call log is the source of truth for "called before".** Android writes a call to the log
   when it ends, so the ringing call is never in it, and nothing of ours needs storing.
 - **A new preference is a key, a `Flow` that reads it with its default, and a `suspend` setter.**
