@@ -124,7 +124,7 @@ Urgent
 Dzwoni, gdy ten sam numer dzwoni drugi raz, nawet przy wyciszonym telefonie.
 ```
 
-### Full description — 3997/4000
+### Full description — 3996/4000
 
 ```
 Ktoś, kto dzwoni dwa razy w ciągu kilku minut, pewnie cię potrzebuje. Urgent zadzwoni przy drugim połączeniu, nawet gdy telefon jest wyciszony albo na wibracjach.
