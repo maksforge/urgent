@@ -188,7 +188,8 @@ class RingThroughService : Service() {
             .setColor(ringingTint())
             .setContentTitle(getString(R.string.ringing_title))
             .setContentText(getString(R.string.ringing_body))
-            .setCategory(NotificationCompat.CATEGORY_CALL)
+            // DND lets an alarm through whenever it allows alarms, which the alarm-stream ringtone needs anyway.
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setOngoing(true)
             .addAction(0, getString(R.string.ringing_silence), silence)
             .build()
