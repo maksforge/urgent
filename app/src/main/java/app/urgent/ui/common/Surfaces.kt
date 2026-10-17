@@ -218,10 +218,7 @@ fun SwitchRow(
 
 /** Where a [LinkRow] goes, which decides its trailing icon. */
 enum class LinkTarget {
-    /** Another screen of this app: a chevron. */
     Inside,
-
-    /** Another app or a system screen: "open in new". */
     Outside,
 }
 
@@ -297,10 +294,15 @@ fun ChoiceChip(
             } else {
                 null
             },
+        border =
+            FilterChipDefaults.filterChipBorder(
+                enabled = true,
+                selected = selected,
+                borderColor = MaterialTheme.colorScheme.outline,
+            ),
     )
 }
 
-/** A wrapping row of [ChoiceChip]s, [Spacing.tight] apart. */
 @Composable
 fun ChipGroup(
     modifier: Modifier = Modifier,
