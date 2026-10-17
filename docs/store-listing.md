@@ -262,8 +262,8 @@ Urgent nazywa się teraz Urgent call, na telefonie i w Google Play. Nic innego s
 Urgent call has a new look: a mark of two calls, the second one ringing, in amber on charcoal, and warmer colours throughout the app. Nothing changes in how it rings.
 ```
 
-**Polish** — 188/500:
+**Polish** — 195/500:
 
 ```
-Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwoni, w bursztynie na grafitowym tle, oraz cieplejsze kolory w całej aplikacji. Sposób dzwonienia się nie zmienia.
+Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwoni, w kolorze bursztynu na grafitowym tle, oraz cieplejsze kolory w całej aplikacji. Sposób dzwonienia się nie zmienia.
 ```
