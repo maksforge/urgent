@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/srednimax/urgent/compare/v0.3.0...v0.4.0) (2026-10-17)
+
+
+### Features
+
+* rename the app to Urgent call ([5aa762b](https://github.com/srednimax/urgent/commit/5aa762bea98c5ae1b7671f7b76140583ccaea0ba))
+
 ## [0.3.0](https://github.com/srednimax/urgent/compare/v0.2.0...v0.3.0) (2026-10-16)
 
 
