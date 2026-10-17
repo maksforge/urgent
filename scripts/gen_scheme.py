@@ -19,8 +19,8 @@ from hct import TonalPalette, argb_from_hex, hex_from_argb, xyz_from_argb
 
 SEED_PRIMARY = "4C6FA5"    # Slate blue
 SEED_SECONDARY = "6B7A8F"  # Muted steel
-SEED_TERTIARY = "9A6BA5"   # Heather
-SEED_NEUTRAL = "DCDFE4"    # Cool grey
+SEED_TERTIARY = "CC8000"   # Amber — the ring in the mark, and the colour of ringing
+SEED_NEUTRAL = "E8DBCF"    # Warm grey — surfaces lean towards the mark's charcoal ground
 
 PACKAGE = "app.urgent"  # the Kotlin package root; bootstrap.py rewrites this
 

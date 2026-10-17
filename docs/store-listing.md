@@ -253,3 +253,17 @@ Urgent is now called Urgent call, on your phone and in the Play Store. Nothing e
 ```
 Urgent nazywa się teraz Urgent call, na telefonie i w Google Play. Nic innego się nie zmienia: ustawienia i wybrani rozmówcy zostają, a aplikacja dzwoni tak samo.
 ```
+
+### 0.5.0 — a new look
+
+**English** — 166/500:
+
+```
+Urgent call has a new look: a mark of two calls, the second one ringing, in amber on charcoal, and warmer colours throughout the app. Nothing changes in how it rings.
+```
+
+**Polish** — 188/500:
+
+```
+Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwoni, w bursztynie na grafitowym tle, oraz cieplejsze kolory w całej aplikacji. Sposób dzwonienia się nie zmienia.
+```

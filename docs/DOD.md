@@ -36,15 +36,14 @@ template's `docs/DOD.md` the day a feature adds a table.
 
 - [x] **Delete what the app does not need** — Room, photos, backup and reminders are gone.
 - [x] **Decide `minSdk` deliberately.** 26, kept on 2026-10-13; the reason is beside it in `app/build.gradle.kts`.
-- [ ] **Replace the placeholder mark.** `art/mark.py`, then `python3 art/make-launcher-icon.py` and
-      `make-feature-graphic.py`. Commit the concept image and record its provenance in
-      `art/README.md` — where the art came from is the thing most likely to block a first upload, and
-      it is discovered late.
+- [x] **Replace the placeholder mark.** Done 2026-10-17: two calls, the second wearing a ring,
+      authored as four circles in `art/mark.py` with no traced image; provenance in `art/README.md`.
 - [x] **Replace the placeholder domain** with `call/` and `ui/home/`.
 - [x] **Rewrite `scripts/edge-to-edge.py`'s SCENES** against Home, Settings, Support and Licences.
 - [x] **Make the artifact allowlists yours.** All four `aab-*.py` pass on a local `bundleRelease`.
-- [ ] **Choose the palette.** Four seeds in `scripts/gen_scheme.py`, regenerate `theme/Color.kt`,
-      read the contrast report it prints on stderr.
+- [x] **Choose the palette.** Done 2026-10-17: slate-blue primary kept, tertiary moved to amber and
+      the neutral to a warm grey, so the surfaces lean towards the mark's charcoal ground. Every
+      contrast check passed on regeneration (lowest 4.27:1 for outline on surface, needing 3.0).
 - [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgentapp.support@gmail.com`.
 - [x] **Write the listing.** English and Polish text in `docs/store-listing.md`, `--strict` green.
 - [ ] **Capture the screenshots** with `scripts/screenshots.py` once the palette and mark are final —
