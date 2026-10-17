@@ -1,21 +1,21 @@
-"""The placeholder mark: the single definition of this app's identity.
+"""The mark: the single definition of this app's identity.
 
-**Replace this file.** It draws a rounded triangle with a hole punched through it — deliberately
-generic, deliberately obviously a placeholder. Both generators import it (`make-launcher-icon.py`
-emits it as `VectorDrawable` path data, `make-feature-graphic.py` rasterises it with PIL), so
-whatever you put here cannot drift into being two different marks.
+Two calls. A small plain dot, then a larger dot wearing a ring: the first call stays quiet, the
+second one rings. Both generators import it (`make-launcher-icon.py` emits it as `VectorDrawable`
+path data, `make-feature-graphic.py` rasterises it with PIL), so the launcher icon, the notification
+icon and the feature graphic cannot drift into being different marks.
 
-The way to replace it: draw or generate a concept image, run `python3 art/trace-mark.py <image>`,
-and paste the curves it prints over MARK and HOLE below. Nothing else in the pipeline changes.
-**Commit the concept image beside this file** and record where it came from in `art/README.md`.
+The geometry is four circles, written as path data here rather than traced from an image, so there
+is no concept file and no outside art to license (`art/README.md`, *Provenance*). To change the mark,
+replace PARTS — by hand for geometry this simple, or with `python3 art/trace-mark.py <image>` for a
+drawn one, in which case **commit the image beside this file** and record where it came from.
 
 **Use art you have the right to ship.** An icon traced from an emoji font, a stock icon or someone
 else's mark is a licence obligation at best and a rejected Play upload at worst. Art you generated
 from your own prompt, or drew, is clean.
 
-The geometry is two subpaths: the shape, and the hole punched out of it. Coordinates are in
-arbitrary units around an origin at the mark's centre; callers fit them to their own canvas with
-`fit()`. y grows downward, as it does in both SVG and PIL.
+Coordinates are in arbitrary units around an origin near the mark's centre; callers fit them to
+their own canvas with `fit()`. y grows downward, as it does in both SVG and PIL.
 """
 
 import re
@@ -28,12 +28,13 @@ from dataclasses import dataclass
 # two — this file and a hand-written background drawable — and an app built from the template found
 # them disagreeing the first time its palette moved.)
 #
-# ⚠ **A dark tone of a warm hue is brown.** The first app built from this template tried its
-# `primary` darkened for contrast as the ground and it read as mud; then a gradient, whose middle is
-# the same mud at 44dp. What survived was a flat mid-tone role (`surfaceVariant`) under a light-ish
-# ink (`primary`). Judge the ground at launcher size on a real home screen, light and dark.
-GROUND = (0x2B, 0x4C, 0x7E)  # the icon's flat field — `primary`, darkened for contrast at icon sizes
-MARK_INK = (0xFF, 0xFB, 0xFF)  # the mark on that field — the light scheme's `surface`
+# ⚠ **A dark tone of a saturated warm hue is brown.** The first app built from this template tried
+# its `primary` darkened for contrast as the ground and it read as mud; then a gradient, whose
+# middle is the same mud at 44dp. The charcoal below gets away with being warm because its chroma
+# is low — it is a neutral, not a darkened orange. Judge the ground at launcher size on a real home
+# screen, light and dark.
+GROUND = (0x30, 0x29, 0x21)  # the icon's flat field — the dark scheme's `surfaceContainerHigh`
+MARK_INK = (0xFF, 0xB8, 0x5D)  # the mark on that field — the dark scheme's `tertiary`, the amber
 
 
 @dataclass(frozen=True)
@@ -51,26 +52,42 @@ class Subpath:
     hole: bool = False
 
 
-# A rounded triangle pointing right. One outer contour.
-MARK = (
-    "M-27.48,-73.6"
-        "C-39.92,-80.78 -50,-74.96 -50,-60.6C-50,-20.2 -50,20.2 -50,60.6"
-        "C-50,74.96 -39.92,80.78 -27.48,73.6C7.51,53.4 42.49,33.2 77.48,13"
-        "C89.92,5.82 89.92,-5.82 77.48,-13C42.49,-33.2 7.51,-53.4 -27.48,-73.6"
+# Each circle is four cubic segments with the usual 0.5523·r handles, centred on (cx, 0).
+# The first call: a plain dot, r 24 at x −62.
+FIRST_CALL = (
+    "M-38,0"
+        "C-38,13.25 -48.75,24 -62,24C-75.25,24 -86,13.25 -86,0"
+        "C-86,-13.25 -75.25,-24 -62,-24C-48.75,-24 -38,-13.25 -38,0"
         "Z"
 )
 
-# The hole punched through it.
-HOLE = (
-    "M20,0"
-        "C20,14.36 8.36,26 -6,26C-20.36,26 -32,14.36 -32,0"
-        "C-32,-14.36 -20.36,-26 -6,-26C8.36,-26 20,-14.36 20,0"
+# The second call, which rings: a ring of outer r 66 and inner r 44 around a dot of r 26, all at x 38.
+RING_OUTER = (
+    "M104,0"
+        "C104,36.45 74.45,66 38,66C1.55,66 -28,36.45 -28,0"
+        "C-28,-36.45 1.55,-66 38,-66C74.45,-66 104,-36.45 104,0"
+        "Z"
+)
+RING_INNER = (
+    "M82,0"
+        "C82,24.3 62.3,44 38,44C13.7,44 -6,24.3 -6,0"
+        "C-6,-24.3 13.7,-44 38,-44C62.3,-44 82,-24.3 82,0"
+        "Z"
+)
+SECOND_CALL = (
+    "M64,0"
+        "C64,14.36 52.36,26 38,26C23.64,26 12,14.36 12,0"
+        "C12,-14.36 23.64,-26 38,-26C52.36,-26 64,-14.36 64,0"
         "Z"
 )
 
+# Declaration order is paint order for the raster renderers, which have no winding rule: the dot
+# comes after the hole it sits in, or `make-launcher-icon.py` would punch it away.
 PARTS = (
-    Subpath(MARK),
-    Subpath(HOLE, hole=True),
+    Subpath(FIRST_CALL),
+    Subpath(RING_OUTER),
+    Subpath(RING_INNER, hole=True),
+    Subpath(SECOND_CALL),
 )
 
 _NUM = re.compile(r"-?\d*\.?\d+(?:e-?\d+)?")

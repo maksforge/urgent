@@ -82,7 +82,7 @@ def scheme(*roles):
     return out
 
 
-GROUND_TOP, NIGHT, INK = scheme("primaryContainer", "background", "onSurface")
+GROUND_TOP, NIGHT, INK = scheme("surfaceContainerHigh", "background", "onSurface")
 
 
 def _step(t):
@@ -152,11 +152,15 @@ def main():
 
     d = ImageDraw.Draw(base)
     wordmark = ImageFont.truetype(str(FONT_BOLD), 104 * S)
+    wordmark_light = ImageFont.truetype(str(FONT_REG), 104 * S)
     tagline = ImageFont.truetype(str(FONT_REG), 31 * S)
     features = ImageFont.truetype(str(FONT_REG), 25 * S)
 
+    # The first word bold and the rest regular, so a two-word name reads as a name, not a phrase.
+    first, _, rest = APP_NAME.partition(" ")
     x = MARGIN * S
-    d.text((x, 240 * S), APP_NAME, font=wordmark, fill=INK, anchor="ls")
+    d.text((x, 240 * S), first, font=wordmark, fill=INK, anchor="ls")
+    d.text((x + d.textlength(first + " ", font=wordmark), 240 * S), rest, font=wordmark_light, fill=INK, anchor="ls")
     d.text((x, 296 * S), TAGLINE, font=tagline, fill=TAGLINE_INK, anchor="ls")
     d.text((x, 372 * S), FEATURES, font=features, fill=SUBTLE, anchor="ls")
 
@@ -164,8 +168,9 @@ def main():
     out.save(OUT, "PNG", optimize=True)
 
     # Measured, not assumed. Both of these have been wrong in a graphic generated from this file.
-    widest = max(d.textlength(t, font=f) / S for t, f in
-                 ((APP_NAME, wordmark), (TAGLINE, tagline), (FEATURES, features)))
+    name_width = d.textlength(first + " ", font=wordmark) + d.textlength(rest, font=wordmark_light)
+    widest = max(name_width / S, *(d.textlength(t, font=f) / S for t, f in
+                                   ((TAGLINE, tagline), (FEATURES, features))))
     right = MARGIN + widest
     gap = mark_left - right
     clipped = right > W - MARGIN
