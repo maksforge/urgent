@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0](https://github.com/srednimax/urgent/compare/v0.5.0...v0.6.0) (2026-10-17)
+
+
+### Features
+
+* give Home the design's hierarchy and redraw the mark to its spec ([ec4fe9c](https://github.com/srednimax/urgent/commit/ec4fe9c76f396953a56b41bc8539e84318dbaa16))
+
+
+### Bug Fixes
+
+* categorise the ringing notification as an alarm so Do Not Disturb lets it pop up ([2ccf72e](https://github.com/srednimax/urgent/commit/2ccf72e27f0af8a316e35435cd4cdb350d44db81))
+* outline unselected choice chips and drop KDoc that restates the code ([0928682](https://github.com/srednimax/urgent/commit/0928682c1f21a3071894e545719eee96059d8d8c))
+* pop the ringing notification up with Silence in reach ([f294efd](https://github.com/srednimax/urgent/commit/f294efd59caf658b9affa4276cfa392129e27b84))
+
 ## [0.5.0](https://github.com/srednimax/urgent/compare/v0.4.0...v0.5.0) (2026-10-17)
 
 
