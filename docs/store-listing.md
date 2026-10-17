@@ -35,13 +35,13 @@ Play counts characters, not words, and rejects at the limit rather than truncati
 in the heading and update it when you edit: it is the only warning you get before the Console
 refuses a paste.
 
-### App name — 6/30
+### App name — 11/30
 
 **The app name is not translated, in any locale.** `app_name` carries `translatable="false"` for the
-same reason, so the Polish listing reads `Urgent` too — deliberately, not as a field somebody forgot.
+same reason, so the Polish listing reads `Urgent call` too — deliberately, not as a field somebody forgot.
 
 ```
-Urgent
+Urgent call
 ```
 
 ### Short description — 71/80
@@ -112,10 +112,10 @@ Source available, built in the open: github.com/srednimax/urgent
 Informal `ty`, as in the app, and no gendered past tense — "tak ciche, jak je ustawiłeś" assumes a
 man, so the sentences below are built not to need one (translator brief §6.2).
 
-### App name — 6/30
+### App name — 11/30
 
 ```
-Urgent
+Urgent call
 ```
 
 ### Short description — 76/80

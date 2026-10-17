@@ -55,7 +55,7 @@ DEBUG_APPLICATION_ID = f"{APPLICATION_ID}.debug"
 
 # The human name, for generated art and log lines. The authority for what the launcher shows is
 # `app_name` in res/values/strings.xml; this is only for things outside the APK.
-APP_NAME = "Urgent"
+APP_NAME = "Urgent call"
 
 
 def _debug_app_name() -> str:

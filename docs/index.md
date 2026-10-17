@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Urgent
+title: Urgent call
 ---
 
-# Urgent
+# Urgent call
 
 **Rings your phone when the same number calls twice in a few minutes, even on silent or vibrate.**
 Free, ad-free, and entirely on your own phone: no account, no sign-up, no server.

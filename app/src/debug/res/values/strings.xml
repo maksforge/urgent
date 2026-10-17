@@ -16,7 +16,7 @@
     list the debug build under exactly this string.
 -->
 <resources>
-    <string name="app_name" translatable="false">Urgent debug</string>
+    <string name="app_name" translatable="false">Urgent call debug</string>
     <string name="debug_section" translatable="false">Debug</string>
     <string name="debug_ring" translatable="false">Ring as for a repeated call</string>
     <string name="debug_stop" translatable="false">Stop ringing</string>

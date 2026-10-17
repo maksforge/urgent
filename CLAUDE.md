@@ -1,4 +1,4 @@
-# Urgent
+# Urgent call
 
 Rings the phone for a **repeated call** — the same number calling again within a few minutes —
 while the phone is on silent, on vibrate or in Do Not Disturb. Android's own repeat-callers rule
