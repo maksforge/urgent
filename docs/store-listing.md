@@ -226,6 +226,20 @@ Urgent now rings for a repeated call: when the same number calls again within th
 Urgent dzwoni teraz przy powtórnym połączeniu: gdy ten sam numer zadzwoni ponownie w wybranym przez ciebie czasie, drugie połączenie dzwoni z głośnością alarmu i wibruje, nawet gdy telefon jest wyciszony albo na wibracjach. W trybie Nie przeszkadzać Urgent dzwoni tylko wtedy, gdy alarmy są dozwolone, i milczy, gdy własna reguła twojego telefonu dla powtarzających się połączeń już pozwala połączeniu zadzwonić. Ustawienia telefonu zostają bez zmian.
 ```
 
+### 0.4.0 — the app is called Urgent call
+
+**English** — 173/500:
+
+```
+Urgent is now called Urgent call, on your phone and in the Play Store. Nothing else changes: your settings and chosen callers are kept, and the app still rings the same way.
+```
+
+**Polish** — 162/500:
+
+```
+Urgent nazywa się teraz Urgent call, na telefonie i w Google Play. Nic innego się nie zmienia: ustawienia i wybrani rozmówcy zostają, a aplikacja dzwoni tak samo.
+```
+
 ### 0.3.0 — chosen callers and running in the background
 
 **English** — 379/500:
