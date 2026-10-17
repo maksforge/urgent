@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.content.res.Configuration
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.RingtoneManager
@@ -21,9 +22,12 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.provider.Settings
 import android.util.Log
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import app.urgent.R
+import app.urgent.theme.DarkColors
+import app.urgent.theme.LightColors
 
 /**
  * Rings and vibrates for a repeated call while the phone itself stays silent.
@@ -175,12 +179,20 @@ class RingThroughService : Service() {
         return NotificationCompat
             .Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
+            .setColor(ringingTint())
             .setContentTitle(getString(R.string.ringing_title))
             .setContentText(getString(R.string.ringing_body))
             .setCategory(NotificationCompat.CATEGORY_CALL)
             .setOngoing(true)
             .addAction(0, getString(R.string.ringing_silence), silence)
             .build()
+    }
+
+    /** Amber, the colour of ringing, from the scheme the shade is drawn in; the system adjusts it for contrast. */
+    private fun ringingTint(): Int {
+        val night =
+            resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        return (if (night) DarkColors else LightColors).tertiary.toArgb()
     }
 
     companion object {

@@ -9,24 +9,33 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -41,8 +50,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -61,9 +72,15 @@ import app.urgent.data.ContactScope
 import app.urgent.data.REPEAT_WINDOW_CHOICES
 import app.urgent.theme.Spacing
 import app.urgent.ui.appViewModelExtras
+import app.urgent.ui.common.CheckSwitch
+import app.urgent.ui.common.ChipGroup
+import app.urgent.ui.common.ChoiceChip
+import app.urgent.ui.common.LinkRow
+import app.urgent.ui.common.LinkTarget
+import app.urgent.ui.common.Mark
 import app.urgent.ui.common.SectionHeader
 import app.urgent.ui.common.SwitchRow
-import app.urgent.ui.common.WarningBanner
+import app.urgent.ui.common.WarningCard
 import app.urgent.work.hasAutostartSettings
 import app.urgent.work.isIgnoringBatteryOptimisations
 import app.urgent.work.openAutostartSettings
@@ -111,18 +128,32 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier,
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_name)) }) },
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.base),
+                    ) {
+                        Mark(
+                            width = 32.dp,
+                            dots = MaterialTheme.colorScheme.onSurface,
+                            ring = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(stringResource(R.string.app_name))
+                    }
+                },
+            )
+        },
     ) { insets ->
         Column(modifier = Modifier.padding(insets).verticalScroll(rememberScrollState())) {
             Text(
                 text = stringResource(R.string.home_intro),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(horizontal = Spacing.base, vertical = Spacing.tight),
+                modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, top = Spacing.tight),
             )
 
-            SwitchRow(
-                title = stringResource(R.string.home_ring_through),
-                subtitle = stringResource(R.string.home_ring_through_hint),
+            RingThroughCard(
                 checked = state.ringThrough,
                 onChange = { enabled ->
                     viewModel.setRingThrough(enabled)
@@ -130,27 +161,57 @@ fun HomeScreen(
                     // Android allows two denials before the dialog stops appearing for good.
                     if (enabled && !callPermissions) askPermissions.launch(permissionsToAsk())
                 },
+                modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, top = Spacing.section),
             )
 
-            SectionHeader(stringResource(R.string.home_window))
-            FlowRow(modifier = Modifier.padding(horizontal = Spacing.base)) {
+            // Only while the switch is on: a warning about a grant a disabled feature would need is
+            // the app asking for something it is not using.
+            val callsBlocked = state.ringThrough && !callPermissions
+            val batteryBlocked = state.ringThrough && !batteryExempt
+            if (callsBlocked || batteryBlocked) {
+                Column(
+                    modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, top = Spacing.section),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.snug),
+                ) {
+                    if (callsBlocked) {
+                        WarningCard(
+                            icon = painterResource(R.drawable.ic_warning_lock),
+                            title = stringResource(R.string.home_permissions_missing_title),
+                            body = stringResource(R.string.home_permissions_missing_body),
+                            actionLabel = stringResource(R.string.home_permissions_missing_action),
+                            onAct = { context.openAppDetails() },
+                        )
+                    }
+                    if (batteryBlocked) {
+                        WarningCard(
+                            icon = painterResource(R.drawable.ic_warning_battery),
+                            title = stringResource(R.string.home_battery_title),
+                            body = stringResource(R.string.home_battery_body),
+                            actionLabel = stringResource(R.string.home_battery_action),
+                            onAct = { context.openBatteryOptimisationSettings() },
+                        )
+                    }
+                }
+            }
+
+            SectionHeader(stringResource(R.string.home_window), top = Spacing.block)
+            ChipGroup {
                 for (minutes in REPEAT_WINDOW_CHOICES) {
-                    FilterChip(
+                    ChoiceChip(
                         selected = state.windowMinutes == minutes,
+                        label = pluralStringResource(R.plurals.home_window_minutes, minutes, minutes),
                         onClick = { viewModel.setWindowMinutes(minutes) },
-                        label = { Text(pluralStringResource(R.plurals.home_window_minutes, minutes, minutes)) },
-                        modifier = Modifier.padding(end = Spacing.tight),
                     )
                 }
             }
 
+            Spacer(Modifier.height(Spacing.section))
             SwitchRow(
                 title = stringResource(R.string.home_count_declined),
                 subtitle = stringResource(R.string.home_count_declined_hint),
                 checked = state.countDeclined,
                 onChange = viewModel::setCountDeclined,
             )
-
             SwitchRow(
                 title = stringResource(R.string.home_keep_alive),
                 subtitle = stringResource(R.string.home_keep_alive_hint),
@@ -158,44 +219,16 @@ fun HomeScreen(
                 onChange = viewModel::setKeepAlive,
             )
 
-            // Only while the switch is on: a warning about a grant a disabled feature would need is
-            // the app asking for something it is not using.
-            if (state.ringThrough) {
-                if (!callPermissions) {
-                    WarningBanner(
-                        title = stringResource(R.string.home_permissions_missing_title),
-                        body = stringResource(R.string.home_permissions_missing_body),
-                        actionLabel = stringResource(R.string.home_permissions_missing_action),
-                        onAct = { context.openAppDetails() },
-                    )
-                }
-                if (!batteryExempt) {
-                    WarningBanner(
-                        title = stringResource(R.string.home_battery_title),
-                        body = stringResource(R.string.home_battery_body),
-                        actionLabel = stringResource(R.string.home_battery_action),
-                        onAct = { context.openBatteryOptimisationSettings() },
-                    )
-                }
-                // Xiaomi's grant has no readable state, so it is a permanent row that claims nothing
-                // rather than a banner that could never clear (work/Autostart.kt).
-                if (context.hasAutostartSettings()) {
-                    SectionHeader(stringResource(R.string.home_xiaomi))
-                    Column(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .clickable { context.openAutostartSettings() }
-                                .padding(horizontal = Spacing.base, vertical = Spacing.base),
-                    ) {
-                        Text(stringResource(R.string.home_autostart), style = MaterialTheme.typography.bodyLarge)
-                        Text(
-                            text = stringResource(R.string.home_autostart_hint),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                }
+            // Xiaomi's grant has no readable state, so it is a permanent row that claims nothing
+            // rather than a card that could never clear (work/Autostart.kt).
+            if (state.ringThrough && context.hasAutostartSettings()) {
+                SectionHeader(stringResource(R.string.home_xiaomi))
+                LinkRow(
+                    title = stringResource(R.string.home_autostart),
+                    subtitle = stringResource(R.string.home_autostart_hint),
+                    target = LinkTarget.Outside,
+                    onClick = { context.openAutostartSettings() },
+                )
             }
             CallersSection(
                 callers = state.callers,
@@ -207,6 +240,56 @@ fun HomeScreen(
                 loadContacts = viewModel::contactCallers,
                 onAddFromContacts = viewModel::addChosenCallerFromContacts,
                 onRemove = viewModel::removeChosenCaller,
+            )
+        }
+    }
+}
+
+/**
+ * The point of the app, so the one tonal block on the surface. Amber appears in a normal state only
+ * here, as the ring of the mark while the switch is on.
+ */
+@Composable
+private fun RingThroughCard(
+    checked: Boolean,
+    onChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MaterialTheme.colorScheme
+    Surface(
+        color = if (checked) colors.primaryContainer else colors.surfaceContainerHighest,
+        contentColor = if (checked) colors.onPrimaryContainer else colors.onSurface,
+        shape = MaterialTheme.shapes.extraLarge,
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Column(
+            modifier =
+                Modifier
+                    .toggleable(value = checked, role = Role.Switch, onValueChange = onChange)
+                    .padding(Spacing.base),
+            verticalArrangement = Arrangement.spacedBy(Spacing.snug),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.base),
+            ) {
+                Mark(
+                    width = 64.dp,
+                    dots = if (checked) colors.onPrimaryContainer else colors.onSurfaceVariant,
+                    ring = if (checked) colors.tertiary else colors.outlineVariant,
+                    firstDotAlpha = if (checked) 0.6f else 1f,
+                )
+                Text(
+                    text = stringResource(R.string.home_ring_through),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.weight(1f),
+                )
+                CheckSwitch(checked = checked)
+            }
+            Text(
+                text = stringResource(R.string.home_ring_through_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (checked) colors.onPrimaryContainer else colors.onSurfaceVariant,
             )
         }
     }
@@ -251,9 +334,9 @@ private fun CallersSection(
     SectionHeader(stringResource(R.string.home_callers))
     Text(
         text = stringResource(callersStatus(listOn, scope)),
-        style = MaterialTheme.typography.bodySmall,
+        style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(horizontal = Spacing.base),
+        modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, bottom = Spacing.snug),
     )
     SwitchRow(
         title = stringResource(R.string.home_use_chosen),
@@ -261,40 +344,43 @@ private fun CallersSection(
         checked = callers.useChosen,
         onChange = onUseChosen,
     )
-    Text(
-        text = stringResource(R.string.home_contacts_scope),
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(horizontal = Spacing.base, vertical = Spacing.tight),
-    )
-    Text(
-        text = stringResource(R.string.home_contacts_scope_hint),
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(horizontal = Spacing.base),
-    )
-    FlowRow(modifier = Modifier.padding(horizontal = Spacing.base)) {
-        for (option in ContactScope.entries) {
-            FilterChip(
-                selected = scope == option,
-                onClick = {
-                    if (option != ContactScope.OFF && !context.hasContactsPermission()) {
-                        scopeAwaitingContacts = option
-                        askForContactsToRing.launch(Manifest.permission.READ_CONTACTS)
-                    } else {
-                        onContactScope(option)
-                    }
-                },
-                label = { Text(stringResource(option.labelRes())) },
-                modifier = Modifier.padding(end = Spacing.tight),
+    Column(modifier = Modifier.padding(vertical = Spacing.snug)) {
+        Column(
+            modifier = Modifier.padding(horizontal = Spacing.base),
+            verticalArrangement = Arrangement.spacedBy(Spacing.hair),
+        ) {
+            Text(stringResource(R.string.home_contacts_scope), style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = stringResource(R.string.home_contacts_scope_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+        ChipGroup(modifier = Modifier.padding(top = Spacing.snug)) {
+            for (option in ContactScope.entries) {
+                ChoiceChip(
+                    selected = scope == option,
+                    label = stringResource(option.labelRes()),
+                    onClick = {
+                        if (option != ContactScope.OFF && !context.hasContactsPermission()) {
+                            scopeAwaitingContacts = option
+                            askForContactsToRing.launch(Manifest.permission.READ_CONTACTS)
+                        } else {
+                            onContactScope(option)
+                        }
+                    },
+                )
+            }
         }
     }
     if (ringThrough && callers.contactScope != ContactScope.OFF && !contactsGranted) {
-        WarningBanner(
+        WarningCard(
+            icon = painterResource(R.drawable.ic_warning_lock),
             title = stringResource(R.string.home_contacts_missing_title),
             body = stringResource(R.string.home_contacts_missing_body),
             actionLabel = stringResource(R.string.home_permissions_missing_action),
             onAct = { context.openAppDetails() },
+            modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, bottom = Spacing.snug),
         )
     }
     // Plain string order puts Ł after Z; a collator follows the default locale's alphabet.
@@ -303,7 +389,11 @@ private fun CallersSection(
         val caller = ChosenCaller.fromEntry(entry)
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.base),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = Spacing.base, end = Spacing.hair, top = Spacing.snug, bottom = Spacing.snug),
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 CallerText(caller.name, caller.numbers.firstOrNull().orEmpty())
@@ -321,8 +411,11 @@ private fun CallersSection(
                 askForContacts.launch(Manifest.permission.READ_CONTACTS)
             }
         },
-        modifier = Modifier.padding(horizontal = Spacing.base),
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+        modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, top = Spacing.base),
     ) {
+        Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+        Spacer(Modifier.width(ButtonDefaults.IconSpacing))
         Text(stringResource(R.string.home_callers_from_contacts))
     }
     if (choosingContact) {
@@ -337,7 +430,11 @@ private fun CallersSection(
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.base),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.tight),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = Spacing.base, end = Spacing.base, top = Spacing.base, bottom = Spacing.section),
     ) {
         OutlinedTextField(
             value = typed,

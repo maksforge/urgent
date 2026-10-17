@@ -16,8 +16,8 @@ came from.
 else's mark is a licence obligation at best and a rejected Play upload at worst. Art you generated
 from your own prompt, or drew, is clean.
 
-Coordinates are in arbitrary units around an origin near the mark's centre; callers fit them to
-their own canvas with `fit()`. y grows downward, as it does in both SVG and PIL.
+Coordinates are the design spec's 64×40 frame; callers fit them to their own canvas with `fit()`.
+y grows downward, as it does in SVG, PIL and Compose.
 """
 
 import re
@@ -54,42 +54,41 @@ class Subpath:
     hole: bool = False
 
 
-# Each circle is four cubic segments with the usual 0.5523·r handles, centred on (cx, 0).
-# The first call: a plain dot, r 24 at x −62.
-FIRST_CALL = (
-    "M-38,0"
-        "C-38,13.25 -48.75,24 -62,24C-75.25,24 -86,13.25 -86,0"
-        "C-86,-13.25 -75.25,-24 -62,-24C-48.75,-24 -38,-13.25 -38,0"
-        "Z"
-)
+# The geometry of the design spec, on its 64×40 frame: the first call a plain dot, the second a
+# larger dot inside a ring drawn as a 3-unit stroke. The in-app mark (`ui/common/MarkGeometry.kt`)
+# is generated from these same numbers.
+VIEW_WIDTH, VIEW_HEIGHT = 64, 40
+FIRST_CALL = (10, 20, 5)  # cx, cy, r
+SECOND_CALL = (44, 20, 9)
+RING = (44, 20, 16, 3)  # cx, cy, centre-line radius, stroke width
 
-# The second call, which rings: a ring of outer r 66 and inner r 44 around a dot of r 26, all at x 38.
-RING_OUTER = (
-    "M104,0"
-        "C104,36.45 74.45,66 38,66C1.55,66 -28,36.45 -28,0"
-        "C-28,-36.45 1.55,-66 38,-66C74.45,-66 104,-36.45 104,0"
+
+def circle(cx, cy, r):
+    """A circle as four clockwise cubic segments with the usual 0.5523·r handles."""
+    k = 0.5523 * r
+
+    def p(x, y):
+        return f"{x:g},{y:g}"
+
+    return (
+        f"M{p(cx + r, cy)}"
+        f"C{p(cx + r, cy + k)} {p(cx + k, cy + r)} {p(cx, cy + r)}"
+        f"C{p(cx - k, cy + r)} {p(cx - r, cy + k)} {p(cx - r, cy)}"
+        f"C{p(cx - r, cy - k)} {p(cx - k, cy - r)} {p(cx, cy - r)}"
+        f"C{p(cx + k, cy - r)} {p(cx + r, cy - k)} {p(cx + r, cy)}"
         "Z"
-)
-RING_INNER = (
-    "M82,0"
-        "C82,24.3 62.3,44 38,44C13.7,44 -6,24.3 -6,0"
-        "C-6,-24.3 13.7,-44 38,-44C62.3,-44 82,-24.3 82,0"
-        "Z"
-)
-SECOND_CALL = (
-    "M64,0"
-        "C64,14.36 52.36,26 38,26C23.64,26 12,14.36 12,0"
-        "C12,-14.36 23.64,-26 38,-26C52.36,-26 64,-14.36 64,0"
-        "Z"
-)
+    )
+
+
+_rx, _ry, _rr, _rw = RING
 
 # Declaration order is paint order for the raster renderers, which have no winding rule: the dot
 # comes after the hole it sits in, or `make-launcher-icon.py` would punch it away.
 PARTS = (
-    Subpath(FIRST_CALL),
-    Subpath(RING_OUTER),
-    Subpath(RING_INNER, hole=True),
-    Subpath(SECOND_CALL),
+    Subpath(circle(*FIRST_CALL)),
+    Subpath(circle(_rx, _ry, _rr + _rw / 2)),
+    Subpath(circle(_rx, _ry, _rr - _rw / 2), hole=True),
+    Subpath(circle(*SECOND_CALL)),
 )
 
 _NUM = re.compile(r"-?\d*\.?\d+(?:e-?\d+)?")

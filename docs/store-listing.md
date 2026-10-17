@@ -256,14 +256,14 @@ Urgent nazywa się teraz Urgent call, na telefonie i w Google Play. Nic innego s
 
 ### 0.5.0 — a new look
 
-**English** — 166/500:
+**English** — 260/500:
 
 ```
-Urgent call has a new look: a mark of two calls, the second one ringing, in amber on charcoal, and warmer colours throughout the app. Nothing changes in how it rings.
+Urgent call has a new look: a mark of two calls, the second one ringing, in amber on charcoal, and warmer colours throughout the app. Home now leads with its one switch, and anything Android still needs shows in amber below it. Nothing changes in how it rings.
 ```
 
-**Polish** — 195/500:
+**Polish** — 321/500:
 
 ```
-Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwoni, w kolorze bursztynu na grafitowym tle, oraz cieplejsze kolory w całej aplikacji. Sposób dzwonienia się nie zmienia.
+Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwoni, w kolorze bursztynu na grafitowym tle, oraz cieplejsze kolory w całej aplikacji. Ekran Start zaczyna się teraz od głównego przełącznika, a to, czego Android jeszcze potrzebuje, widać pod nim na bursztynowo. Sposób dzwonienia się nie zmienia.
 ```

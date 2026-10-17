@@ -2,8 +2,10 @@ package app.urgent
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
@@ -50,8 +52,9 @@ data class LicenceText(
 enum class TopLevelDestination(
     val key: NavKey,
     @param:StringRes val label: Int,
+    val selectedIcon: ImageVector,
     val icon: ImageVector,
 ) {
-    HomeTab(Home, R.string.tab_home, Icons.Filled.Call),
-    SettingsTab(Settings, R.string.tab_settings, Icons.Filled.Settings),
+    HomeTab(Home, R.string.tab_home, Icons.Filled.Home, Icons.Outlined.Home),
+    SettingsTab(Settings, R.string.tab_settings, Icons.Filled.Settings, Icons.Outlined.Settings),
 }
