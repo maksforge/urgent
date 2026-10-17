@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/srednimax/urgent/compare/v0.4.0...v0.5.0) (2026-10-17)
+
+
+### Features
+
+* give the app its mark and a warm palette ([0e08941](https://github.com/srednimax/urgent/commit/0e089414ef70338d09ec001817cdf031a6493797))
+
 ## [0.4.0](https://github.com/srednimax/urgent/compare/v0.3.0...v0.4.0) (2026-10-17)
 
 
