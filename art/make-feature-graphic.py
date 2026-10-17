@@ -33,7 +33,7 @@ from PIL import Image, ImageDraw, ImageFont
 import mark
 
 # The three strings this graphic is *about*. Edit them; everything else is layout.
-APP_NAME = "Urgent"
+APP_NAME = "Urgent call"
 TAGLINE = "Rings for a repeated call, even on silent"
 FEATURES = "Private  ·  Offline  ·  No ads  ·  Free"
 
