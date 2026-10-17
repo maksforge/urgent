@@ -270,14 +270,14 @@ Urgent call ma nowy wygląd: znak z dwoma połączeniami, z których drugie dzwo
 
 ### 0.6.0 — Home leads with its switch
 
-**English** — 126/500:
+**English** — 175/500:
 
 ```
-Home now leads with its one switch, and anything Android still needs shows in amber below it. Nothing changes in how it rings.
+Home now leads with its one switch, and anything Android still needs shows in amber below it. While Urgent rings, its notification now pops up on screen with Silence in reach.
 ```
 
-**Polish** — 160/500:
+**Polish** — 223/500:
 
 ```
-Ekran Start zaczyna się teraz od jedynego przełącznika, a to, czego Android jeszcze potrzebuje, widać pod nim na bursztynowo. Sposób dzwonienia się nie zmienia.
+Ekran Start zaczyna się teraz od jedynego przełącznika, a to, czego Android jeszcze potrzebuje, widać pod nim na bursztynowo. Gdy Urgent dzwoni, jego powiadomienie pojawia się teraz na ekranie z przyciskiem Wycisz pod ręką.
 ```

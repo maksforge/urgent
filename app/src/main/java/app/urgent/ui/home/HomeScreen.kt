@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -412,6 +413,8 @@ private fun CallersSection(
             }
         },
         contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+        // The stock border is outlineVariant, too faint to be a button's only edge on this surface.
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, top = Spacing.base),
     ) {
         Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))

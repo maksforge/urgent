@@ -161,13 +161,19 @@ class RingThroughService : Service() {
 
     private fun ringingNotification(): Notification {
         val notifications = getSystemService(NotificationManager::class.java)
+        // A channel's importance is fixed once it exists on a phone, so raising it takes a new id.
+        notifications.deleteNotificationChannel(RETIRED_CHANNEL_ID)
         notifications.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_ID,
                 getString(R.string.channel_ringing_name),
-                // Low: the notification is the way to stop the sound, not a second sound of its own.
-                NotificationManager.IMPORTANCE_LOW,
-            ).apply { description = getString(R.string.channel_ringing_description) },
+                // High so it pops up with Silence in reach, silent because this service is the sound.
+                NotificationManager.IMPORTANCE_HIGH,
+            ).apply {
+                description = getString(R.string.channel_ringing_description)
+                setSound(null, null)
+                enableVibration(false)
+            },
         )
         val silence =
             PendingIntent.getService(
@@ -197,7 +203,8 @@ class RingThroughService : Service() {
 
     companion object {
         private const val TAG = "RingThrough"
-        private const val CHANNEL_ID = "ringing"
+        private const val CHANNEL_ID = "ringing_heads_up"
+        private const val RETIRED_CHANNEL_ID = "ringing"
         private const val NOTIFICATION_ID = 1
         private const val ACTION_SILENCE = "app.urgent.action.SILENCE"
         private const val MAX_RING_MILLIS = 60_000L
