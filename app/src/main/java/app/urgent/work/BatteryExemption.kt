@@ -15,7 +15,7 @@ import androidx.core.net.toUri
  * the exemption itself, and `scripts/aab-permissions.py` asserts it absent from the built artifact.
  * So the app reads the state, explains it, and opens the screen where the user decides.
  *
- * Being readable is what makes this one a `WarningBanner` case rather than a permanent row — it can
+ * Being readable is what makes this one a `WarningCard` case rather than a permanent row — it can
  * clear itself on the resume after the user comes back. Xiaomi's autostart grant, next door in
  * `Autostart.kt`, is the opposite and gets the opposite treatment.
  *

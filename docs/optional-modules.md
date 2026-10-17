@@ -85,7 +85,7 @@ scripts in the last column — they are what tells you the strip is finished rat
 - `scripts/device-gate.py`'s `ALARM_TAG` and the exact-alarm line, if nothing schedules.
 - **Settings' *Reminders* section, and the ask and banner behind it** — the `SwitchRow`, the
   `rememberNotificationPermissionAsk` call, the resumed re-read of `notificationsAllowed`, the
-  `WarningBanner` and its three `settings_reminders_blocked_*` strings, plus
+  `WarningCard` and its three `settings_reminders_blocked_*` strings, plus
   `AppPreferences.remindersEnabled`. That whole block is `PLAN.md` rule 4 worked through for one
   ask; it is the shape to copy for *your* first ask, so read it before deleting it.
 - ADR-0003 gets its amendment.

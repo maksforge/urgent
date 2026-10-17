@@ -8,7 +8,7 @@ the `VectorDrawable`s.
 | --- | --- | --- |
 | `mark.py`'s PARTS | authored geometry — see *The mark* | current |
 | `concept.png` | only if a mark is ever traced from an image again — **commit it**, with its provenance below | — |
-| `drawable/ic_launcher_{background,foreground,monochrome}.xml`, `drawable/ic_notification.xml`, `mipmap-*`, `play-icon-512.png` | `mark.py` → `make-launcher-icon.py` | generated |
+| `drawable/ic_launcher_{background,foreground,monochrome}.xml`, `drawable/ic_notification.xml`, `mipmap-*`, `play-icon-512.png`, `ui/common/MarkGeometry.kt` | `mark.py` → `make-launcher-icon.py` | generated |
 | `play-feature-graphic.png` (1024×500) | `mark.py` + `theme/Color.kt` (+ `feature-background.png` if present) → `make-feature-graphic.py` | generated |
 | `play-screenshots/<n>_<scene>-<tag>.png` | `scripts/screenshots.py --build release --numbered` → `pad-screenshot.py` | — |
 
@@ -19,10 +19,11 @@ the `VectorDrawable`s.
 graphic cannot drift into being different marks.
 
 The mark is **two calls**: a small plain dot, then a larger dot wearing a ring. The first call
-stays quiet; the second one rings. It is four circles, written as path data straight into `mark.py`
-rather than traced from an image, so there is no concept file and nothing to license. The ring is
-a solid disc, a hole, and a solid dot declared in that order — the order matters to the raster
-renderer, which has no winding rule and paints parts as they come.
+stays quiet; the second one rings. It is four circles on the design spec's 64×40 frame, declared
+as numbers in `mark.py` rather than traced from an image, so there is no concept file and nothing
+to license. The ring is a solid disc, a hole, and a solid dot declared in that order — the order
+matters to the raster renderer, which has no winding rule and paints parts as they come. The same
+numbers are written to `ui/common/MarkGeometry.kt` for the mark Compose draws in the app.
 
 - **Recolouring is two values in `mark.py` and a re-run**: `GROUND` (the icon's field) and
   `MARK_INK` (the mark on it). `make-launcher-icon.py` writes every drawable from them, the
@@ -99,6 +100,6 @@ it came from in the provenance table below, like the concept image.
 
 | File | Where it came from | Licence / terms |
 | --- | --- | --- |
-| `mark.py` geometry | Authored in this repository as circle arithmetic, 2026-10-17; no image was traced and no outside art was used | Ours, under the repository's LICENSE |
+| `mark.py` geometry | Authored in this repository as circle arithmetic, 2026-10-17, and redrawn the same day to the commissioned design spec's 64×40 geometry; no image was traced and no outside art was used | Ours, under the repository's LICENSE |
 | `concept.png` | *(none — see above; fill in if a mark is ever traced)* | |
 | `feature-background.png` | *(not used; the ground is a gradient of two scheme roles)* | |
