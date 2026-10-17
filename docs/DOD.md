@@ -43,7 +43,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Make the artifact allowlists yours.** All four `aab-*.py` pass on a local `bundleRelease`.
 - [x] **Choose the palette.** Done 2026-10-17: slate-blue primary kept, tertiary moved to amber and
       the neutral to a warm grey, so the surfaces lean towards the mark's charcoal ground. Every
-      contrast check passed on regeneration (lowest 4.27:1 for outline on surface, needing 3.0).
+      contrast check passed on regeneration, the tightest being the divider (outlineVariant on
+      surfaceContainerLow) at 1.55:1 against a 1.2 floor.
 - [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgentapp.support@gmail.com`.
 - [x] **Write the listing.** English and Polish text in `docs/store-listing.md`, `--strict` green.
 - [ ] **Capture the screenshots** with `scripts/screenshots.py` once the palette and mark are final —

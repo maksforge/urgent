@@ -14,8 +14,8 @@ the `VectorDrawable`s.
 
 ## The mark
 
-`mark.py` is the single definition, as **two cubic subpaths** — the silhouette and a hole punched
-out of it. Both generators import it, so the launcher icon, the notification icon and the feature
+`mark.py` is the single definition, as **several cubic subpaths** — solids and holes, declared in
+`PARTS`. Both generators import it, so the launcher icon, the notification icon and the feature
 graphic cannot drift into being different marks.
 
 The mark is **two calls**: a small plain dot, then a larger dot wearing a ring. The first call
@@ -64,7 +64,8 @@ with Noto Sans on that basis and ships no glyph outlines.
 # 1. Draw or generate a concept image, and put it beside this file.
 python3 art/trace-mark.py concept.png   # prints cubic path data
 #    Set CROP and the concept's two tones at the top of trace-mark.py first — they describe the
-#    *image being traced*, not the app. Paste MARK and HOLE into art/mark.py, with your colours.
+#    *image being traced*, not the app. Paste the curves into art/mark.py's PARTS as Subpath
+#    entries — solids, and holes with hole=True, in paint order — with your colours.
 
 # 2. Regenerate everything that derives from it.
 python3 art/make-launcher-icon.py       # icons, mipmaps, the 512² Play asset

@@ -34,9 +34,9 @@ ART_SIZE = 62  # longest side of the mark — bounded by SAFE_DIAMETER, see belo
 
 # A launcher may mask the icon down to a 66dp circle, so anything outside that gets clipped.
 # The mark is wide and short (two circles side by side, 190 by 132 units), so its width is what
-# meets the circle: at 62dp the ring's far edge reaches 31dp from the centre against a 33dp safe
-# radius, and the small dot on the other side stays well inside. main() measures the outline
-# rather than trusting this note.
+# meets the circle: fit() centres the bounding box, so at 62dp both ends of the mark — the small
+# dot's outer edge and the ring's far edge — reach 31dp from the centre, 2dp inside the 33dp safe
+# radius. main() measures the outline rather than trusting this note.
 SAFE_DIAMETER = 66
 
 DENSITIES = {"mdpi": 48, "hdpi": 72, "xhdpi": 96, "xxhdpi": 144, "xxxhdpi": 192}

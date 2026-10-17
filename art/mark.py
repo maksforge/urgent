@@ -8,7 +8,9 @@ icon and the feature graphic cannot drift into being different marks.
 The geometry is four circles, written as path data here rather than traced from an image, so there
 is no concept file and no outside art to license (`art/README.md`, *Provenance*). To change the mark,
 replace PARTS — by hand for geometry this simple, or with `python3 art/trace-mark.py <image>` for a
-drawn one, in which case **commit the image beside this file** and record where it came from.
+drawn one, pasting the traced curves into PARTS as `Subpath` entries (solids, and holes with
+`hole=True`, in paint order); in that case **commit the image beside this file** and record where it
+came from.
 
 **Use art you have the right to ship.** An icon traced from an emoji font, a stock icon or someone
 else's mark is a licence obligation at best and a rejected Play upload at worst. Art you generated
