@@ -47,8 +47,8 @@ template's `docs/DOD.md` the day a feature adds a table.
       surfaceContainerLow) at 1.55:1 against a 1.2 floor.
 - [x] **Put a real support address in `ui/support/SupportHandoff.kt`** — `urgentapp.support@gmail.com`.
 - [x] **Write the listing.** English and Polish text in `docs/store-listing.md`, `--strict` green.
-- [ ] **Capture the screenshots** with `scripts/screenshots.py` once the palette and mark are final —
-      shots taken before then are retaken.
+- [x] **Capture the screenshots.** Done 2026-10-17 from the release build of the redesign, English and
+      Polish, in `art/play-screenshots/`.
 - [x] **Write the privacy policy** — served at `https://srednimax.github.io/urgent/privacy-policy.html`.
 - [x] **Answer the Console's App content pages and write [`play-app-content.md`](play-app-content.md)
       in the same sitting** — the reasons are in front of you then and gone a week later. It moves in
