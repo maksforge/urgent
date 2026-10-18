@@ -98,18 +98,24 @@ fun Context.repeatCallAgeMillisNow(
     )
 }
 
-/** The live sound settings [shouldRingThrough] decides from; reading the DND policy needs no access grant. */
+/** The live sound settings [shouldRingThrough] decides from. */
 @SuppressLint("InlinedApi")
 fun Context.soundSettings(): SoundSettings? {
     val audio = getSystemService(AudioManager::class.java) ?: return null
     val notifications = getSystemService(NotificationManager::class.java) ?: return null
     // From Android 15 the consolidated policy is the one in force, with schedules and modes applied;
-    // before it, the user's manual policy is the closest the platform will tell an app.
+    // before it, the user's manual policy is the closest the platform will tell an app. Before
+    // Android 9 the platform refuses the read without Do Not Disturb access, which Urgent never asks
+    // for, so the defaults below stand in for it.
     val policy =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            notifications.consolidatedNotificationPolicy
-        } else {
-            notifications.notificationPolicy
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                notifications.consolidatedNotificationPolicy
+            } else {
+                notifications.notificationPolicy
+            }
+        } catch (e: SecurityException) {
+            null
         }
     // Before Android 9 priority mode always let alarms through, and the policy had no bit for it.
     val alarmsAlwaysAllowed = Build.VERSION.SDK_INT < Build.VERSION_CODES.P

@@ -16,15 +16,18 @@ template's `docs/DOD.md` the day a feature adds a table.
       Do Not Disturb on. `PHONE_STATE` cannot be faked over adb, so this is the only end-to-end test.
       Silent, 2026-10-13, R8 release build on HyperOS: the first call stayed silent, the second rang
       and stopped when the call ended unanswered. Answering, declining and *Silence* while it rings,
-      vibrate, and Do Not Disturb are still to run.
-- [ ] **Decide whether Urgent can be on Google Play at all.** `READ_CALL_LOG` is restricted to default
-      dialers and a short list of exceptions; the Permissions Declaration Form is where that is
-      argued, and a refusal means distributing outside Play. The declaration (*Device automation*)
-      went to review on 2026-10-13 with 0.1.0 (versionCode 18); the answers are in
-      [`play-app-content.md`](play-app-content.md).
-- [ ] **Run the call path on an API 26 phone or emulator.** The pre-P alarm rule in
-      `soundSettings()`, the pre-Q `startForeground` and the pre-S/pre-T vibrator paths in
-      `RingThroughService` ship unvalidated until then; CI's API 26 leg only reads the manifest.
+      vibrate, and Do Not Disturb are still to run on the phone; the API 26 emulator passed all of
+      them except vibrate, which it cannot enter.
+- [x] **Decide whether Urgent can be on Google Play at all.** Yes: the `READ_CALL_LOG` declaration
+      (*Device automation*, answers in [`play-app-content.md`](play-app-content.md)) passed review;
+      0.6.0 installs from Play.
+- [x] **Run the call path on an API 26 phone or emulator.** Done 2026-10-18 on an API 26 emulator,
+      R8 build, calls from `adb emu gsm call`. It crashed on the second call: before Android 9 reading
+      the Do Not Disturb policy needs access Urgent never asks for. With that fixed, silent and DND
+      *Alarms only* ring on the alarm stream and vibrate as an alarm, normal mode stays silent, and
+      answering, declining and *Silence* each stop it. `SoundSettingsTest` now holds the read on
+      CI's API 26 leg. What remains unknowable there: in DND *Priority only* Urgent cannot see the
+      policy, so it may ring alongside a starred contact or a repeat caller the phone lets through.
 - [ ] **Chosen callers.** With this phone on silent, add one number from contacts and one typed by
       hand, then call twice from a chosen number and twice from another. Only the chosen one rings.
       Use one contact saved without its country code and one with an extension (`…,567`). Neither
