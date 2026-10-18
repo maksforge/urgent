@@ -284,13 +284,13 @@ Ekran Start zaczyna się teraz od jedynego przełącznika, a to, czego Android j
 
 ### 0.6.1 — repeated calls ring on Android 8
 
-**English** — 91/500:
+**English** — 90/500:
 
 ```
 On Android 8, a repeated call could stay silent. It now rings, as it does on newer phones.
 ```
 
-**Polish** — 104/500:
+**Polish** — 103/500:
 
 ```
 Na Androidzie 8 powtórne połączenie mogło pozostać ciche. Teraz dzwoni, tak jak na nowszych telefonach.
