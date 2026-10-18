@@ -281,3 +281,17 @@ Home now leads with its one switch, and anything Android still needs shows in am
 ```
 Ekran Start zaczyna się teraz od jedynego przełącznika, a to, czego Android jeszcze potrzebuje, widać pod nim na bursztynowo. Gdy Urgent dzwoni, jego powiadomienie pojawia się teraz na ekranie z przyciskiem Wycisz pod ręką.
 ```
+
+### 0.6.1 — repeated calls ring on Android 8
+
+**English** — 91/500:
+
+```
+On Android 8, a repeated call could stay silent. It now rings, as it does on newer phones.
+```
+
+**Polish** — 104/500:
+
+```
+Na Androidzie 8 powtórne połączenie mogło pozostać ciche. Teraz dzwoni, tak jak na nowszych telefonach.
+```
