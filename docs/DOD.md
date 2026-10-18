@@ -16,18 +16,22 @@ template's `docs/DOD.md` the day a feature adds a table.
       Do Not Disturb on. `PHONE_STATE` cannot be faked over adb, so this is the only end-to-end test.
       Silent, 2026-10-13, R8 release build on HyperOS: the first call stayed silent, the second rang
       and stopped when the call ended unanswered. Answering, declining and *Silence* while it rings,
-      vibrate, and Do Not Disturb are still to run on the phone; the API 26 emulator passed all of
-      them except vibrate, which it cannot enter.
+      vibrate, and Do Not Disturb are still to run on the phone. The API 26 emulator ran answering,
+      declining and *Silence* with silent and DND *Alarms only* on together; vibrate, silent without
+      DND and *Priority only* did not run there.
 - [x] **Decide whether Urgent can be on Google Play at all.** Yes: the `READ_CALL_LOG` declaration
       (*Device automation*, answers in [`play-app-content.md`](play-app-content.md)) passed review;
       0.6.0 installs from Play.
 - [x] **Run the call path on an API 26 phone or emulator.** Done 2026-10-18 on an API 26 emulator,
       R8 build, calls from `adb emu gsm call`. It crashed on the second call: before Android 9 reading
-      the Do Not Disturb policy needs access Urgent never asks for. With that fixed, silent and DND
-      *Alarms only* ring on the alarm stream and vibrate as an alarm, normal mode stays silent, and
-      answering, declining and *Silence* each stop it. `SoundSettingsTest` now holds the read on
-      CI's API 26 leg. What remains unknowable there: in DND *Priority only* Urgent cannot see the
-      policy, so it may ring alongside a starred contact or a repeat caller the phone lets through.
+      the Do Not Disturb policy needs access Urgent never asks for. With that fixed, silent with DND
+      *Alarms only* rings on the alarm stream and vibrates as an alarm, normal mode stays silent, and
+      answering, declining and *Silence* each stop it. The emulator reaches silent only through DND
+      *Alarms only* (the volume rocker skips vibrate, having no vibrator), so silent alone and vibrate
+      did not run. `SoundSettingsTest` now holds the read on CI's API 26 leg. What remains
+      unknowable there: in DND *Priority only* Urgent cannot see the policy, so it may ring
+      alongside any caller the phone lets through — calls from anyone, contacts or starred
+      contacts, or repeat callers.
 - [ ] **Chosen callers.** With this phone on silent, add one number from contacts and one typed by
       hand, then call twice from a chosen number and twice from another. Only the chosen one rings.
       Use one contact saved without its country code and one with an extension (`…,567`). Neither
