@@ -34,10 +34,14 @@ template's `docs/DOD.md` the day a feature adds a table.
       contacts, or repeat callers.
 - [ ] **Chosen callers.** With this phone on silent, add one number from contacts and one typed by
       hand, then call twice from a chosen number and twice from another. Only the chosen one rings.
-      Use one contact saved without its country code and one with an extension (`…,567`). Neither
-      path has run on a phone yet.
+      Use one contact saved without its country code and one with an extension (`…,567`). The API 26
+      emulator passed it on 2026-10-18: a picked contact saved as `5550201` rang for `+15550201`, one
+      saved as `5550205,567` rang for `5550205`, a typed number rang, and a stranger and an unchosen
+      contact stayed silent. Still to run on the phone.
 - [ ] **Everyone in your contacts.** With this phone on silent and the switch on, call twice from a saved
       contact and twice from a number that is not saved. Only the contact rings. Needs a second phone, as above.
+      The API 26 emulator passed it on 2026-10-18, and *Starred contacts* too: a starred contact rang,
+      a saved unstarred one stayed silent. Still to run on the phone.
 
 ## Before the first upload
 
