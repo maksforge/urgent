@@ -144,11 +144,11 @@ jobs:
           # `minSdk` covers code the app cannot run, on a level it cannot install on.
           #
           # The `minSdk` floor. `ManifestWiringTest` proves the APK installs at 26 and that
-          # the OS there resolves the PHONE_STATE receiver and the ringing service; it runs
-          # none of the app's SDK_INT branches. The call path's pre-P/Q/S/T branches are an
-          # open item in docs/DOD.md, and only edge-to-edge's API 26 cells reach the pre-R/S
-          # UI side. `default` rather than `aosp_atd`: the slim ATD images start at API 30,
-          # so 26 has no such image.
+          # the OS there resolves the PHONE_STATE receiver and the ringing service, and
+          # `SoundSettingsTest` runs `soundSettings()`'s pre-P branch. The service's pre-Q/S/T
+          # branches were validated once by hand on an API 26 emulator (docs/DOD.md) and run
+          # nowhere here; edge-to-edge's API 26 cells reach the pre-R/S UI side. `default`
+          # rather than `aosp_atd`: the slim ATD images start at API 30, so 26 has no such image.
           - api-level: 26
             target: default
           # `targetSdk`. Where the platform applies its newest behaviour changes to us
