@@ -116,3 +116,7 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Confirm Data safety at the next Play declaration.** Re-read on 2026-10-15: the answer stands,
       because chosen numbers stay on the device and Auto Backup is Android's transfer
       ([`play-app-content.md`](play-app-content.md), Data safety). Tick once the Console answer matches.
+- [ ] **Keep `urgentapp.support@gmail.com` open and forwarding to the developer inbox.** Builds 0.2.0
+      to 0.6.0 mail support there and cannot be changed, and it is still the IARC rating contact
+      ([`play-app-content.md`](play-app-content.md), Content rating). Never delete the account; forwarding
+      is not set up yet.
