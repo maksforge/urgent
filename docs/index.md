@@ -46,7 +46,7 @@ a repeated call's number against your contacts, and keeps nothing. The details a
 
 ## Support
 
-**urgentapp.support@gmail.com** — an ordinary mailbox that a person reads.
+**urgentcall.support@maksforge.com** — an ordinary mailbox that a person reads.
 
 ## The source
 

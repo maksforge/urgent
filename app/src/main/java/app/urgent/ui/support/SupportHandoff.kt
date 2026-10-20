@@ -11,19 +11,12 @@ import app.urgent.R
 import app.urgent.work.startActivitySafely
 
 /**
- * Where a report goes, and it is **frozen the day a build leaves this machine**.
- *
- * ⚠ **This is a placeholder, and shipping it is a release with no way to reach you.** `bootstrap.py`
- * cannot guess it, so it is a line in `docs/DOD.md`'s *Before the first upload*: put a real address
- * here, and the same one in the Play listing's contact field — two routes is one more than anybody
- * needs.
- *
- * Use a **dedicated account**, not a `…+app@` alias on your personal one. A sideloaded APK is never
- * forced to update, so whatever string is compiled in here keeps being mailed for as long as any
- * build survives. An alias is welded to one mailbox forever; a real address can be forwarded
- * anywhere, and handed to another maintainer without handing over your own mail.
+ * Where a report goes, and it is **frozen the day a build leaves this machine**: a sideloaded APK is
+ * never forced to update, so this string is mailed for as long as any build survives. An address on
+ * our own domain is forwarded by the domain's routing, so the mailbox behind it can change without a
+ * release. Keep it the same as the Play listing's contact email.
  */
-private const val SUPPORT_ADDRESS = "urgentapp.support@gmail.com"
+private const val SUPPORT_ADDRESS = "urgentcall.support@maksforge.com"
 
 /**
  * The id Play knows this app by — **a fact about the listing rather than about this build.**

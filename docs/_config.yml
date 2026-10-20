@@ -13,4 +13,4 @@
 # be published must not be in docs/ at all.
 theme: jekyll-theme-minimal
 title: Urgent call
-description: <One line about the app>
+description: Rings your phone when the same number calls twice within a few minutes, even on silent.
