@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/srednimax/urgent/compare/v0.6.0...v0.6.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* send support mail to urgentcall.support@maksforge.com ([24d5347](https://github.com/srednimax/urgent/commit/24d5347f6ad9a584f8cc0550f1cc43c1cd262eed))
+* stop crashing on a repeated call before Android 9 ([dcb1095](https://github.com/srednimax/urgent/commit/dcb1095ee26c6e6ddd1e7bb4ad16f6df1609ac95))
+
 ## [0.6.0](https://github.com/srednimax/urgent/compare/v0.5.0...v0.6.0) (2026-10-17)
 
 
