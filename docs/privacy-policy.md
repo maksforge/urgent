@@ -5,7 +5,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-_Last updated: 2026-10-16_
+_Last updated: 2026-10-20_
 
 Urgent is an Android app that rings your phone when the same number calls you twice within a few
 minutes, even while the phone is silenced. This policy describes what the app reads to do that, and
@@ -72,4 +72,4 @@ in the repository.
 
 ## Contact
 
-**urgentapp.support@gmail.com**, or <https://github.com/srednimax/urgent/issues>
+**urgentcall.support@maksforge.com**, or <https://github.com/srednimax/urgent/issues>
