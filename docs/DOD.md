@@ -97,8 +97,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Declare the keep-alive foreground service.** `specialUse` *Other* on file since 2026-10-16; the
       duplicate under `mediaPlayback` unticked 2026-10-22
       ([`play-app-content.md`](play-app-content.md), Foreground service permissions).
-- [ ] **Send both Console changes for review with the 0.7.0 upload.** The `READ_CALL_LOG` review text
-      and the unticked `mediaPlayback` duplicate wait in Publishing overview for *Send for review*.
+- [x] **Send both Console changes for review.** The `READ_CALL_LOG` review text and the unticked
+      `mediaPlayback` duplicate were sent on 2026-10-22, ahead of the 0.7.0 upload.
 
 ## After the closed test
 
