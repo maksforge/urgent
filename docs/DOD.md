@@ -42,14 +42,15 @@ template's `docs/DOD.md` the day a feature adds a table.
       contact and twice from a number that is not saved. Only the contact rings. Needs a second phone, as above.
       The API 26 emulator passed it on 2026-10-18, and *Starred contacts* too: a starred contact rang,
       a saved unstarred one stayed silent. Still to run on the phone.
-- [ ] **Ring at once.** With this phone on silent, put one number on *Ring at once* and leave the chosen
+- [x] **Ring at once.** With this phone on silent, put one number on *Ring at once* and leave the chosen
       list holding a different one. One call from the *Ring at once* number rings, with the *Ring at once*
       notification; one call from a stranger stays silent. Repeat with DND *Priority only* allowing all
       calls: the phone rings by itself and Urgent stays quiet. Needs a second phone, as above.
       The API 33 emulator passed it on 2026-10-22, once Urgent stopped reading *Priority only* as silent
       and ringing over calls it lets through; API 26 ran only the silent half, since there the policy is
       unreadable. On the Xiaomi the same day, `dumpsys audio` showed the ring stream unmuted in *Priority
-      only* with the ringer normal and muted in silent and vibrate. Still to run on the phone.
+      only* with the ringer normal and muted in silent and vibrate. Passed with real calls on a Xiaomi
+      24115RA8EG (HyperOS 3, Android 16) on 2026-10-22, release build of `main`, both halves.
 
 ## Before the first upload
 
