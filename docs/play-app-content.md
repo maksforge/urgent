@@ -27,9 +27,9 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `READ_CALL_LOG` | ours | the caller's number, and whether they called in the last few minutes | **Restricted**: Play's SMS and Call Log policy allows it only for default dialers and listed exceptions. The Permissions Declaration Form decides whether this app can be on Play at all |
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
-| `RECEIVE_BOOT_COMPLETED` *(not yet in a release)* | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
+| `RECEIVE_BOOT_COMPLETED` | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
 | `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, the number of each repeated call, and of each call from the *Ring at once* list, is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
-| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `FOREGROUND_SERVICE_SPECIAL_USE` *(the last not yet in a release)* | ours | `RingThroughService` plays the ringtone for up to a minute; `KeepAliveService` keeps the app running while *Run in the background* is on | **Foreground service declarations**: one for each type, `mediaPlayback` and `specialUse`, each with a short video, asked for in App content |
+| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `FOREGROUND_SERVICE_SPECIAL_USE` | ours | `RingThroughService` plays the ringtone for up to a minute; `KeepAliveService` keeps the app running while *Run in the background* is on | **Foreground service declarations**: one for each type, `mediaPlayback` and `specialUse`, each with a short video, asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
 **`READ_CONTACTS` and Play's API 37 policy.**
@@ -151,17 +151,18 @@ Play's list of permitted uses decides this, and Urgent fits none of it cleanly. 
 10, 15 or 30 minutes the user picks, and the action is the ring. *Physical safety/emergency alert*
 allows only `SEND_SMS`, and *Caller ID, spam detection and blocking* describes a different app.
 
-*Instructions for review*, as given (488 of 500 characters):
+*Instructions for review*, as saved on 2026-10-22 for *Ring at once* (496 of 500 characters), not yet
+sent for review:
 
-> Urgent rings for a repeated call when the phone is silenced (silent, vibrate, DND). User-set
-> trigger: the same number calling again within 5, 10, 15 or 30 minutes. On a ringing call it
-> reads the last few minutes of the call log, on-device, to compare one number; nothing is
-> stored or sent, and there is no INTERNET permission. Android 9+ gives the ringing number
-> only with READ_CALL_LOG; CallScreeningService skips contacts unless default dialer. Test:
-> turn it on, set silent, call twice.
+> Urgent rings through silent, vibrate or DND for user-set triggers: the same number calling again
+> within 5, 10, 15 or 30 minutes, or a number on the user's Ring at once list. On a ringing call it
+> reads the last few minutes of the call log on-device to compare one number; nothing is stored or
+> sent, and there is no INTERNET permission. Android 9+ gives the ringing number only with
+> READ_CALL_LOG; CallScreeningService skips contacts unless default dialer. Test: turn it on, set
+> silent, call twice.
 
-Would change: a refusal (Plan B is distribution off Play), the window choices, or any use of the
-call log beyond comparing one number.
+Would change: a refusal (Plan B is distribution off Play), the window choices, a new trigger, or any
+use of the call log beyond comparing one number.
 
 ## Foreground service permissions
 
@@ -185,12 +186,16 @@ same day with 0.1.0 (versionCode 18); the Console's task is *Media playback*.
 
 Would change: a change of type, or the ringing outliving the call.
 
-**`specialUse`**, for `call/KeepAliveService.kt`. Not yet answered in the Console: it is on the feature branch and not in a release.
+**`specialUse`**, for `call/KeepAliveService.kt`. Answered 2026-10-16 under the task *Other*, with the
+same description also filed by mistake as an *Other* task under `mediaPlayback`; that duplicate was
+unticked on 2026-10-22 and is not yet sent for review.
 
 - **What the user sees:** a quiet, ongoing notification, *Urgent is running*, for as long as *Run in the background* is on.
 - **Why it cannot wait:** the phone-state receiver should not wait for Android or the ROM to start Urgent again between calls.
 - **Why this type:** the service plays no sound, carries no call and moves no data, so `mediaPlayback`, `phoneCall` and `dataSync` do not fit. The manifest carries the subtype text.
-- **The video:** not yet recorded. It shows the notification with *Run in the background* on, while the app is not open.
+- **The video:** the notification with *Run in the background* on, while the app is not open. Link:
+  https://drive.google.com/file/d/1vGGDZ3yOkAU2wD9lGxKNgaBtPqF9v9WU/view — keep it viewable while
+  this declaration is on file, as for the `mediaPlayback` one.
 
 Would change: a change of type, or the service running without *Run in the background* on.
 
