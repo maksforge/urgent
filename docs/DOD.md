@@ -90,13 +90,17 @@ template's `docs/DOD.md` the day a feature adds a table.
 
 ## Before the next upload
 
-- [ ] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
+- [x] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
       answer describe only *Add from contacts*. *Everyone in your contacts* and *Starred contacts* read contacts
       when a call rings, so update both before the next upload. *Ring at once* reads them for its callers'
       first calls too, and the `READ_CALL_LOG` declaration's trigger now includes a call from that list.
-- [ ] **Declare the keep-alive foreground service.** *Run in the background* runs `KeepAliveService` as a
+- [x] **Declare the keep-alive foreground service.** *Run in the background* runs `KeepAliveService` as a
       `specialUse` foreground service (`FOREGROUND_SERVICE_SPECIAL_USE`). Write its purpose into the Console's
       foreground-service declaration with the release, in the same sitting as the contacts answer.
+      Done 2026-10-22: Play has no contacts form and Data safety's *No data collected* stands, the
+      `READ_CALL_LOG` review text names *Ring at once*, and `specialUse` was already on file from 2026-10-16
+      (a stray duplicate under `mediaPlayback` was removed). Both changes wait in Publishing overview for
+      *Send for review* with the 0.7.0 upload.
 
 ## After the closed test
 
