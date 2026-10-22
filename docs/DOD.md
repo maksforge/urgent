@@ -117,8 +117,9 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Every dependency bump: re-run `licensee`.** The build fails on an unallowed licence, which is
       the point — but the fix is two things, the allowlist *and* the bundled text.
 - [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
-      a feature silently stop working. On 2026-10-13 the R8 release build ran the call path on
-      HyperOS (first call silent, second rang); Settings, Support and Licences were not exercised.
+      a feature silently stop working. Last run 2026-10-22: the R8 release build of `main`
+      (versionCode 95) on HyperOS 3, set up from Home, rang for *Ring at once* on real calls; Settings,
+      Support and Licences were not exercised.
 - [ ] **Confirm Data safety at every Play declaration.** Last re-read 2026-10-22: the Console answer is
       still *No*, because chosen numbers stay on the device and Auto Backup is Android's transfer
       ([`play-app-content.md`](play-app-content.md), Data safety).
