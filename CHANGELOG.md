@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/srednimax/urgent/compare/v0.6.1...v0.7.0) (2026-10-22)
+
+
+### Features
+
+* ring at once for callers on a new list ([0daade4](https://github.com/srednimax/urgent/commit/0daade440f75a9ed745a3b90ecd56a61c49fac05))
+
+
+### Bug Fixes
+
+* keep reading the ringer mode with Do Not Disturb off ([d02e3bd](https://github.com/srednimax/urgent/commit/d02e3bdfc9fc74ee45a1ac56455a1841562b4b37))
+* stop ringing over a call Do Not Disturb lets through ([4147d51](https://github.com/srednimax/urgent/commit/4147d51741103417aca4d47851e6ddf26c020bcd))
+
 ## [0.6.1](https://github.com/srednimax/urgent/compare/v0.6.0...v0.6.1) (2026-10-20)
 
 
