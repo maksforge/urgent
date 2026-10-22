@@ -46,6 +46,8 @@ template's `docs/DOD.md` the day a feature adds a table.
       list holding a different one. One call from the *Ring at once* number rings, with the *Ring at once*
       notification; one call from a stranger stays silent. Repeat with DND *Priority only* allowing all
       calls: the phone rings by itself and Urgent stays quiet. Needs a second phone, as above.
+      The API 33 and API 26 emulators passed it on 2026-10-22, once Urgent stopped reading *Priority only*
+      as silent and ringing over calls it lets through. Still to run on the phone.
 
 ## Before the first upload
 
