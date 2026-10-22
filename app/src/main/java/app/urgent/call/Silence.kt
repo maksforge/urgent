@@ -7,7 +7,7 @@ import android.media.AudioManager
 
 /** The phone's sound settings at the moment a call rings, as plain values a JVM test can build. */
 data class SoundSettings(
-    val ringerMode: Int,
+    val ringMuted: Boolean,
     val ringVolume: Int,
     val audioMode: Int,
     val interruptionFilter: Int,
@@ -44,7 +44,7 @@ fun shouldRingThrough(
             (priorityOnly && (sound.priorityCategories and Policy.PRIORITY_CATEGORY_ALARMS) == 0)
     if (alarmsMuted) return false
 
-    if (sound.ringerMode != AudioManager.RINGER_MODE_NORMAL || sound.ringVolume == 0) return true
+    if (sound.ringMuted || sound.ringVolume == 0) return true
 
     return when (sound.interruptionFilter) {
         NotificationManager.INTERRUPTION_FILTER_ALARMS -> true

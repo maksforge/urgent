@@ -298,14 +298,14 @@ Na Androidzie 8 powtórne połączenie mogło pozostać ciche. Teraz dzwoni, tak
 
 ### 0.7.0 — ring at once
 
-**English** — 221/500:
+**English** — 314/500:
 
 ```
-Ring at once: put the people who must always reach you on this new list, and their very first call rings through silent or vibrate, without calling twice. Urgent still stays quiet when your phone rings for them by itself.
+Ring at once: put the people who must always reach you on this new list, and their very first call rings through silent or vibrate, without calling twice. Urgent still stays quiet when your phone rings for them by itself. And in Do Not Disturb, Urgent no longer rings on top of a call your phone already rings for.
 ```
 
-**Polish** — 244/500:
+**Polish** — 333/500:
 
 ```
-Dzwoń od razu: dodaj do tej nowej listy osoby, które zawsze muszą się do ciebie dodzwonić, a już ich pierwsze połączenie zadzwoni mimo wyciszenia albo wibracji — nie muszą dzwonić drugi raz. Urgent dalej milczy, gdy telefon sam dla nich dzwoni.
+Dzwoń od razu: dodaj do tej nowej listy osoby, które zawsze muszą się do ciebie dodzwonić, a już ich pierwsze połączenie zadzwoni mimo wyciszenia albo wibracji — nie muszą dzwonić drugi raz. Urgent dalej milczy, gdy telefon sam dla nich dzwoni. A w trybie Nie przeszkadzać Urgent nie dzwoni już razem z telefonem, gdy ten sam dzwoni.
 ```
