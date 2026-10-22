@@ -111,15 +111,19 @@
     <string name="home_callers_add">Add</string>
     <string name="home_callers_remove">Remove</string>
     <string name="home_callers_contacts_denied">Urgent needs access to your contacts to pick a caller. You can allow it in Settings.</string>
+    <string name="home_ring_at_once">Ring at once</string>
+    <string name="home_ring_at_once_hint">These callers ring on their first call, with no repeat needed, even when the rules above leave them out.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Ringing</string>
-    <string name="channel_ringing_description">Shown while Urgent rings for a repeated call, with a button to stop it.</string>
+    <string name="channel_ringing_description">Shown while Urgent rings for a repeated call or a Ring at once caller, with a button to stop it.</string>
     <string name="channel_keep_alive_name">Running in the background</string>
     <string name="channel_keep_alive_description">Shown while Urgent runs in the background, ready for repeated calls.</string>
     <string name="keep_alive_title">Urgent is running</string>
     <string name="keep_alive_body">Waiting for repeated calls. Tap to open.</string>
     <string name="ringing_title">Repeated call</string>
     <string name="ringing_body">Ringing because the same number called again.</string>
+    <string name="ringing_at_once_title">Ring at once</string>
+    <string name="ringing_at_once_body">Ringing because this caller is on your Ring at once list.</string>
     <string name="ringing_silence">Silence</string>
 </resources>

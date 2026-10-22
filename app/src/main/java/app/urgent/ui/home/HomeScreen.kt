@@ -242,6 +242,13 @@ fun HomeScreen(
                 onAddFromContacts = viewModel::addChosenCallerFromContacts,
                 onRemove = viewModel::removeChosenCaller,
             )
+            RingAtOnceSection(
+                entries = state.callers.ringAtOnce,
+                onAddTyped = viewModel::addRingAtOnceCaller,
+                loadContacts = viewModel::contactCallers,
+                onAddFromContacts = viewModel::addRingAtOnceCallerFromContacts,
+                onRemove = viewModel::removeRingAtOnceCaller,
+            )
         }
     }
 }
@@ -308,19 +315,8 @@ private fun CallersSection(
     onAddFromContacts: (PickedCaller) -> Unit,
     onRemove: (String) -> Unit,
 ) {
-    var typed by rememberSaveable { mutableStateOf("") }
-    var choosingContact by rememberSaveable { mutableStateOf(false) }
     var scopeAwaitingContacts by rememberSaveable { mutableStateOf(ContactScope.OFF) }
     val context = LocalContext.current
-    // The ask waits for the button: the contacts list is only needed once the user asks for it.
-    val askForContacts =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (granted) {
-                choosingContact = true
-            } else {
-                Toast.makeText(context, R.string.home_callers_contacts_denied, Toast.LENGTH_LONG).show()
-            }
-        }
     val askForContactsToRing =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) {
@@ -384,9 +380,63 @@ private fun CallersSection(
             modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, bottom = Spacing.snug),
         )
     }
+    CallerList(
+        entries = callers.chosen,
+        onAddTyped = onAddTyped,
+        loadContacts = loadContacts,
+        onAddFromContacts = onAddFromContacts,
+        onRemove = onRemove,
+    )
+}
+
+@Composable
+private fun RingAtOnceSection(
+    entries: Set<String>,
+    onAddTyped: (String) -> Unit,
+    loadContacts: suspend () -> List<PickedCaller>,
+    onAddFromContacts: (PickedCaller) -> Unit,
+    onRemove: (String) -> Unit,
+) {
+    SectionHeader(stringResource(R.string.home_ring_at_once))
+    Text(
+        text = stringResource(R.string.home_ring_at_once_hint),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(start = Spacing.base, end = Spacing.base, bottom = Spacing.snug),
+    )
+    CallerList(
+        entries = entries,
+        onAddTyped = onAddTyped,
+        loadContacts = loadContacts,
+        onAddFromContacts = onAddFromContacts,
+        onRemove = onRemove,
+    )
+}
+
+/** A list of callers with its two ways to add one: from contacts, or a typed number. */
+@Composable
+private fun CallerList(
+    entries: Set<String>,
+    onAddTyped: (String) -> Unit,
+    loadContacts: suspend () -> List<PickedCaller>,
+    onAddFromContacts: (PickedCaller) -> Unit,
+    onRemove: (String) -> Unit,
+) {
+    var typed by rememberSaveable { mutableStateOf("") }
+    var choosingContact by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    // The ask waits for the button: the contacts list is only needed once the user asks for it.
+    val askForContacts =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                choosingContact = true
+            } else {
+                Toast.makeText(context, R.string.home_callers_contacts_denied, Toast.LENGTH_LONG).show()
+            }
+        }
     // Plain string order puts Ł after Z; a collator follows the default locale's alphabet.
     val collator = Collator.getInstance()
-    for (entry in callers.chosen.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {
+    for (entry in entries.sortedWith(compareBy(collator) { ChosenCaller.fromEntry(it).label })) {
         val caller = ChosenCaller.fromEntry(entry)
         Row(
             verticalAlignment = Alignment.CenterVertically,

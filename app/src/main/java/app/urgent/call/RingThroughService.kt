@@ -63,7 +63,7 @@ class RingThroughService : Service() {
         ServiceCompat.startForeground(
             this,
             NOTIFICATION_ID,
-            ringingNotification(),
+            ringingNotification(firstCall = intent?.getBooleanExtra(EXTRA_FIRST_CALL, false) == true),
             if (Build.VERSION.SDK_INT >=
                 Build.VERSION_CODES.Q
             ) {
@@ -159,7 +159,7 @@ class RingThroughService : Service() {
         return vibrator
     }
 
-    private fun ringingNotification(): Notification {
+    private fun ringingNotification(firstCall: Boolean): Notification {
         val notifications = getSystemService(NotificationManager::class.java)
         // A channel's importance is fixed once it exists on a phone, so raising it takes a new id.
         notifications.deleteNotificationChannel(RETIRED_CHANNEL_ID)
@@ -186,8 +186,8 @@ class RingThroughService : Service() {
             .Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setColor(ringingTint())
-            .setContentTitle(getString(R.string.ringing_title))
-            .setContentText(getString(R.string.ringing_body))
+            .setContentTitle(getString(if (firstCall) R.string.ringing_at_once_title else R.string.ringing_title))
+            .setContentText(getString(if (firstCall) R.string.ringing_at_once_body else R.string.ringing_body))
             // DND lets an alarm through whenever it allows alarms, which the alarm-stream ringtone needs anyway.
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setOngoing(true)
@@ -208,6 +208,7 @@ class RingThroughService : Service() {
         private const val RETIRED_CHANNEL_ID = "ringing"
         private const val NOTIFICATION_ID = 1
         private const val ACTION_SILENCE = "app.urgent.action.SILENCE"
+        private const val EXTRA_FIRST_CALL = "app.urgent.extra.FIRST_CALL"
         private const val MAX_RING_MILLIS = 60_000L
 
         /**
@@ -215,9 +216,14 @@ class RingThroughService : Service() {
          * exempt; the home screen says so, and here the refusal is logged rather than crashing the
          * receiver that asked.
          */
-        fun start(context: Context) {
+        fun start(
+            context: Context,
+            firstCall: Boolean = false,
+        ) {
             try {
-                context.startForegroundService(Intent(context, RingThroughService::class.java))
+                context.startForegroundService(
+                    Intent(context, RingThroughService::class.java).putExtra(EXTRA_FIRST_CALL, firstCall),
+                )
             } catch (e: IllegalStateException) {
                 Log.w(TAG, "Not allowed to start ringing from the background", e)
             }

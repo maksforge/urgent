@@ -29,11 +29,13 @@ enum class ContactScope {
 /**
  * Who may ring a repeated call. [chosen] holds one encoded entry per caller and is ignored, but kept,
  * while [useChosen] is off. [contactScope] admits saved contacts. The defaults let anyone ring.
+ * [ringAtOnce] callers, encoded the same way, ring on their first call whatever the other rules say.
  */
 data class CallerRules(
     val chosen: Set<String> = emptySet(),
     val useChosen: Boolean = true,
     val contactScope: ContactScope = ContactScope.OFF,
+    val ringAtOnce: Set<String> = emptySet(),
 )
 
 /**
@@ -67,6 +69,7 @@ class AppPreferences(
         val CHOSEN_CALLERS = stringSetPreferencesKey("chosen_callers")
         val USE_CHOSEN_CALLERS = booleanPreferencesKey("use_chosen_callers")
         val CONTACT_SCOPE = stringPreferencesKey("contact_scope")
+        val RING_AT_ONCE_CALLERS = stringSetPreferencesKey("ring_at_once_callers")
         val KEEP_ALIVE = booleanPreferencesKey("keep_alive")
     }
 
@@ -117,7 +120,7 @@ class AppPreferences(
     val countDeclinedCalls: Flow<Boolean> = store.data.map { it[Keys.COUNT_DECLINED_CALLS] ?: true }
 
     /**
-     * The caller rules, read from one snapshot so the list, its switch and the contacts setting always
+     * The caller rules, read from one snapshot so the lists, the switch and the contacts setting always
      * agree with each other.
      */
     val callerRules: Flow<CallerRules> =
@@ -130,6 +133,7 @@ class AppPreferences(
                         runCatching { enumValueOf<ContactScope>(name) }.getOrNull()
                     }
                         ?: ContactScope.OFF,
+                ringAtOnce = prefs[Keys.RING_AT_ONCE_CALLERS] ?: emptySet(),
             )
         }
 
@@ -193,6 +197,14 @@ class AppPreferences(
 
     suspend fun removeChosenCaller(entry: String) {
         store.edit { it[Keys.CHOSEN_CALLERS] = (it[Keys.CHOSEN_CALLERS] ?: emptySet()) - entry }
+    }
+
+    suspend fun addRingAtOnceCaller(entry: String) {
+        store.edit { it[Keys.RING_AT_ONCE_CALLERS] = (it[Keys.RING_AT_ONCE_CALLERS] ?: emptySet()) + entry }
+    }
+
+    suspend fun removeRingAtOnceCaller(entry: String) {
+        store.edit { it[Keys.RING_AT_ONCE_CALLERS] = (it[Keys.RING_AT_ONCE_CALLERS] ?: emptySet()) - entry }
     }
 }
 
