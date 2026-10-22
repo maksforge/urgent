@@ -126,8 +126,7 @@ fun Context.soundSettings(): SoundSettings? {
     val alarmsAlwaysAllowed = Build.VERSION.SDK_INT < Build.VERSION_CODES.P
     val categories = policy?.priorityCategories ?: NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS
     return SoundSettings(
-        // Not `ringerMode`: Priority only reports it as silent even while it lets some calls ring, which
-        // would ring over them. Silent, vibrate and a Do Not Disturb that lets no call through all mute the stream.
+        ringerMode = audio.ringerMode,
         ringMuted = audio.isStreamMute(AudioManager.STREAM_RING),
         ringVolume = audio.getStreamVolume(AudioManager.STREAM_RING),
         audioMode = audio.mode,

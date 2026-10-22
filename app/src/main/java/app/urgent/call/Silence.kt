@@ -7,6 +7,7 @@ import android.media.AudioManager
 
 /** The phone's sound settings at the moment a call rings, as plain values a JVM test can build. */
 data class SoundSettings(
+    val ringerMode: Int,
     val ringMuted: Boolean,
     val ringVolume: Int,
     val audioMode: Int,
@@ -44,7 +45,14 @@ fun shouldRingThrough(
             (priorityOnly && (sound.priorityCategories and Policy.PRIORITY_CATEGORY_ALARMS) == 0)
     if (alarmsMuted) return false
 
-    if (sound.ringMuted || sound.ringVolume == 0) return true
+    // Priority only reports the ringer as silent even while it lets calls ring, so `ringerMode` counts
+    // only with Do Not Disturb off. A muted ring stream counts everywhere, but Priority only leaves the
+    // stream unmuted while it lets any ringer sound through, messages or reminders included, so the
+    // policy check below still decides there.
+    val ringerOff =
+        sound.interruptionFilter == NotificationManager.INTERRUPTION_FILTER_ALL &&
+            sound.ringerMode != AudioManager.RINGER_MODE_NORMAL
+    if (ringerOff || sound.ringMuted || sound.ringVolume == 0) return true
 
     return when (sound.interruptionFilter) {
         NotificationManager.INTERRUPTION_FILTER_ALARMS -> true

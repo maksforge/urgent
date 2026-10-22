@@ -13,6 +13,9 @@ import android.app.NotificationManager.Policy.PRIORITY_SENDERS_STARRED
 import android.media.AudioManager.MODE_IN_CALL
 import android.media.AudioManager.MODE_IN_COMMUNICATION
 import android.media.AudioManager.MODE_RINGTONE
+import android.media.AudioManager.RINGER_MODE_NORMAL
+import android.media.AudioManager.RINGER_MODE_SILENT
+import android.media.AudioManager.RINGER_MODE_VIBRATE
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -20,6 +23,7 @@ import org.junit.Test
 class SilenceTest {
     private val ringing =
         SoundSettings(
+            ringerMode = RINGER_MODE_NORMAL,
             ringMuted = false,
             ringVolume = 5,
             audioMode = MODE_RINGTONE,
@@ -27,7 +31,7 @@ class SilenceTest {
             priorityCategories = PRIORITY_CATEGORY_ALARMS,
             priorityCallSenders = PRIORITY_SENDERS_STARRED,
         )
-    private val silent = ringing.copy(ringMuted = true)
+    private val silent = ringing.copy(ringerMode = RINGER_MODE_SILENT, ringMuted = true)
     private val repeatCallersAllowed = priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_REPEAT_CALLERS)
 
     private fun ringsThrough(
@@ -47,7 +51,15 @@ class SilenceTest {
 
     @Test fun `a phone that rings on its own is left alone`() = assertFalse(ringsThrough(ringing))
 
-    @Test fun `silent or vibrate mode rings through`() = assertTrue(ringsThrough(silent))
+    @Test fun `silent mode rings through`() = assertTrue(ringsThrough(silent))
+
+    @Test fun `vibrate mode rings through`() = assertTrue(ringsThrough(silent.copy(ringerMode = RINGER_MODE_VIBRATE)))
+
+    @Test fun `a silent mode that leaves the ring stream unmuted still rings through`() =
+        assertTrue(ringsThrough(ringing.copy(ringerMode = RINGER_MODE_SILENT)))
+
+    @Test fun `priority mode reporting a silent ringer while it lets the call ring stays quiet`() =
+        assertFalse(ringsThrough(repeatCallersAllowed.copy(ringerMode = RINGER_MODE_SILENT)))
 
     @Test fun `a ring volume of zero rings through`() = assertTrue(ringsThrough(ringing.copy(ringVolume = 0)))
 
