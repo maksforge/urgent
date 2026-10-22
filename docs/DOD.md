@@ -90,17 +90,15 @@ template's `docs/DOD.md` the day a feature adds a table.
 
 ## Before the next upload
 
-- [x] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
-      answer describe only *Add from contacts*. *Everyone in your contacts* and *Starred contacts* read contacts
-      when a call rings, so update both before the next upload. *Ring at once* reads them for its callers'
-      first calls too, and the `READ_CALL_LOG` declaration's trigger now includes a call from that list.
-- [x] **Declare the keep-alive foreground service.** *Run in the background* runs `KeepAliveService` as a
-      `specialUse` foreground service (`FOREGROUND_SERVICE_SPECIAL_USE`). Write its purpose into the Console's
-      foreground-service declaration with the release, in the same sitting as the contacts answer.
-      Done 2026-10-22: Play has no contacts form and Data safety's *No data collected* stands, the
-      `READ_CALL_LOG` review text names *Ring at once*, and `specialUse` was already on file from 2026-10-16
-      (a stray duplicate under `mediaPlayback` was removed). Both changes wait in Publishing overview for
-      *Send for review* with the 0.7.0 upload.
+- [x] **Re-declare contacts for ring-time reads and *Ring at once*.** Done 2026-10-22. Play has no
+      `READ_CONTACTS` form: the "Console's READ_CONTACTS answer" this item named was the Data safety
+      answer, and it stays *No*. The `READ_CALL_LOG` review text now names *Ring at once*
+      ([`play-app-content.md`](play-app-content.md)).
+- [x] **Declare the keep-alive foreground service.** `specialUse` *Other* on file since 2026-10-16; the
+      duplicate under `mediaPlayback` unticked 2026-10-22
+      ([`play-app-content.md`](play-app-content.md), Foreground service permissions).
+- [ ] **Send both Console changes for review with the 0.7.0 upload.** The `READ_CALL_LOG` review text
+      and the unticked `mediaPlayback` duplicate wait in Publishing overview for *Send for review*.
 
 ## After the closed test
 
@@ -126,9 +124,9 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
       a feature silently stop working. On 2026-10-13 the R8 release build ran the call path on
       HyperOS (first call silent, second rang); Settings, Support and Licences were not exercised.
-- [ ] **Confirm Data safety at the next Play declaration.** Re-read on 2026-10-15: the answer stands,
-      because chosen numbers stay on the device and Auto Backup is Android's transfer
-      ([`play-app-content.md`](play-app-content.md), Data safety). Tick once the Console answer matches.
+- [ ] **Confirm Data safety at every Play declaration.** Last re-read 2026-10-22: the Console answer is
+      still *No*, because chosen numbers stay on the device and Auto Backup is Android's transfer
+      ([`play-app-content.md`](play-app-content.md), Data safety).
 - [ ] **Keep `urgentapp.support@gmail.com` alive and check its inbox by hand.** Builds 0.2.0 to 0.6.0
       mail support there and cannot be changed, and it is still the IARC rating contact
       ([`play-app-content.md`](play-app-content.md), Content rating). Never delete the account, and sign

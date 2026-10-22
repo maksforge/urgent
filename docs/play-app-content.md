@@ -17,9 +17,9 @@ Two rules keep this file honest:
 
 ## What the artifact carries
 
-Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify step on 2026-10-13:
+Read at **versionCode 88, versionName 0.6.1** by `publish-play.yml`'s verify step on 2026-10-20:
 
-> 7 permissions, all accounted for; none of the 6 forbidden ones present; 0 `<uses-feature>` declared; 0 of the 1 activities lock their orientation, every one of them expected
+> 10 permissions, all accounted for; none of the 6 forbidden ones present; 0 `<uses-feature>` declared; 0 of the 1 activities lock their orientation, every one of them expected
 
 | Permission | Whose | What it is for | Console consequence |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
 | `RECEIVE_BOOT_COMPLETED` | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
-| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, the number of each repeated call, and of each call from the *Ring at once* list, is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
+| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, the number of each repeated call, and of each call from the *Ring at once* list, is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Play has no `READ_CONTACTS` declaration form; Data safety is the only Console answer it touches, re-read on 2026-10-22 |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `FOREGROUND_SERVICE_SPECIAL_USE` | ours | `RingThroughService` plays the ringtone for up to a minute; `KeepAliveService` keeps the app running while *Run in the background* is on | **Foreground service declarations**: one for each type, `mediaPlayback` and `specialUse`, each with a short video, asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
@@ -98,7 +98,9 @@ that sells the app as good for you.
 
 ## Data safety
 
-**No data collected. No data shared.** Answered 2026-10-13 against versionCode 18.
+**No data collected. No data shared.** Answered 2026-10-13 against versionCode 18. Re-read on
+2026-10-22 for the ring-time contacts check and *Ring at once*: "Does your app collect or share any of
+the required user data types?" is still **No**.
 
 Play's definitions, from its Data safety help page (support.google.com, answer 10787469) — re-read
 them at each re-declaration rather than trusting this quote:
@@ -118,7 +120,7 @@ The answer rests on one fact per route data could take:
 3. **Auto Backup is still "no data collected".** The platform moves the user's backup to the user's
    own Google Drive; the developer never sees it. That is Android transmitting the user's backup, not
    the app transmitting to the developer. ⚠ Every file the backup carries lands on the user's *next*
-   phone too — and here that is the settings, the chosen callers' numbers and names, and the theme (ADR-0005's amendment). Re-read on 2026-10-15 when the chosen callers landed, and again when they kept names: the answer stands, because nothing reaches the developer.
+   phone too — and here that is the settings, the chosen callers' numbers and names, and the theme (ADR-0005's amendment). Re-read on 2026-10-15 when the chosen callers landed, again when they kept names, and on 2026-10-22: the answer stands, because nothing reaches the developer.
 4. **A support mail is still "no data collected", and the reason is the definition rather than an
    exemption.** A `mailto:` hands a draft to **another app**; the user reads it, can edit every line,
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
@@ -147,8 +149,9 @@ the first closed-testing release (0.1.0, versionCode 18).
 
 Play's list of permitted uses decides this, and Urgent fits none of it cleanly. *Device automation*
 — "automate repetitive actions across multiple areas of the OS, based on one or more conditions
-(triggers) set by the user" — is the closest: the trigger is a number calling again within the 5,
-10, 15 or 30 minutes the user picks, and the action is the ring. *Physical safety/emergency alert*
+(triggers) set by the user" — is the closest: the triggers are a number calling again within the 5,
+10, 15 or 30 minutes the user picks, or a number on the user's *Ring at once* list, and the action is
+the ring. *Physical safety/emergency alert*
 allows only `SEND_SMS`, and *Caller ID, spam detection and blocking* describes a different app.
 
 *Instructions for review*, as saved on 2026-10-22 for *Ring at once* (496 of 500 characters), not yet
