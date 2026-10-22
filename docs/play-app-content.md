@@ -154,8 +154,8 @@ Play's list of permitted uses decides this, and Urgent fits none of it cleanly. 
 the ring. *Physical safety/emergency alert*
 allows only `SEND_SMS`, and *Caller ID, spam detection and blocking* describes a different app.
 
-*Instructions for review*, as saved on 2026-10-22 for *Ring at once* (496 of 500 characters), not yet
-sent for review:
+*Instructions for review*, as saved for *Ring at once* and sent for review on 2026-10-22 (496 of
+500 characters):
 
 > Urgent rings through silent, vibrate or DND for user-set triggers: the same number calling again
 > within 5, 10, 15 or 30 minutes, or a number on the user's Ring at once list. On a ringing call it
@@ -191,7 +191,7 @@ Would change: a change of type, or the ringing outliving the call.
 
 **`specialUse`**, for `call/KeepAliveService.kt`. Answered 2026-10-16 under the task *Other*, with the
 same description also filed by mistake as an *Other* task under `mediaPlayback`; that duplicate was
-unticked on 2026-10-22 and is not yet sent for review.
+unticked and sent for review on 2026-10-22.
 
 - **What the user sees:** a quiet, ongoing notification, *Urgent is running*, for as long as *Run in the background* is on.
 - **Why it cannot wait:** the phone-state receiver should not wait for Android or the ROM to start Urgent again between calls.
