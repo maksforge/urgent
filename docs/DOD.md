@@ -42,6 +42,10 @@ template's `docs/DOD.md` the day a feature adds a table.
       contact and twice from a number that is not saved. Only the contact rings. Needs a second phone, as above.
       The API 26 emulator passed it on 2026-10-18, and *Starred contacts* too: a starred contact rang,
       a saved unstarred one stayed silent. Still to run on the phone.
+- [ ] **Ring at once.** With this phone on silent, put one number on *Ring at once* and leave the chosen
+      list holding a different one. One call from the *Ring at once* number rings, with the *Ring at once*
+      notification; one call from a stranger stays silent. Repeat with DND *Priority only* allowing all
+      calls: the phone rings by itself and Urgent stays quiet. Needs a second phone, as above.
 
 ## Before the first upload
 
@@ -84,7 +88,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 
 - [ ] **Re-declare contacts for ring-time reads.** `play-app-content.md` and the Console's READ_CONTACTS
       answer describe only *Add from contacts*. *Everyone in your contacts* and *Starred contacts* read contacts
-      when a call rings, so update both before the next upload.
+      when a call rings, so update both before the next upload. *Ring at once* reads them for its callers'
+      first calls too, and the `READ_CALL_LOG` declaration's trigger now includes a call from that list.
 - [ ] **Declare the keep-alive foreground service.** *Run in the background* runs `KeepAliveService` as a
       `specialUse` foreground service (`FOREGROUND_SERVICE_SPECIAL_USE`). Write its purpose into the Console's
       foreground-service declaration with the release, in the same sitting as the contacts answer.

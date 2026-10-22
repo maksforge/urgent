@@ -90,12 +90,16 @@
     <string name="home_keep_alive_hint">Trzyma Urgent uruchomiony z cichym powiadomieniem, żeby Android nie zamykał go między połączeniami. Na Xiaomi zablokuj też Urgent w ostatnich aplikacjach.</string>
     <string name="home_contacts_ring_denied">Urgent potrzebuje dostępu do kontaktów, żeby dzwonić od nich. Możesz na to zezwolić w Ustawieniach.</string>
     <string name="home_callers_contacts_denied">Urgent potrzebuje dostępu do kontaktów, żeby wybrać rozmówcę. Możesz na to zezwolić w Ustawieniach.</string>
+    <string name="home_ring_at_once">Dzwoń od razu</string>
+    <string name="home_ring_at_once_hint">Połączenia od tych rozmówców dzwonią już za pierwszym razem, bez powtórki, nawet gdy ustawienia powyżej ich pomijają.</string>
 
     <!-- Ringing -->
     <string name="channel_ringing_name">Dzwonienie</string>
-    <string name="channel_ringing_description">Widoczne, gdy Urgent dzwoni przy powtórnym połączeniu, z przyciskiem, który je wycisza.</string>
+    <string name="channel_ringing_description">Widoczne, gdy Urgent dzwoni przy powtórnym połączeniu albo połączeniu od rozmówcy z listy „Dzwoń od razu”, z przyciskiem, który je wycisza.</string>
     <string name="ringing_title">Powtórne połączenie</string>
     <string name="ringing_body">Dzwonię, bo ten sam numer zadzwonił ponownie.</string>
+    <string name="ringing_at_once_title">Dzwoń od razu</string>
+    <string name="ringing_at_once_body">Dzwonię, bo ten rozmówca jest na liście „Dzwoń od razu”.</string>
     <string name="ringing_silence">Wycisz</string>
 
     <string name="channel_keep_alive_name">Działanie w tle</string>

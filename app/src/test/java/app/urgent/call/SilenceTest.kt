@@ -35,7 +35,7 @@ class SilenceTest {
 
     private fun ringsThrough(
         sound: SoundSettings,
-        earlierCallAgeMillis: Long = 3 * 60_000L,
+        earlierCallAgeMillis: Long? = 3 * 60_000L,
         contact: CallerContact = CallerContact.NONE,
     ) = shouldRingThrough(sound, earlierCallAgeMillis, contact)
 
@@ -89,6 +89,19 @@ class SilenceTest {
 
     @Test fun `an earlier call past DND's threshold is not a repeat caller to DND`() =
         assertTrue(ringsThrough(repeatCallersAllowed, DND_REPEAT_CALLERS_MILLIS + 1))
+
+    @Test fun `a first call rings through silent mode`() = assertTrue(ringsThrough(silent, earlierCallAgeMillis = null))
+
+    @Test fun `a first call is not a repeat caller to DND`() =
+        assertTrue(ringsThrough(repeatCallersAllowed, earlierCallAgeMillis = null))
+
+    @Test fun `a first call is left alone when DND lets every caller through`() =
+        assertFalse(
+            ringsThrough(
+                priority(PRIORITY_CATEGORY_ALARMS or PRIORITY_CATEGORY_CALLS, PRIORITY_SENDERS_ANY),
+                earlierCallAgeMillis = null,
+            ),
+        )
 
     @Test fun `a 30-minute window catches a call DND's 15 minutes does not`() =
         assertTrue(ringsThrough(repeatCallersAllowed, 20 * 60_000L))

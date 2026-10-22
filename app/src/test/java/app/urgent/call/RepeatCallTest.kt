@@ -77,4 +77,19 @@ class RepeatCallTest {
         assertNull(
             repeatCallAgeMillis("600100200", listOf(call(31)), now, 30, true, exact),
         )
+
+    @Test fun `Do Not Disturb sees an earlier call beyond a shorter window`() {
+        val earlier = listOf(call(12))
+        assertNull(repeatCallAgeMillis("600100200", earlier, now, 5, true, exact))
+        assertEquals(12 * minute, dndRepeatCallAgeMillis("600100200", earlier, now, exact))
+    }
+
+    @Test fun `Do Not Disturb counts a declined call even when declined calls are switched off`() {
+        val earlier = listOf(call(3, CallLog.Calls.REJECTED_TYPE))
+        assertNull(repeatCallAgeMillis("600100200", earlier, now, 15, false, exact))
+        assertEquals(3 * minute, dndRepeatCallAgeMillis("600100200", earlier, now, exact))
+    }
+
+    @Test fun `Do Not Disturb ignores a call older than its threshold`() =
+        assertNull(dndRepeatCallAgeMillis("600100200", listOf(call(16)), now, exact))
 }

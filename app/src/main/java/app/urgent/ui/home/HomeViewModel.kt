@@ -68,26 +68,39 @@ class HomeViewModel(
     }
 
     fun addChosenCaller(number: String) {
-        viewModelScope.launch { storeChosenCaller(number) }
+        viewModelScope.launch { storeTypedCaller(number, preferences::addChosenCaller) }
+    }
+
+    fun addRingAtOnceCaller(number: String) {
+        viewModelScope.launch { storeTypedCaller(number, preferences::addRingAtOnceCaller) }
     }
 
     suspend fun contactCallers(): List<PickedCaller> =
         withContext(Dispatchers.IO) { contentResolver.readContactCallers() }
 
+    // One entry per row, so removing the row removes every form of it.
     fun addChosenCallerFromContacts(caller: PickedCaller) {
-        viewModelScope.launch {
-            // One entry per row, so removing the row removes every form of it.
-            preferences.addChosenCaller(ChosenCaller(caller.forms, caller.name).toEntry())
-        }
+        viewModelScope.launch { preferences.addChosenCaller(ChosenCaller(caller.forms, caller.name).toEntry()) }
+    }
+
+    fun addRingAtOnceCallerFromContacts(caller: PickedCaller) {
+        viewModelScope.launch { preferences.addRingAtOnceCaller(ChosenCaller(caller.forms, caller.name).toEntry()) }
     }
 
     fun removeChosenCaller(entry: String) {
         viewModelScope.launch { preferences.removeChosenCaller(entry) }
     }
 
-    private suspend fun storeChosenCaller(number: String?): Boolean {
+    fun removeRingAtOnceCaller(entry: String) {
+        viewModelScope.launch { preferences.removeRingAtOnceCaller(entry) }
+    }
+
+    private suspend fun storeTypedCaller(
+        number: String?,
+        add: suspend (String) -> Unit,
+    ): Boolean {
         val stored = storedCallerNumber(number) ?: return false
-        preferences.addChosenCaller(ChosenCaller(listOf(stored)).toEntry())
+        add(ChosenCaller(listOf(stored)).toEntry())
         return true
     }
 

@@ -28,7 +28,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
 | `POST_NOTIFICATIONS` | ours | the ringing notification's Silence button | none |
 | `VIBRATE` | ours | vibrating with the ring | none: normal, install-time |
 | `RECEIVE_BOOT_COMPLETED` *(not yet in a release)* | ours | restarts *Run in the background* after a reboot or an update, without waiting for the user to open Urgent | none: normal, install-time |
-| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, each repeated call's number is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
+| `READ_CONTACTS` | ours | the contacts list behind *Add from contacts*, read on the phone; only the callers the user taps are kept. With *Everyone in your contacts* or *Starred contacts* on, the number of each repeated call, and of each call from the *Ring at once* list, is checked against it when it rings | Runtime, asked when either control is switched on, never at launch. Re-read the Data safety answer before the next declaration |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `FOREGROUND_SERVICE_SPECIAL_USE` *(the last not yet in a release)* | ours | `RingThroughService` plays the ringtone for up to a minute; `KeepAliveService` keeps the app running while *Run in the background* is on | **Foreground service declarations**: one for each type, `mediaPlayback` and `specialUse`, each with a short video, asked for in App content |
 | `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | its own non-exported receivers, signature-level | none: not user-visible |
 
@@ -40,7 +40,7 @@ Read at **versionCode 18, versionName 0.1.0** by `publish-play.yml`'s verify ste
   2027 ([Play Console Help 16935362](https://support.google.com/googleplay/android-developer/answer/16935362)).
 - **Our status:** `targetSdk` is 36, so the policy does not apply yet. `READ_CONTACTS` is requested only
   when the user presses *Add from contacts* or turns on *Everyone in your contacts* or *Starred contacts*.
-  Those choices read contacts when a repeated call rings, which the contact picker cannot do.
+  Those choices read contacts when a repeated or *Ring at once* call rings, which the contact picker cannot do.
 - **Plan before `targetSdk` goes to 37:** move the flow to the system contact picker and drop
   `READ_CONTACTS`, or file the Console declaration with the core-functionality justification. While those choices exist the picker route is closed, so only the declaration
   is left. Re-read
@@ -124,7 +124,7 @@ The answer rests on one fact per route data could take:
    and sends it from their own mail client, or does not. ⚠ **Do not write "Play exempts support
    flows" in a re-declaration.** The help page has no such exemption; the claim is true because of
    what "collect" means, and that is the reason to give.
-5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* or *Starred contacts* on, to check each repeated call's number when it rings.**
+5. **The contacts list is read only on the device: when the user presses *Add from contacts*, and, with *Everyone in your contacts* or *Starred contacts* on, to check the number of each repeated or *Ring at once* call when it rings.**
    Only the callers the user taps are kept, nothing from the list is sent, and the ring-time check keeps nothing. Still disclose it if the form
    asks about *access* rather than collection, as for the call log.
 
@@ -168,7 +168,7 @@ call log beyond comparing one number.
 **`mediaPlayback`**, for `call/RingThroughService.kt`. Answered 2026-10-13 and sent for review the
 same day with 0.1.0 (versionCode 18); the Console's task is *Media playback*.
 
-- **What the user sees:** the ringtone playing on the alarm stream while a repeated call rings, and
+- **What the user sees:** the ringtone playing on the alarm stream while a repeated call, or a call from the *Ring at once* list, rings, and
   a notification with a *Silence* button. It stops when the call is answered, declined or missed, or
   after a minute at most.
 - **Why it cannot wait:** it exists only while the phone is ringing. Deferred, it rings after the

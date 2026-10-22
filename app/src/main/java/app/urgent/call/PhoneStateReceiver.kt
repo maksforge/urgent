@@ -56,25 +56,32 @@ class PhoneStateReceiver : BroadcastReceiver() {
                         if (app.hasContactsPermission()) it else it.copy(contactScope = ContactScope.OFF)
                     }
                 val contactsOn = rules.contactScope != ContactScope.OFF
+                val atOnce = isChosenCaller(number, rules.ringAtOnce, PhoneNumberUtils::compare)
                 // Contacts off: the chosen list decides alone, so a caller it turns away costs no call-log read.
-                if (!contactsOn && !isAllowedCaller(number, rules, PhoneNumberUtils::compare, CallerContact.NONE)) {
+                if (!atOnce &&
+                    !contactsOn &&
+                    !isAllowedCaller(number, rules, PhoneNumberUtils::compare, CallerContact.NONE)
+                ) {
                     return@launch
                 }
-                val earlierCallAge =
-                    app.repeatCallAgeMillisNow(
+                // A ring-at-once caller needs no earlier call, but Do Not Disturb's repeat-callers rule
+                // may still let this one ring on its own, judged by its threshold rather than the user's.
+                val earlierCall =
+                    app.earlierCallAgesNow(
                         number,
                         preferences.repeatWindowMinutes.first(),
                         preferences.countDeclinedCalls.first(),
-                    ) ?: return@launch
-                // Contacts are read only for a repeated call, and only while they are on.
+                    )
+                if (earlierCall.repeatMillis == null && !atOnce) return@launch
+                // Contacts are read only for a call that may ring, and only while they are on.
                 val contact = if (contactsOn) app.callerContact(number) else CallerContact.NONE
-                if (!isAllowedCaller(number, rules, PhoneNumberUtils::compare, contact)) return@launch
+                if (!atOnce && !isAllowedCaller(number, rules, PhoneNumberUtils::compare, contact)) return@launch
                 val sound = app.soundSettings() ?: return@launch
-                if (!shouldRingThrough(sound, earlierCallAge, contact)) return@launch
+                if (!shouldRingThrough(sound, earlierCall.dndMillis, contact)) return@launch
                 // The reads above take a moment; a caller who gave up meanwhile has already sent the
                 // idle broadcast, and starting now would ring for a call that no longer exists.
                 if (!app.isCallStillThere()) return@launch
-                RingThroughService.start(app)
+                RingThroughService.start(app, firstCall = earlierCall.repeatMillis == null)
             } finally {
                 pending.finish()
             }

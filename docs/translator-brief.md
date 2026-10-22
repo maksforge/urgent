@@ -76,7 +76,7 @@ most languages.
 
 | English | Resource ids | Why they differ | Example |
 | --- | --- | --- | --- |
-| | | | |
+| Ring at once | `home_ring_at_once`, `ringing_at_once_title`, `ringing_at_once_body` | One name everywhere: the list's name, quoted in the notification | pl: *Dzwoń od razu* |
 
 Words that genuinely *are* one word everywhere — *Settings*, *Close*, *Edit*, *Delete* — belong in
 the same table with a note saying so, otherwise someone will vary them for variety.

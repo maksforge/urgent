@@ -4,6 +4,12 @@ import android.provider.CallLog
 import app.urgent.data.CallerRules
 import app.urgent.data.ContactScope
 
+/** How long ago the caller last called: under the user's window and setting, and as Do Not Disturb counts it. */
+data class EarlierCallAges(
+    val repeatMillis: Long?,
+    val dndMillis: Long?,
+)
+
 /** One row of the phone's call log, reduced to what deciding a repeat needs. */
 data class LoggedCall(
     val number: String,
@@ -42,16 +48,36 @@ fun repeatCallAgeMillis(
     countDeclined: Boolean,
     sameNumber: (String, String) -> Boolean,
 ): Long? {
-    val windowMillis = windowMinutes * 60_000L
-    val newest =
-        earlier
-            .filter { call -> call.type in COUNTED_TYPES && sameNumber(call.number, incoming) }
-            .filter { call -> nowMillis - call.atMillis in 0..windowMillis }
-            .maxByOrNull { call -> call.atMillis }
-            ?: return null
+    val newest = newestCountedCall(incoming, earlier, nowMillis, windowMinutes * 60_000L, sameNumber) ?: return null
     if (!countDeclined && newest.type == CallLog.Calls.REJECTED_TYPE) return null
     return nowMillis - newest.atMillis
 }
+
+/**
+ * How long ago [incoming] last called as Do Not Disturb's repeat-callers rule sees it, or `null` when
+ * that rule will not let the call through. The rule has its own threshold and counts a declined call
+ * like any other, so this can differ from [repeatCallAgeMillis] under the user's window and setting.
+ */
+fun dndRepeatCallAgeMillis(
+    incoming: String,
+    earlier: List<LoggedCall>,
+    nowMillis: Long,
+    sameNumber: (String, String) -> Boolean,
+): Long? =
+    newestCountedCall(incoming, earlier, nowMillis, DND_REPEAT_CALLERS_MILLIS, sameNumber)
+        ?.let { call -> nowMillis - call.atMillis }
+
+private fun newestCountedCall(
+    incoming: String,
+    earlier: List<LoggedCall>,
+    nowMillis: Long,
+    windowMillis: Long,
+    sameNumber: (String, String) -> Boolean,
+): LoggedCall? =
+    earlier
+        .filter { call -> call.type in COUNTED_TYPES && sameNumber(call.number, incoming) }
+        .filter { call -> nowMillis - call.atMillis in 0..windowMillis }
+        .maxByOrNull { call -> call.atMillis }
 
 fun isChosenCaller(
     incoming: String,

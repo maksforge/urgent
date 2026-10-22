@@ -16,8 +16,9 @@ data class SoundSettings(
 )
 
 /**
- * Whether Urgent should ring for a repeated call: the phone would let it go by without a sound, and
- * a ringtone on the alarm stream would actually be heard.
+ * Whether Urgent should ring for a call it would ring for: the phone would let it go by without a
+ * sound, and a ringtone on the alarm stream would actually be heard. [earlierCallAgeMillis] is the
+ * age [dndRepeatCallAgeMillis] reads, `null` when Do Not Disturb's repeat-callers rule sees no earlier call.
  *
  * Do Not Disturb is judged from its policy and the caller's standing in the contacts. A policy that
  * lets repeat callers through rings on its own, but only for an earlier call inside its own threshold,
@@ -30,7 +31,7 @@ data class SoundSettings(
 @SuppressLint("InlinedApi")
 fun shouldRingThrough(
     sound: SoundSettings,
-    earlierCallAgeMillis: Long,
+    earlierCallAgeMillis: Long?,
     contact: CallerContact,
 ): Boolean {
     val onACall =
@@ -60,12 +61,14 @@ const val DND_REPEAT_CALLERS_MILLIS = 15 * 60_000L
 
 private fun dndRingsOnItsOwn(
     sound: SoundSettings,
-    earlierCallAgeMillis: Long,
+    earlierCallAgeMillis: Long?,
     contact: CallerContact,
 ): Boolean {
     val categories = sound.priorityCategories
     val repeatCallersAllowed = (categories and Policy.PRIORITY_CATEGORY_REPEAT_CALLERS) != 0
-    if (repeatCallersAllowed && earlierCallAgeMillis <= DND_REPEAT_CALLERS_MILLIS) return true
+    if (repeatCallersAllowed && earlierCallAgeMillis != null && earlierCallAgeMillis <= DND_REPEAT_CALLERS_MILLIS) {
+        return true
+    }
     if ((categories and Policy.PRIORITY_CATEGORY_CALLS) == 0) return false
     return when (sound.priorityCallSenders) {
         Policy.PRIORITY_SENDERS_ANY -> true
