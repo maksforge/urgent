@@ -5,7 +5,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-_Last updated: 2026-10-22_
+_Last updated: 2026-10-25_
 
 Urgent is an Android app that rings your phone when the same number calls you twice within a few
 minutes, or the first time a caller on its *Ring at once* list calls, even while the phone is
