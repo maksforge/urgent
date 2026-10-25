@@ -207,9 +207,10 @@ Would change: a change of type, or the service running without *Run in the backg
 - **Category:** Communication, not Tools — the reason is in [`store-listing.md`](store-listing.md).
 - **Tags:** _<tags>_.
 - **Contact email:** `urgentcall.support@maksforge.com`, public on the listing.
-- **Privacy policy:** `https://maksforge.github.io/urgent/privacy-policy.html`, served from `docs/` by
+- **Privacy policy:** `https://maksforge.com/urgent/privacy-policy.html`, served from `docs/` by
   Pages. It updates on a merge to `main`, with no release, which is why it has to be right before the
-  app it describes ships rather than after.
+  app it describes ships rather than after. Switched in the Console on 2026-10-25 from
+  `https://maksforge.github.io/urgent/privacy-policy.html`, which still redirects here.
 
 ## Production access — the application, and the answers it was given
 
