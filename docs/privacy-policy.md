@@ -73,4 +73,4 @@ in the repository.
 
 ## Contact
 
-**urgentcall.support@maksforge.com**, or <https://github.com/srednimax/urgent/issues>
+**urgentcall.support@maksforge.com**, or <https://github.com/maksforge/urgent/issues>

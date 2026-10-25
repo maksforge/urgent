@@ -207,7 +207,7 @@ Would change: a change of type, or the service running without *Run in the backg
 - **Category:** Communication, not Tools — the reason is in [`store-listing.md`](store-listing.md).
 - **Tags:** _<tags>_.
 - **Contact email:** `urgentcall.support@maksforge.com`, public on the listing.
-- **Privacy policy:** `https://srednimax.github.io/urgent/privacy-policy.html`, served from `docs/` by
+- **Privacy policy:** `https://maksforge.github.io/urgent/privacy-policy.html`, served from `docs/` by
   Pages. It updates on a merge to `main`, with no release, which is why it has to be right before the
   app it describes ships rather than after.
 
