@@ -27,7 +27,7 @@ Three scripts read this file, so its headings are load-bearing:
 | Phone screenshots | [`art/play-screenshots/`](../art/play-screenshots/) — captured by `scripts/screenshots.py`, padded by `art/pad-screenshot.py`. Upload in filename order; the numeric prefix *is* the upload position |
 | App category | **Communication** — where dialers and call blockers sit, and where someone looking for help with calls looks. Not Tools, the catch-all. Skip any safety- or health-flavoured tag in Store settings |
 | Contact email | `urgentcall.support@maksforge.com` — the **per-app** support address, set in Store settings. Not the account-level developer email, which is public on every app you own |
-| Website | `https://maksforge.com/urgent/` — [`index.md`](index.md). Switched in the Console on 2026-10-25; before that it was `https://maksforge.github.io/urgent/`, which still redirects here. A release that adds something a user can see moves it in the same PR as the full description below |
+| Website | `https://maksforge.com/urgent/` — [`index.md`](index.md). Switched in the Console on 2026-10-25; before that it was `https://srednimax.github.io/urgent/`, which still forwards here. The `https://maksforge.github.io/urgent/` this file gave before never reached the Console. A release that adds something a user can see moves it in the same PR as the full description below |
 
 ## English (default listing language)
 
