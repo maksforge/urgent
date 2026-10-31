@@ -12,8 +12,8 @@ Free, no ads, no server, no account. Nothing leaves the phone.
 
 ## Status
 
-Working on a phone, not yet released. Not on Google Play: reading the call log is a restricted
-permission there.
+In closed testing on Google Play, ahead of a production release. Reading the call log is a
+restricted permission there; Urgent's declaration passed review.
 
 ## Setup on the phone
 
