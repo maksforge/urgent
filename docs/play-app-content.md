@@ -225,8 +225,7 @@ the date. The two `_<…>_` gaps are the testers' own words, which only the owne
 
 - *How did you recruit users for your closed test?* — Through a community where Android developers
   test each other's apps during their closed tests.
-- *How easy was it to recruit testers?* — Easy. The community exists for this, and the testers
-  joined within a few days.
+- *How easy was it to recruit testers?* — Easy. The community exists for this.
 - *Describe the engagement you received from testers* — The app has no internet permission and no
   analytics, so I cannot see how often testers used it. What I can see is the testers who stayed
   opted in through the 14 days, and the messages a few of them sent.
@@ -246,14 +245,17 @@ the date. The two `_<…>_` gaps are the testers' own words, which only the owne
 **Your production readiness**
 
 - *What changes did you make based on what you learned during your closed test?* — _<what came
-  from the testers, or "None came from tester reports">_. From my own testing in the same window: a
-  crash on Android 8 when a repeated call arrived, fixed; Urgent no longer rings on top of a call that
-  Do Not Disturb already lets through; a new *Ring at once* option for chosen callers; and a
-  dedicated support address.
-- *How did you decide that your app is ready for production?* — I tested it with real calls on a
-  Xiaomi phone running Android 16: on silent the first call stays silent and the second rings. On an
-  Android 8 emulator, answering, declining and the Silence button each stop it. The release build was
-  checked on a device after minification, and the Play declaration for the call log passed review.
+  from the testers, or "None came from tester reports">_. In the same window, from my own testing: a
+  crash on Android 8 when a repeated call arrived, fixed; and Urgent no longer rings on top of a call
+  that Do Not Disturb already lets through. Also new: a *Ring at once* list, whose callers ring on
+  their first call, and a dedicated support address.
+- *How did you decide that your app is ready for production?* — I tested the repeated-call rule with
+  real calls on a Xiaomi phone on silent, on a release build from 13 October: the first call stayed
+  silent and the second rang. On 22 October, on the release build that added *Ring at once*, real
+  calls on a Xiaomi phone running Android 16 rang for a *Ring at once* caller on silent, and when Do
+  Not Disturb let the call through, Urgent stayed quiet. On an Android 8 emulator, answering,
+  declining and the Silence button each stop the ringing. The release build was checked on a device
+  after minification, and the Play declaration for the call log passed review.
 
 **Three things the first app built from this template kept deliberate, so a later answer does not undo
 them:**
