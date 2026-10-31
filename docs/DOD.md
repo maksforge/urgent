@@ -75,10 +75,8 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [x] **Set the five Play secrets and create the service account** (`docs/RELEASING.md`) — the
       service account is the one step CI cannot do for itself. No account permissions; four app
       permissions, on this app only, all granted on 2026-10-13; no expiry date.
-- [ ] **Plan the closed test.** A new personal developer account reaches production only after a
-      closed test — at the time of writing 12 testers opted in for 14 continuous days, then an access
-      application. Recruit the testers before the build is ready, not after; `publish-play-closed.yml`
-      moves each build to them.
+- [x] **Plan the closed test.** Testers recruited through a tester-swap community; on 2026-10-31 the
+      14-day window had two days to go.
 - [x] **Decide the `applicationId` deliberately.** It is fixed the moment the Play entry is created —
       not renameable, not transferable without losing every install and review.
       `io.github.srednimax.urgent`, fixed when the Play entry was created (2026-10-13).
@@ -117,9 +115,10 @@ template's `docs/DOD.md` the day a feature adds a table.
 - [ ] **Every dependency bump: re-run `licensee`.** The build fails on an unallowed licence, which is
       the point — but the fix is two things, the allowlist *and* the bundled text.
 - [ ] **Test the release-shaped build on a device.** A missing R8 keep rule does not crash; it makes
-      a feature silently stop working. Last run 2026-10-22: the R8 release build of `main`
-      (versionCode 95) on HyperOS 3, set up from Home, rang for *Ring at once* on real calls; Settings,
-      Support and Licences were not exercised.
+      a feature silently stop working. On 2026-10-22 the R8 release build of `main` (versionCode 95)
+      on HyperOS 3 rang for *Ring at once* on real calls. On 2026-10-31 `-PreleaseShapedDebug` of
+      0.7.0 (versionCode 99) on a Redmi Note 8 Pro (Android 11) ran Settings (theme, wallpaper
+      colours, language), all three Support hand-offs and Licences without a crash.
 - [ ] **Confirm Data safety at every Play declaration.** Last re-read 2026-10-22: the Console answer is
       still *No*, because chosen numbers stay on the device and Auto Backup is Android's transfer
       ([`play-app-content.md`](play-app-content.md), Data safety).
